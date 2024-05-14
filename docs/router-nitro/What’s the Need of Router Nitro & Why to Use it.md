@@ -37,7 +37,7 @@ Types of cross-chain Bridges:
 
 ## Conclusion
 
-In conclusion, Module 1 has provided a Comprehensive Overview of the need for Router Nitro and its Significance in the context of cross-chain Interoperability. We have explored the fundamental concepts of cross-chain Bridges and the challenges associated with inter-blockchain Communication.
+In Conclusion, Module 1 has provided a Comprehensive Overview of the need for Router Nitro and its Significance in the context of cross-chain Interoperability. We have explored the fundamental concepts of cross-chain Bridges and the challenges associated with inter-blockchain Communication.
 
 As we progress through the Course, we will Delve Deeper into the functionalities and Technical Aspects of Router Nitro, Building upon the foundation established in Module 1 to explore its full Potential and Applications in real-world Scenarios.
 
