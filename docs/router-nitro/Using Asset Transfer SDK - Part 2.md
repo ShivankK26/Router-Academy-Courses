@@ -116,5 +116,3 @@ You just transferred 10 AFTT from Fuji to using Router Protocol's Asset Transfer
 # Share Your Learnings!
 
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
-
-_Share your learnings on Twitter. Click [here](https://clicktotweet.com/5p7ub)_

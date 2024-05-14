@@ -134,5 +134,3 @@ By providing developers with a clear understanding of the codebase and its funct
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
 
 _Share your learnings on Twitter. Click [here](https://clicktotweet.com/8BhYr)_
-
-# [ Next: Module 9: Explaining the CodeBase of Router Nitro - Part 3 ](Module9.md)

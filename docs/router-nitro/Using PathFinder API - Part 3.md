@@ -126,5 +126,3 @@ By elucidating the intricacies of transaction execution in cross-chain token tra
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
 
 _Share your learnings on Twitter. Click [here](https://clicktotweet.com/zgEbl)_
-
-# [ Next: Module 10: Using Asset Transfer SDK - Part 01 ](Module10.md)

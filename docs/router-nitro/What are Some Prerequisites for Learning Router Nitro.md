@@ -29,5 +29,3 @@ In conclusion, Module 5 has outlined the essential prerequisites for learning an
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
 
 _Share your learnings on Twitter. Click [here](https://ctt.ac/6UWet)_
-
-# [ Next: Module 6: Understanding Forwarders and How They Work? ](Module6.md)

@@ -35,5 +35,3 @@ As we progress through the course, readers will gain a deeper understanding of R
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
 
 _Share your learnings on Twitter. Click [here](https://ctt.ac/k1xnd)_
-
-# [Next: Module 5: What are Some Prerequisites for Learning Router Nitro? ](Module5.md)

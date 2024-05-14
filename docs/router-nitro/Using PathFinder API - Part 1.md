@@ -116,5 +116,3 @@ The module provided detailed insights into each step, including code snippets an
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
 
 _Share your learnings on Twitter. Click [here](https://clicktotweet.com/5p7ub)_
-
-# [ Next: Module 8: Explaining the CodeBase of Router Nitro - Part 2](Module8.md)

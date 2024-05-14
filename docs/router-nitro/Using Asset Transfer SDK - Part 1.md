@@ -67,5 +67,3 @@ yarn add @routerprotocol/asset-transfer-sdk-ts
 ![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
 
 _Share your learnings on Twitter. Click [here](https://clicktotweet.com/1Jp38)_
-
-# [ Next: Module 11: Using Asset Transfer SDK - Part 02 ](Module11.md)

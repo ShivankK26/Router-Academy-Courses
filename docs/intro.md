@@ -13,5 +13,3 @@ Router Protocol is a Solution introduced to address the issues Hindering the Usa
 ## 🤝 Need help?
 
 If you Need Help or have Some Questions - Don’t hesitate to Write in Our [Discord](https://discord.com/invite/xvx2pFu9).
-
-Let's discover **Docusaurus in less than 5 minutes**.
