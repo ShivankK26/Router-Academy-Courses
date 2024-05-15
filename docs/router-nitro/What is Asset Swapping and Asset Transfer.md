@@ -34,7 +34,7 @@ As we Progress through the Course, we will Delve Deeper into a cross-chain Asset
 
 ## Quiz
 
-[Play Nitro Quiz and earn Rewards .](https://router-nitro-quiz.vercel.app/page2)
+[Play Nitro Quiz and earn Rewards.](https://router-nitro-quiz.vercel.app/page2)
 
 ## Share Your Learnings!
 
