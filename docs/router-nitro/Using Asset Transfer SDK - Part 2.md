@@ -4,15 +4,15 @@ sidebar_position: 11
 
 # Module 11: Using Asset Transfer SDK - Part 2
 
-Welcome to Module 11 of the Router Nitro Cookbook. This module focuses on importing all the necessary modules , getting the quote and actually executing the transaction.
+Welcome to Module 11 of the Router Nitro Cookbook. This Module focuses on importing all the Necessary Modules, Getting the Quote and actually Executing the Transaction.
 
-## Proceed with the following steps to
+## Proceed with the Following Steps to -
 
 ### 1. Importing Modules
 
 #### Description:
 
-Import the necessary modules from the SDK into your codebase.
+Import the Necessary Modules from the SDK into your CodeBase.
 
 #### Example:
 
@@ -21,11 +21,11 @@ import { PathFinder, Network } from "@routerprotocol/asset-transfer-sdk-ts";
 import { evmSignerFromPrivateKeyAndRpc } from "@routerprotocol/asset-transfer-sdk-ts/pathfinder/ChainClient/EvmChainClient";
 ```
 
-### 3. Initializing Pathfinder
+### 2. Initializing Pathfinder
 
 #### Description:
 
-Next you need to initialize a Pathfinder instance. You need to provide your unique Widget ID obtained from Router Protocol Telegram Channel. For now let it be 24
+Next you need to initialize a `Pathfinder` Instance. You need to Provide your Unique Widget ID obtained from Router Protocol Telegram Channel. For now let it be 24.
 
 #### Example:
 
@@ -34,11 +34,11 @@ const YOUR_WIDGET_ID = 24; // Replace with your unique SDK ID
 const pathfinder = new Pathfinder(Network.Testnet, YOUR_WIDGET_ID);
 ```
 
-### 4. Main Function
+### 3. Main Function
 
 #### Description:
 
-Define a main function where asset swapping operations will be organized and executed.
+Define a <code>main</code> Function where Asset Swapping Operations will be Organized and Executed.
 
 #### Example:
 
@@ -50,11 +50,11 @@ const main = async () => {
 main();
 ```
 
-### 5. Building EVM Signer
+### 4. Building EVM Signer
 
 #### Description:
 
-Construct an EVM signer object using your private key and the RPC endpoint. This signer will be used for signing transactions during asset transfers. In this tutorial we will be transferring 10 AFTT from Fuji to Holesky chain.
+Construct an EVM Signer Object using your Private Key and the RPC Endpoint. This Signer will be used for Signing Transactions during Asset Transfers. In this Tutorial, we will be Transferring 10 AFTT from Fuji to Holesky Chain.
 
 #### Example:
 
@@ -65,15 +65,15 @@ const evmSigner = evmSignerFromPrivateKeyAndRpc(
 );
 ```
 
-Make sure to replace evmPrivateKey with your Private Key .
-Note : This is just a tutorial , so abstain from using Private Key which you use for normal usage.
+Make sure to Replace `evmPrivateKey` with your Private Key.
+Note: This is just a Tutorial, so Abstain from using Private Key which you use for Normal Usage.
 
-### 6. Getting Quote
+### 5. Getting Quote
 
 #### Description:
 
-Router Nitro enables you to interact with the nitro contract and initiate CrossChain token transfers. The first step in this process is to request a quote, which provides you with essential details about the proposed token transfer.
-Request a quote from Pathfinder for the desired asset transfer, specifying source and destination chain IDs, token addresses, and the amount of assets to be transferred. In our case , we are transferring 10 AFTT tokens.
+Router Nitro enables you to interact with the Nitro Contract and initiate cross-chain Token Transfers. The First step in this Process is to Request a Quote, which provides you with essential Details about the Proposed Token Transfer.
+Request a Quote from Pathfinder for the Desired Asset Transfer, specifying Source and Destination Chain IDs, Token Addresses, and the Amount of Assets to be Transferred. In this case, we are Transferring 10 AFTT Tokens.
 
 #### Example:
 
@@ -87,11 +87,11 @@ const quote = await pathfinder.getQuote({
 });
 ```
 
-### 7. Executing Quote
+### 6. Executing Quote
 
 #### Description:
 
-Execute the obtained quote, handling approval and executing the transaction to ensure a successful asset transfer.
+Execute the Obtained Quote, handling Approval and Executing the Transaction to ensure a Successful Asset Transfer.
 
 #### Example:
 
@@ -111,7 +111,7 @@ const transaction = await pathfinder.executeQuote(
 
 ### Congratulations!
 
-You just transferred 10 AFTT from Fuji to using Router Protocol's Asset Transfer SDK
+You just Transferred 10 AFTT from Fuji to using Router Protocol's Asset Transfer SDK.
 
 # Share Your Learnings!
 
