@@ -4,24 +4,24 @@ sidebar_position: 9
 
 # Module 9: Using PathFinder API - Part 3
 
-Welcome to Module 9 Of Router Nitro CookBook. In this module, we'll be looking at a dApp and understanding its CodeBase. In the previous module, we understood about **Step 2** which is checking and setting the allowance. This is the Part 3 of understanding the CodeBase. Let's Begin...
+Welcome to Module 9 Of Router Nitro CookBook. In this Module, we'll be looking at a dApp and Understanding its CodeBase. In the Previous Module, we understood about **Step 2** which is Checking and Setting the Allowance. This is the Part 3 of Understanding the CodeBase. Let's Begin...
 
 ## Understanding the CodeBase Part- 3
 
-In this module, we'll be understanding the step 3, i.e getTransaction.
+In this Module, we'll be Understanding the Step 3, i.e `getTransaction`.
 
 ## Step 3: Executing the Transaction
 
-In this step, we will explore how to execute a transaction .This process involves sending a transaction to perform the cross-chain token transfer initiated in Step 1 and configured in Step 2.
+In this Step, we will explore how to Execute a Transaction .This process involves Sending a Transaction to Perform the cross-chain Token Transfer initiated in **Step 1** and Configured in **Step 2**.
 
 1. **The `getTransaction` Function:**
 
-This function is responsible for actually executing the transaction. It takes in the following parameters
+This Function is responsible for actually Executing the Transaction. It takes in the following Parameters -
 
-- **`params`**: Parameters required for the transaction, which should include the source and destination token addresses, slippage tolerance, sender and receiver addresses, and the widget ID.
-- **`quoteData`**: Quote data obtained from Step 1.
+- **`params`**: Parameters required for the Transaction, which should include the Source and Destination Token Addresses, Slippage Tolerance, Sender and Receiver Addresses, and the Widget ID.
+- **`quoteData`**: Quote Data Obtained from Step 1.
 
-When the button is clicked, It performs the following tasks using the function defined:-
+When the Button is Clicked, It Performs the following tasks using the Function defined:-
 
 ```
   const provider = new ethers.providers.JsonRpcProvider("https://rpc.ankr.com/polygon_mumbai", 80001);
@@ -63,9 +63,9 @@ When the button is clicked, It performs the following tasks using the function d
     }
 ```
 
-- **Signer Setup**: Configures a signer using the specified JSON-RPC provider. Replace `"YOUR_PRIVATE_KEY"` with your actual private key. You can also use the `provider.getSigner()` method if you're implementing this for a user interface (UI).
+- **Signer Setup**: Configures a Signer using the Specified JSON-RPC Provider. Replace `"YOUR_PRIVATE_KEY"` with your actual Private Key. You can also use the `provider.getSigner()` method if you're implementing this for a User Interface (UI).
 
-- **Retrieve Transaction Data**: Calls the `getTransaction` function with the necessary parameters to fetch the transaction data from the Voyager system.
+- **Retrieve Transaction Data**: Calls the `getTransaction` function with the necessary Parameters to fetch the Transaction Data from the Voyager System.
 
 ```
 const getTransaction = async (params, quoteData) => {
@@ -91,35 +91,23 @@ const getTransaction = async (params, quoteData) => {
 	}
 ```
 
-**Send Transaction**: Initiates the transaction using the data obtained from the Voyager system.
+**Send Transaction**: Initiates the Transaction using the Data Obtained from the Voyager System.
 
-**Transaction Handling**: Monitors the transaction status. If the transaction is successfully mined, it logs the transaction hash. If there is an error, it logs an error message.
+**Transaction Handling**: Monitors the Transaction Status. If the Transaction is Successfully Mined, it logs the transaction Hash. If there is an error, it logs an error message.
 
-Please replace `"YOUR_PRIVATE_KEY"` with your actual private key and ensure that you have the required parameters, including `params` and `quoteData` obtained from Step 1.
+Please replace `"YOUR_PRIVATE_KEY"` with your actual Private Key and ensure that you have the Required Parameters, including `params` and `quoteData` Obtained from Step 1.
 
 <img width="182" alt="image" src="https://github.com/router-resources/Voyager-2-Cookbook/assets/124175970/7ea56614-6412-43f5-aab8-5e28aa044ff8"/>
 
 ## Conclusion
 
-In conclusion, Module 9 of the Router Nitro Cookbook provided an insightful exploration of Step 3 in using Router Nitro: executing the transaction for cross-chain token transfers. This final step in the process, outlined in the dApp's codebase, enables users to initiate and complete token transfers seamlessly between different blockchain networks.
+In Conclusion, Module 9 of the Router Nitro Cookbook provided an insightful Exploration of Step 3 in using Router Nitro: executing the Transaction for cross-chain Token Transfers. This Final step in the Process, outlined in the dApp's codeBase, enables users to initiate and Complete Token Transfers Seamlessly between Different Blockchain Networks.
 
-Here's a summary of the key points covered in this module:
-
-1. **The `getTransaction` Function:** This function is pivotal in executing the transaction. It requires parameters such as source and destination token addresses, slippage tolerance, sender and receiver addresses, and the widget ID.
-
-2. **Transaction Setup:** The module guides users through setting up the necessary components for transaction execution. It includes configuring a signer using the specified JSON-RPC provider and retrieving transaction data using the `getTransaction` function with essential parameters.
-
-3. **Initiating the Transaction:** Once the transaction data is obtained from the Voyager system, the code initiates the transaction using the provided data.
-
-4. **Transaction Handling:** The code monitors the status of the transaction. Upon successful mining, it logs the transaction hash for reference. In case of errors during transaction execution, it provides error messages for debugging purposes.
-
-5. **Implementation Considerations:** Users are reminded to replace `"YOUR_PRIVATE_KEY"` with their actual private key and ensure the availability of required parameters obtained from Step 1 of the process.
-
-By elucidating the intricacies of transaction execution in cross-chain token transfers, Module 9 equips developers and users with the knowledge and tools necessary to leverage Router Nitro effectively within their decentralized applications. Through these insights, users can facilitate secure, efficient, and seamless token transfers across diverse blockchain networks, thereby fostering greater interoperability and expanding the possibilities within the decentralized finance ecosystem.
+By Elucidating the intricacies of Transaction Execution in cross-chain Token Transfers, Module 9 equips Developers and users with the knowledge and Tools necessary to leverage Router Nitro effectively within their dApps. Through these insights, users can Facilitate Secure, Efficient, and Seamless Token Transfers across Diverse Blockchain Networks, thereby fostering Greater Interoperability and Expanding the Possibilities within the DeFi Ecosystem.
 
 ## Quiz
 
-[Play Nitro Quiz and earn Rewards .](https://router-nitro-quiz.vercel.app/page9)
+[Play Nitro Quiz and earn Rewards.](https://router-nitro-quiz.vercel.app/page9)
 
 ## Share Your Learnings!
 

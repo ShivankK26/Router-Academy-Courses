@@ -4,17 +4,21 @@ sidebar_position: 7
 
 # Module 7: Using PathFinder API - Part 1
 
-Welcome to Module 7 Of Router Nitro CookBook. In this module, we'll be looking at a dApp and understanding its CodeBase. This is the Part 1 of understanding the CodeBase. Let's Begin...
+Welcome to Module 7 Of Router Nitro CookBook. In this Module, we'll be looking at a dApp and Understanding its CodeBase. This is the Part 1 of Understanding the CodeBase. Let's Begin...
 
 ## Understanding the CodeBase Part- 1
 
 ![gif](https://github.com/router-resources/Voyager-2-Cookbook/assets/124175970/7add0a31-99d0-4d16-9e7d-9f8a3390bfb7)
 
-It's very easy to integrate Nitro in your dApp. All you need is a 20 lines of copy paste code ! **Clone this repository**,hit **npm install** to install all the neccessary package and libraries and hit **npm run dev** to start the demo dapp. All you need to do is change some parameters based on the dapp that you are building. You find all the suppoted chains and assets [ here](https://docs.routerprotocol.com/develop/voyager/voyager-v2.0/supported-chains-tokens)
+It's very easy to Integrate Nitro in your dApp.
 
-This Demo app demonstrate how to use Nitro to transsfer USDT from Polygon Mumbai to Avalanche Fuji. Note, this dApp is just made for demonstration purpose. After having this dapp code on your local system, you can modify it (change thee parameters) based on the dapp you want to build.
+- **Clone the Repository**, hit <code>npm install</code> to install all the Neccessary Packages and Libraries and hit <code>npm run dev</code> to Start the Demo dApp.
 
-After you have run the dApp on your localhost, it's time to undertand how does the dApp works.
+- All you need to do is Change some Parameters based on the dApp that you are Building. You can find all the Suppoted Chains and Assets [here.](https://docs.routerprotocol.com/develop/voyager/voyager-v2.0/supported-chains-tokens)
+
+This Demo dApp Demonstrate how to use Nitro to Transsfer USDT from Polygon Mumbai to Avalanche Fuji. Note, this dApp is just made for Demonstration Purpose. After having this dApp Code on your Local System, you can Modify it (Change thee Parameters) based on the dApp you want to Build.
+
+After you have run the dApp on Localhost, it's time to undertand how does the dApp works.
 
 All you need is just 3 easy steps to integrate Voyager into any dapp :-
 
@@ -28,17 +32,17 @@ All you need is just 3 easy steps to integrate Voyager into any dapp :-
 
 ### Step1: Get the Quote
 
-Router Nitro enables you to interact with the nitro contract and initiate CrossChain token transfers. The first step in this process is to request a quote, which provides you with essential details about the proposed token transfer.
+Router Nitro enables you to Interact with the Nitro Contract and initiate cross-chain Token Transfers. The First Step in this Process is to Request a Auote, which provides you with Essential Details about the Proposed Token Transfer.
 
-To request a quote, follow these steps:
+To Request a Auote, follow these Steps:
 
-1. **Define the PATH_FINDER_API_URL:** Set the PATH_FINDER_API_URL variable to the URL of the Pathfinder API for the Voyager testnet. This is where you will send your quote request.
+1. **Define the PATH_FINDER_API_URL:** Set the PATH_FINDER_API_URL Variable to the URL of the Pathfinder API for the Voyager Testnet. This is where you will send your Quote Request.
 
    ```javascript
    const PATH_FINDER_API_URL = "https://api.pf.testnet.routerprotocol.com/api";
    ```
 
-2. **Create the `getQuote` Function:** This function handles the quote request. It uses the `axios` library to make an HTTP GET request to the Voyager Pathfinder API.
+2. **Create the `getQuote` Function:** This Function handles the Quote Request. It uses the `axios` Library to make an HTTP GET Request to the Voyager Pathfinder API.
 
    ```javascript
    const getQuote = async (params) => {
@@ -53,7 +57,7 @@ To request a quote, follow these steps:
    };
    ```
 
-3. **Call the `getQuote` Function:** Use this function to request a quote by passing appropriate parameters.In this repository , this function is called using a a button.
+3. **Call the `getQuote` Function:** Use this Function to Request a Quote by passing appropriate Parameters. In this Repository, this Function is called using a button.
 
 ```javascript
 // Example usage:
@@ -71,45 +75,45 @@ const quoteData = await getQuote(quoteParams);
 console.log("Quote Data:", quoteData);
 ```
 
-These parameters define the details of the token transfer you wish to execute. Let's break down what each parameter represents:
+These Parameters Define the Details of the Token Transfer you wish to Execute. Let's Break down what each Parameter represents:
 
-- `'fromTokenAddress'`: This should specify the address of the token you want to transfer from (the source token).
+- `'fromTokenAddress'`: This should specify the address of the Token you want to Transfer from (the Source Token).
 
-- `'toTokenAddress'`: Provide the address of the token you want to transfer to (the destination token).
+- `'toTokenAddress'`: Provide the Address of the Token you want to Transfer to (the Dstination Token).
 
-- `'amount'`: Set the amount of the token you wish to transfer.
+- `'amount'`: Set the Amount of the Token you wish to Transfer.
 
-- `'fromTokenChainId'`: This parameter represents the chain ID of the source blockchain. In this case, it's set to "80001."
+- `'fromTokenChainId'`: This Parameter Represents the Chain ID of the Source Blockchain. In this Case, it's Set to "80001."
 
-- `'toTokenChainId'`: Similarly, this parameter specifies the chain ID of the destination blockchain, which, in this example, is "43113" (Fuji).
+- `'toTokenChainId'`: Similarly, this Parameter Specifies the Chain ID of the Destination Blockchain, which, in this example, is "43113" (Fuji).
 
-- `'widgetId'`: This parameter is used to identify the widget responsible for the transfer. You'll typically need to obtain a unique widget ID through contact with the Voyager team, often via Telegram or other means. For now, let's keep it as 0.
+- `'widgetId'`: This Parameter is used to identify the Widget Responsible for the Transfer. You'll typically need to Obtain a Unique Widget ID through Contact with the Voyager Team, often via Telegram or other means. For now, let's keep it as 0.
 
-With these parameters, you can now call the `getQuote` function with this `params` object to initiate a quote request for your specific token transfer.
+With these Parameters, you can now Call the `getQuote` Function with this `params` Object to initiate a Quote Request for your Specific Token Transfer.
 
    <img width="197" alt="image" src="https://github.com/router-resources/Voyager-2-Cookbook/assets/124175970/5867052e-301e-46c6-b206-24094c19298e"/>
 
 ## Response
 
-The `getQuote` function returns the quote data, which typically includes details about the token transfer, such as source and destination chains, token amount, fees, and other relevant information.Click the **Get Quote** button and go to console to see the quote data printed on console.
+The `getQuote` Function returns the Quote Data, which typically includes Details about the Token Transfer, such as Source and Destination Chains, Token Amount, Fees, and other Relevant Information. Click the <code>Get Quote</code> Button and go to console to see the Quote Data printed on console.
 
 ## Conclusion
 
-In conclusion, Module 7 of Understanding the CodeBase introduced users to the seamless integration of Nitro into their decentralized applications (dApps). By following a straightforward process outlined in just 20 lines of code, developers can effectively incorporate Nitro into their projects, facilitating cross-chain token transfers.
+In Conclusion, Module 7 of Understanding the CodeBase introduced users to the Seamless Integration of Nitro into their dApps. By following a Straightforward process, Developers can Effectively incorporate Nitro into their Projects, facilitating cross-chain Token Transfers.
 
-The module demonstrated a practical example using a demo dApp to transfer USDT from Polygon Mumbai to Avalanche Fuji. After setting up the dApp locally and modifying parameters as per individual project requirements, users embarked on understanding the three fundamental steps to integrate Voyager into any dApp:
+The Module Demonstrated a Practical example using a Demo dApp to Transfer USDT from Polygon Mumbai to Avalanche Fuji. After Setting up the dApp Locally and Modifying Parameters as per Individual Project Requirements, users embarked on Understanding the three Fundamental Steps to Integrate Voyager into any dApp:
 
-1. **Step 1: Get the Quote:** Users initiated the token transfer process by requesting a quote from the Nitro contract through the Pathfinder API. The quote provided essential details about the proposed token transfer, including source and destination chains, token amounts, and associated fees.
+1. **Step 1: Get the Quote:** Users initiated the Token Transfer process by Requesting a Quote from the Nitro Contract through the Pathfinder API. The Quote provided Essential details about the Proposed Token Transfer, including Source and Destination Chains, Token Amounts, and Associated Fees.
 
-2. **Step 2: Check and Set Allowance:** Once users obtained the quote, they were prompted to check and set the necessary allowances for the token transfer to proceed smoothly.
+2. **Step 2: Check and Set Allowance:** Once users obtained the Quote, they were prompted to Check and Set the necessary Allowances for the Token Transfer to Proceed Smoothly.
 
-3. **Step 3: Execute the Transaction:** With all prerequisites met, users executed the transaction, initiating the cross-chain token transfer from the source to the destination chain.
+3. **Step 3: Execute the Transaction:** With all Prerequisites met, Users executed the Transaction, initiating the cross-chain Token Transfer from the Source to the Destination Chain.
 
-The module provided detailed insights into each step, including code snippets and explanations, to guide developers through the integration process effectively. By following the outlined steps, developers can seamlessly incorporate Nitro into their dApps, enabling efficient and secure cross-chain token transfers.
+The Module provided detailed Insights into each Step, including Code Snippets and Explanations, to Guide Developers through the Integration process Effectively. By following the Outlined steps, Developers can seamlessly Incorporate Nitro into their dApps, enabling Efficient and Secure cross-chain Token Transfers.
 
 ## Quiz
 
-[Play Nitro Quiz and earn Rewards .](https://router-nitro-quiz.vercel.app/page7)
+[Play Nitro Quiz and earn Rewards.](https://router-nitro-quiz.vercel.app/page7)
 
 ## Share Your Learnings!
 
