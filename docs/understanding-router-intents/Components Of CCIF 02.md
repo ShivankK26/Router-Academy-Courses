@@ -4,6 +4,8 @@ sidebar_position: 6
 
 # Module 6: Components Of CCIF 02
 
+![Screenshot 2024-05-18 at 11 54 14 AM](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/f4562ce5-e35a-4c4e-b672-520ed16c9d75)
+
 Welcome to Module 6 Of Cross Chain Intent Framework CookBook. In this Module, we'll be Understanding what are the Different Components (Intent Adapters) Of Cross Chain Intent Framework - 02. Let's Begin...
 
 ## Introduction
