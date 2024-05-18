@@ -14,7 +14,7 @@ const FeatureList: FeatureItem[] = [
     // Png: require('/static/img/im_1.png').default,
     description: (
       <>
-        Are you someone who loves reading Developer Docs? Then give a Read to some of our CookBook. 
+        Are you someone who loves Building Products? Then do see our Courses. 
         Who knows, you might Win a Grant?
       </>
     ),
@@ -24,8 +24,8 @@ const FeatureList: FeatureItem[] = [
     // Png: require('/static/img/im_2.png').default,
     description: (
       <>
-        If you’re someone who actively Builds in Web3 Space, then these Dev Docs are for you. 
-        Wanna Build some dApps? Check Out our CookBooks.
+        If you’re someone who actively Builds in Web3 Space and is interested in Learning cross-chain Development? 
+        Don't forget to visit our Platform.
       </>
     ),
   },
@@ -34,7 +34,7 @@ const FeatureList: FeatureItem[] = [
     // Png: require('/static/img/im_3.png').default,
     description: (
       <>
-        Router Dev Docs offer Rewards at every step, whether you Complete a Course or Become an Ambassador, 
+        Router Academy offer Rewards at every step, whether you Complete a Course or Become an Ambassador, 
         you’re all in.
       </>
     ),

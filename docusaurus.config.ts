@@ -69,6 +69,51 @@ const config: Config = {
         },
       ],
     },
+    // footer: {
+    //   style: 'dark',
+    //   links: [
+    //     {
+    //       title: 'Docs',
+    //       items: [
+    //         {
+    //           label: 'Tutorial',
+    //           to: '/docs/intro',
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       title: 'Community',
+    //       items: [
+    //         {
+    //           label: 'Stack Overflow',
+    //           href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+    //         },
+    //         {
+    //           label: 'Discord',
+    //           href: 'https://discordapp.com/invite/docusaurus',
+    //         },
+    //         {
+    //           label: 'Twitter',
+    //           href: 'https://twitter.com/SuperRabbbitsDAO',
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       title: 'More',
+    //       items: [
+    //         {
+    //           label: 'Blog',
+    //           href: 'https://routerprotocol.medium.com/',
+    //         },
+    //         {
+    //           label: 'GitHub',
+    //           href: 'https://github.com/',
+    //         },
+    //       ],
+    //     },
+    //   ],
+    //   copyright: `Copyright © ${new Date().getFullYear()} Router Protocol.`,
+    // },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
