@@ -4,6 +4,8 @@ sidebar_position: 8
 
 # Module 8: Components Of CCIF 04
 
+![Screenshot 2024-05-18 at 11 55 59 AM](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/145276a2-57d8-4420-b1f9-803dc963f663)
+
 Welcome to Module 8 Of Cross Chain Intent Framework CookBook. In this Module, we'll be Understanding what are the Different Components (Intent Solver) Of Cross Chain Intent Framework - 04. Let's Begin...
 
 ## Introduction
