@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-Welcome to the Router Protocol CookBook! This Page serves as a Guide to the Structure and Content of the CookBook.
+Welcome to the Router Protocol Courses Section! This Page serves as a Guide to the Structure and Content of all the Courses.
 
 ## Company Information
 

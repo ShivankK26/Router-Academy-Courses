@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Developer Docs | Router Protocol',
-  tagline: 'Learn, Build, and Ship in cross-chain Ecosystem',
+  title: 'Router Academy Courses',
+  tagline: 'This Section is useful for exploring various Courses available on Router Academy. Build dApps in CrossChain Ecosystem by using Router Protocol.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -50,17 +50,17 @@ const config: Config = {
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Dev Docs',
+      title: 'Home',
       logo: {
         alt: 'Router Protocol',
-        src: 'img/logo.svg',
+        src: 'img/img.png',
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'CookBooks',
+          label: 'Courses',
         },
         {
           href: 'https://github.com/router-resources',

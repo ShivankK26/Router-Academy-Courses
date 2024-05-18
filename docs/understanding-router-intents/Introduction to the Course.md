@@ -41,9 +41,3 @@ Adapters allow Cascading of Transaction Logic on Top of a cross-chain Transactio
 This is where the Concept of Adapters becomes Essential. Adapters are Designed to Streamline these cross-chain Processes by Serving as Intermediaries that can Interpret and fulfill user Commands across various Blockchain Protocols, eliminating Users needing to Manage the Technical Complexities themselves.
 
 Using the example provided, the Router’s CCIF and its Adapters could Simplify DeFi Activities. With this Setup, you could Transfer any Token from any Blockchain and Contribute Liquidity in a Single, Straightforward step, Bypassing Multiple Approvals, Excessive Gas Fees, and the hassle of Dealing with numerous dApps.
-
-## Conclusion
-
-## Quiz
-
-## Share Your Learnings!

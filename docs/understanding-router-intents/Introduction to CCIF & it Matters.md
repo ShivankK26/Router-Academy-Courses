@@ -21,9 +21,3 @@ A Collection of Intent Adapters forms the heart of our System. They are Smart Co
 - **Wider Reach:** By focusing on EVM Compatibility, Router unlocks a vast User/Developer Pool and a thriving dApp Ecosystem, ensuring Rapid Proliferation and User Adoption.
 
 However, perhaps the most Crucial Advantage of Router’s CCIF is that rather than Exposing Developers to entirely New Systems, it Builds upon the Robust Foundations of Established Chains, acknowledging the Irreplaceable value of familiar Workflows and Empowering Developers to evolve their Existing Projects. It’s about Bringing Intent-Driven Functionality to where the Builders are, not forcing them to Relocate.
-
-## Conclusion
-
-## Quiz
-
-## Share Your Learnings!

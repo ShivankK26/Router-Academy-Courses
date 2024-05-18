@@ -1,8 +1,10 @@
 ---
-sidebar_position: 10
+sidebar_position: 8
 ---
 
-# Module 10: Using Asset Transfer SDK - Part 1
+# Module 8: Understanding Asset Transfer SDK - Part 1
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/phNcKPKRHGY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Welcome to Module 10 of the Router Nitro Cookbook. This Module focuses on Utilizing the Asset Transfer SDK of Router Protocol. This SDK, available as an <code>npm</code> Package, Streamlines Asset Swapping between Blockchains. By installing the Package and importing required Libraries, you can Seamlessly Transfer Assets across Different Blockchains.
 
@@ -61,9 +63,3 @@ yarn add -D ts-node
 ```
 yarn add @routerprotocol/asset-transfer-sdk-ts
 ```
-
-## Share Your Learnings!
-
-![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)
-
-_Share your learnings on Twitter. Click [here](https://clicktotweet.com/1Jp38)_

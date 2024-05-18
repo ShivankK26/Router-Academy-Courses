@@ -1,8 +1,10 @@
 ---
-sidebar_position: 11
+sidebar_position: 9
 ---
 
-# Module 11: Using Asset Transfer SDK - Part 2
+# Module 9: Understanding Asset Transfer SDK - Part 2
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/_bvJWZjqreU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Welcome to Module 11 of the Router Nitro Cookbook. This Module focuses on importing all the Necessary Modules, Getting the Quote and actually Executing the Transaction.
 
@@ -112,7 +114,3 @@ const transaction = await pathfinder.executeQuote(
 ### Congratulations!
 
 You just Transferred 10 AFTT from Fuji to using Router Protocol's Asset Transfer SDK.
-
-# Share Your Learnings!
-
-![img](https://github.com/router-resources/Router-Nitro-CookBook/assets/124175970/23258532-0dfa-407e-b695-2ed2eb39d1bc)

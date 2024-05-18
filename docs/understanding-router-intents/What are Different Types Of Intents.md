@@ -21,9 +21,3 @@ Broadly Speaking, an Intent Denotes an individual’s Purpose or Goal. Applied w
 - **Semi-deterministic Intents:** Here, the Path to the Outcome is not fixed, although the Outcome itself is Predetermined. For Example, “Stake 100 USDC from my Polygon Wallet on Lido (Ethereum).” Discounting Potential Transaction Errors, the result of this Intent will be stETH, but the Specifics of the DEX used to Convert USDC to ETH or the Bridge for Fund Transfer from Polygon to Ethereum are not Predetermined.
 
 - **Deterministic Intents:** In this Subcategory, both the Path and the Outcome are Predefined. Consider the Intent, “Use Nitro to Transfer my USDC from Polygon to Ethereum, then use 1inch to Swap USDC to ETH, and finally, Stake the ETH on Lido.” In Deterministic Intents, every Step along with the Final Result is Explicitly Specified.
-
-## Conclusion
-
-## Quiz
-
-## Share Your Learnings!
