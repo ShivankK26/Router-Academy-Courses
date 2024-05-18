@@ -12,6 +12,9 @@ Broadly Speaking, an Intent Denotes an individual’s Purpose or Goal. Applied w
 
 ## Different Types Of Intents
 
+![Module 2 img](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/6c73e736-dd23-42d2-a35e-be2038f3378a)
+
+
 1. **Abstract Intents:** represent the Initial, often incomplete, Expressions of a User’s Goals. For Example, Consider a User who says, “I want to stake USDC.” While this Statement reveals the User’s Desire to Stake USDC, it Lacks Specifics such as the Blockchain Network where the User holds the USDC and the Staking Platform Designated for the USDC Staking. This Lack of Detail renders the Intent too Broad to be actionable in its current form.
 
 2. **Executable Intents:** are the ones that are actionable. Extending our Previous example, the User’s Intent can be made Actionable by Determining the Blockchain Network holding their Funds (e.g., Polygon), the Amount to Stake (e.g., 100 USDC), the Chain for staking (e.g., Ethereum). Within the Realm of Executable Intents, we Define three Distinct Subcategories -
