@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Introduction
 
+![img](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/08ef8808-bcf7-4110-8a2f-74e8a37d1054)
+
 Welcome to the Router Protocol Courses Section! This Page serves as a Guide to the Structure and Content of all the Courses.
 
 ## Company Information
