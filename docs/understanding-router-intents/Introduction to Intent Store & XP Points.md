@@ -4,7 +4,7 @@ sidebar_position: 9
 
 # Module 9: Introduction to Intent Store & XP Points
 
-![intent-store-](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/20af6c1a-3c81-4bc1-9327-9d07b8da7d3d)
+![intent-store-](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/da813f57-5c95-468b-ab97-45459eb0fff0)
 
 Welcome to Module 9 Of Cross Chain Intent Framework CookBook. In this Module, we'll be having an Introduction to Intent Store & XP Points. Let's Begin...
 
