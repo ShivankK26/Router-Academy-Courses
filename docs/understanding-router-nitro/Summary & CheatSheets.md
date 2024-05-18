@@ -10,4 +10,4 @@ In this Module, we’ll be having a Look at the Summary & CheatSheets available.
 
 ## NFT Badge
 
-Mint your NFT Badge by Clicking Here.
+Mint your NFT Badge by Clicking [here](https://nft-badge-one.vercel.app/).
