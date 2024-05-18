@@ -4,6 +4,8 @@ sidebar_position: 1
 
 # Module 1: Introduction to the Course
 
+![Module1 img](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/c10187aa-5298-43c7-b8bd-3723b62ce367)
+
 Welcome to Module 1 Of Cross Chain Intent Framework CookBook. In this Module, we'll be Understanding What is this Course about & How to Utilize it. Let's Begin...
 
 ## What is this Course About?
