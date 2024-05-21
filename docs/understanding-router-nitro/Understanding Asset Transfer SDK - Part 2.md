@@ -33,7 +33,7 @@ Next you need to initialize a `Pathfinder` Instance. You need to Provide your Un
 
 ```javascript
 const YOUR_WIDGET_ID = 24; // Replace with your unique SDK ID
-const pathfinder = new Pathfinder(Network.Testnet, YOUR_WIDGET_ID);
+const pathfinder = new PathFinder(Network.Testnet, YOUR_WIDGET_ID);
 ```
 
 ### 3. Main Function
