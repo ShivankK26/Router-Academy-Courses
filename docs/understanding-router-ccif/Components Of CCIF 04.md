@@ -4,9 +4,7 @@ sidebar_position: 8
 
 # Module 8: Components Of CCIF 04
 
-![Screenshot 2024-05-18 at 11 55 59 AM](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/145276a2-57d8-4420-b1f9-803dc963f663)
-
-Welcome to Module 8 Of Cross Chain Intent Framework CookBook. In this Module, we'll be Understanding what are the Different Components (Intent Solver) Of Cross Chain Intent Framework - 04. Let's Begin...
+<iframe width="560" height="315" src="https://www.youtube.com/embed/c927ZUWYFA0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Introduction
 
@@ -25,25 +23,3 @@ The Intent Solver’s Effectiveness is anchored by its Key Components: Pathfinde
 
 3. **Calldata Composer:** The CallData Composer is responsible for Preparing CallData for each Adapter in a Chosen Path and Synthesizing them into a Unified CallData Payload. This Unified Payload Embodies the Execution Blueprint of the User’s Intent, as Determined by the Optimal Path identified by the Pathfinder. It is this Aggregated CallData Payload that the User Ultimately Broadcasts on the Blockchain to Actualize their Intent, making the CallData Composer a Key Architect in the Process of Transforming user Intents into actual Blockchain Transactions.
 
-## Intent Solver Workflow
-
-This Section Delves into Intent Solver’s Operational Workflow. To Illustrate the Intricate Interplay between Intent Solver’s Components, let us Consider the following Executable Intent: “Stake 100 USDC from Polygon to Stader on Ethereum.”
-
-The Steps are -
-
-1. **Recognizing all the Potential Paths:** The Pathfinder scans the ARM for Potential Adapters that can be used to Execute the User Intent and Identifies all the Potential Paths to achieve User’s Desired Output.
-
-- Potential Paths proposed by the IRM:
-
-(a) funds → DEX (Polygon) → Bridge 1 → Stader (Ethereum)
-
-(b) funds → Bridge 1 → DEX (Ethereum) → Stader (Ethereum)
-
-(c) funds → DEX (Polygon) → Bridge 2 → Stader (Ethereum)
-
-2. **Simulating the Potential Paths:** The Pathfinder engages the Simulator to Assess all of the Identified Paths Based on many factors, including Execution Cost, Time Taken for Transaction Completion, and the Potential Yield each Path Offers. For Example, Path 2 requires 230K Gas for Execution, a Duration of 6 minutes, and an Estimated Outcome of 0.13 ETHx. The Simulator’s Capability to Identify and Reject Nonviable Paths is a Critical Part of this Process. For Instance, if the Simulator encounters a failure during the Simulation of DEX (Ethereum) Adapter in Path 2, the Pathfinder Promptly eliminates this Path from Consideration, ensuring that only Viable Paths are Retained for further Analysis.
-
-3. **Choosing the Most Optimal Path(s):** Using a Custom A\* Algorithm, Pathfinder Assesses each Potential Path in terms of its Execution Cost, Time, and Estimated Outcome to Calculate a Composite Score for each. Let us say that Path 3 (180K gas, 10 minutes, 0.136 ETHx) is identified as the Best for net Yield, but Path 2 (120K gas, 2 minutes, 0.134
-   ETHx) emerges as the recommended Choice by Striking a Good Balance for Speed, Cost and estimated Outcome.
-
-4. **Composing the CallData:** Once one or more Optimal Routes are decided, the CallData Composer Creates a Unified CallData Payload by assembling the CallData for each Adapter in the respective Paths. Once the CallData is Generated, the Intent Solver returns it to the User along with the Entry Point Contract Address.

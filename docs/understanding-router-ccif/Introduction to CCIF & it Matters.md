@@ -4,9 +4,7 @@ sidebar_position: 3
 
 # Module 3: Introduction to CCIF & it Matters
 
-![module-3](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/777024bd-7e4f-4a09-b843-97b705946c54)
-
-Welcome to Module 3 Of Cross Chain Intent Framework CookBook. In this Module, we'll be having an Introduction to Router Protocol's Cross Chain Intent Framework & Why Does it Matter. Let's Begin...
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1Hb70YkFVi8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Introduction
 

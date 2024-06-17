@@ -6,7 +6,7 @@ sidebar_position: 9
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/_bvJWZjqreU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Welcome to Module 11 of the Router Nitro Cookbook. This Module focuses on importing all the Necessary Modules, Getting the Quote and actually Executing the Transaction.
+This Module focuses on importing all the Necessary Modules, Getting the Quote and actually Executing the Transaction.
 
 ## Proceed with the Following Steps to -
 
