@@ -63,7 +63,7 @@ const config: Config = {
           label: 'Courses',
         },
         {
-          href: 'https://github.com/router-resources',
+          href: 'https://github.com/ShivankK26/Router-Academy-Courses',
           label: 'GitHub',
           position: 'right',
         },
