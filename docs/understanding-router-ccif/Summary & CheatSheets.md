@@ -4,6 +4,9 @@ sidebar_position: 10
 
 # Module 10: Summary & CheatSheets
 
+![Module 10 CCIF Course](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/43b29b10-dcd2-4e00-814a-2398a3c935fd)
+
+
 ## Summary
 
 In this Course, we learnt that the Quest for Seamless Interoperability and User-Friendly Interfaces has led to Significant Innovations. One such Breakthrough is the Concept of “Adapters” within the Router cross-chain Intent Framework (CCIF), which Promises to Revolutionize how Users Interact with Decentralized Applications (dApps) across various Blockchain Networks.
