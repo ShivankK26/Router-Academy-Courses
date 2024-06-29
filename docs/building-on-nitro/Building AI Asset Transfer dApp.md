@@ -11,26 +11,26 @@ In this Tutorial, we'll be Building an AI dApp which can execute cross-chain Tra
 ## Running the Application
 
 - **Clone the Repository**
-```
-git clone https://github.com/router-resources/NitroAIDApp.git
-```
+  ```
+  git clone https://github.com/router-resources/NitroAIDApp.git
+  ```
 
 - **Install the necessary Packages**
 
-```
-npm install
-```
+  ```
+  npm install
+  ```
 
 - **Replace Your_OpenAI_API_KEY with your OpenAI API Key**
 
-![Screenshot 2024-06-28 at 5 59 18 PM](https://github.com/router-resources/NitroAIDApp/assets/124175970/2433e270-4217-49fd-a390-7b3f9e20dab3)
+  ![Screenshot 2024-06-28 at 5 59 18 PM](https://github.com/router-resources/NitroAIDApp/assets/124175970/2433e270-4217-49fd-a390-7b3f9e20dab3)
 
 
 - **Run on Localhost**
 
-```
-npm start
-```
+  ```
+  npm start
+  ```
 
 Congratulations!! Your application has started running.
 
@@ -38,9 +38,9 @@ Congratulations!! Your application has started running.
 
 Run the following commands in your Terminal to Download the necessary Libraries required in our Project.
 
-```
-npm install axios ethers@5.7.2 openai
-```
+  ```
+  npm install axios ethers@5.7.2 openai
+  ```
 
 ## Getting OpenAI API Key
 
@@ -56,11 +56,11 @@ Now, Copy the API Key somewhere as you'll need it afterwards.
 
 Import the Downloaded Libararies by  -
 
-```
-import OpenAI from "openai";
-import axios from "axios"
-import { ethers } from 'ethers';
-```
+    ```jsx
+    import OpenAI from "openai";
+    import axios from "axios"
+    import { ethers } from 'ethers';
+    ```
 
 ## Extract Variable Function
 
@@ -74,55 +74,55 @@ The `extractVariables` function is designed to extract Specific Variables from a
 
 - A Promise that resolves to an object containing the extracted variables in the following format -
 
-```json
-  {
-    "sourceToken": "x",
-    "sourceChain": "a",
-    "desToken": "y",
-    "desChain": "b",
-    "amount": "z"
-  }
-```
+  ```json
+    {
+      "sourceToken": "x",
+      "sourceChain": "a",
+      "desToken": "y",
+      "desChain": "b",
+      "amount": "z"
+    }
+  ```
 
 #### Usage
 
-```javascript
-    const sentence = "Transfer 100 USDT from Holsky to Fuji in exchange for USDC.";
-    extractVariables(sentence).then(variables => {
-    console.log(variables);
-    });
-```
+  ```javascript
+      const sentence = "Transfer 100 USDT from Holsky to Fuji in exchange for USDC.";
+      extractVariables(sentence).then(variables => {
+      console.log(variables);
+      });
+  ```
 
 #### Function Details
 
 1. **Initialize OpenAI Instance:**
    The function initializes an instance of the OpenAI Client using the Provided API Key.
 
-```javascript
-   const openai = new OpenAI({
-     apiKey: process.env.OPENAI_API_KEY,
-     dangerouslyAllowBrowser: true 
-   });
-```
+  ```javascript
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+      dangerouslyAllowBrowser: true 
+    });
+  ```
 
 2. **Call OpenAI API:**
    The function sends a request to the OpenAI API's `chat.completions.create` endpoint, instructing it to extract the required variables from the input sentence. It uses the `gpt-3.5-turbo` model.
 
-```javascript
-   const completion = await openai.chat.completions.create({
-     messages: [{ role: "system", content: `Extract the sourceToken, sourceChain, desToken, desChain, and amount from the following sentence. Source Chains can be Holsky, Fuji and Amoy. Similarly, Destination Chains can be Holsky, Fuji and Amoy. Source and Destination Tokens can be AFTT, USDT, USDC. 
-     "${sentence}"
-     Return the results in the following format: 
-     {
-       "sourceToken": "x",
-       "sourceChain": "a",
-       "desToken": "y",
-       "desChain": "b",
-       "amount": "z"
-     }` }],
-     model: "gpt-3.5-turbo",
-   });
-```
+  ```javascript
+    const completion = await openai.chat.completions.create({
+      messages: [{ role: "system", content: `Extract the sourceToken, sourceChain, desToken, desChain, and amount from the following sentence. Source Chains can be Holsky, Fuji and Amoy. Similarly, Destination Chains can be Holsky, Fuji and Amoy. Source and Destination Tokens can be AFTT, USDT, USDC. 
+      "${sentence}"
+      Return the results in the following format: 
+      {
+        "sourceToken": "x",
+        "sourceChain": "a",
+        "desToken": "y",
+        "desChain": "b",
+        "amount": "z"
+      }` }],
+      model: "gpt-3.5-turbo",
+    });
+  ```
 
 3. **Parse and Return Result:**
    The function parses the JSON response from the OpenAI API and returns the extracted variables.
@@ -381,7 +381,7 @@ Next, we need to Create a Button on Click of which the following tasks take plac
 4. Executing the Transaction**
 
 ```javascript
- <button  role="button" style={{width:'10em',height:'3em',backgroundColor:'white',borderRadius:'2em',borderColor:'black'}} onClick={async ()=>{
+ <button role="button" style={{width:'10em',height:'3em',backgroundColor:'white',borderRadius:'2em',borderColor:'black'}} onClick={async ()=>{
 
         // Extracting Variables
         const variables=await extractVariables(sentence)
