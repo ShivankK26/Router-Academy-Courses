@@ -14,6 +14,8 @@ In this tutorial, we'll Build a Simple dApp using which we can Transfer AFTT Tok
 The above Video consists an Introduction to how does the dApp look and work.
 
 Check out the dApp we're Building by Clicking [here](https://github.com/router-resources/BuidingonNitro/tree/main).
+
+- Also, Check out all the Supported Chains listed [here](https://github.com/router-resources/SupportedChains/blob/main/supportedchains.js).
     
 - Directly Copy & Paste the CSS files in your Local Repository.
 
