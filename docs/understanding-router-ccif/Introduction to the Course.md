@@ -6,9 +6,9 @@ sidebar_position: 1
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/fIrgXN6EN80" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Welcome to Deep Dived Course on CrossChain Intent Framework Course. In this Module, we'll be Understanding What is this Course about & How to Utilize it. Let's Begin...
+## Objectives of "Understanding Router CCIF Course"
 
-## What is this Course About?
+Welcome to Deep Dived Course on CrossChain Intent Framework Course. In this Module, we'll be Understanding What is this Course about & How to Utilize it. Let's Begin...
 
 The Quest for Seamless Interoperability and User-Friendly Interfaces has led to Significant Innovations. One such Breakthrough is the Concept of “Adapters” within the Router cross-chain Intent Framework (CCIF), which Promises to Revolutionize how Users Interact with Decentralized Applications (dApps) across various Blockchain Networks.
 

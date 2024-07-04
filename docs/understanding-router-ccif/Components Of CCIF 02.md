@@ -6,7 +6,7 @@ sidebar_position: 6
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/5IbVbrBvX9c" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Introduction
+## Components Of CCIF 02
 
 Intent Adapters are Smart Contracts Pivotal in Abstracting Complex Actions of Decentralized Applications (dApps) and enabling Streamlined Interactions, whether within a Single dApp or across Multiple dApps. They Serve as Building Blocks in Constructing Intuitive and Efficient Workflows. Decomposing executable Workflows into sub-tasks and Utilizing Adapters for these sub-tasks allows Developers to focus on Creating Specialized Adapters for their dApp’s Functionalities while Leveraging Generalized Adapters for Common Tasks. This approach -
 

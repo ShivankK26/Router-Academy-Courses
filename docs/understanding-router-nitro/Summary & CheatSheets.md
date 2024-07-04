@@ -4,9 +4,10 @@ sidebar_position: 10
 
 # Module 10: Summary & CheatSheets
 
+## Summary & CheatSheet
+
 ![Module 10](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/68e96a1d-f27b-4000-8075-4c05f2432106)
 
-## Summary
 In this Course, we learnt about sustaining the cross-chain Ecosystem by Learning how to Build cross-chain dApps and why does Router Nitro stands out among other cross-chain Bridges.
 
 We learnt about Fundamental Concepts like Asset Swapping, Asset Transfer and Forwarders.

@@ -6,7 +6,7 @@ sidebar_position: 7
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/DnGgfG69VTA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Introduction
+## Components Of CCIF 03
 
 The Adapter Registry Module (ARM) is a Web 2.0 Module that serves as a Repository for all the Intent Adapters, which Developers can use to Track and Update their Adapter’s Functionalities and Constraints. It Standardizes the way Adapters are Specified, Utilized, and Managed within the Framework. This Standardization is essential for Seamless Interaction between Different Components of the Framework and the Reliable Execution of User Intents at any given Time.
 

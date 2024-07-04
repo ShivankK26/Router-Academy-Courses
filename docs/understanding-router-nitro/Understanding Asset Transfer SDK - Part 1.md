@@ -6,11 +6,11 @@ sidebar_position: 8
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/phNcKPKRHGY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+## Step 1: Setting up the Project
+
 This Module focuses on Utilizing the Asset Transfer SDK of Router Protocol. This SDK, available as an <code>npm</code> Package, Streamlines Asset Swapping between Blockchains. By installing the Package and importing required Libraries, you can Seamlessly Transfer Assets across Different Blockchains.
 
 Prior to diving into SDK usage, let's establish our initial Environment and install all necessary Libraries and Tools.
-
-## Step 1: Setting up the Project
 
 To begin, open your preferred Code Editor. We'll be using VS Code for this Tutorial. Next, ensure you have <code>NodeJS</code> installed. You can Download it from [here](https://nodejs.org/en/download.)
 Once <code>NodeJS</code> is installed, verify its installation by running <code>node -v</code> and <code>npm -v</code> in your Terminal. After Confirming NodeJS is set up Properly, Open VS Code and proceed with the following Steps.

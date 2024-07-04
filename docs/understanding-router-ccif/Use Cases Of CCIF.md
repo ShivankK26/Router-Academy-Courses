@@ -6,7 +6,7 @@ sidebar_position: 4
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/MmIjPykviBY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Introduction
+## Use Cases Of CCIF
 
 This Section Explores Diverse Use Cases of Router’s cross-chain Intent Framework, Demonstrating how it Addresses Challenges in Blockchain Adoption. Each example illustrates the Framework’s Practicality, Adaptability, and Potential to enhance Efficiency in Blockchain Interactions across Various Types of DeFi Applications.
 

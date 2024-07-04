@@ -6,7 +6,7 @@ sidebar_position: 8
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/c927ZUWYFA0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Introduction
+## Components Of CCIF 04
 
 Intent Solver is a Crucial Part of Router’s cross-chain Intent Framework Module. Its Primary Function is to find and Scrutinize Potential Execution Paths for the Executable. After identifying Potential Execution Paths along with the requisite Inputs for the Head Adapter in each Path, the Intent Solver employs Advanced multi-criteria Decision Making Algorithms to Discern the most Optimal Path.
 

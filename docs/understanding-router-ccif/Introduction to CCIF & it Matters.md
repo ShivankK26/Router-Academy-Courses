@@ -2,11 +2,11 @@
 sidebar_position: 3
 ---
 
-# Module 3: Introduction to CCIF & it Matters
+# Module 3: Introduction to CCIF & Why it Matters
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1Hb70YkFVi8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Introduction
+## Why Does CCIF Matter so Much?
 
 Router’s cross-chain Intent Framework (CCIF) is a Pluggable Intent Layer that sits at the top of the Application Layer, empowering Developers to Create User-Centric Applications on familiar L1s and L2s (including but not limited to EVM and Cosmos-Based Chains) and allowing users to Execute Complex DeFi Operations with a Click of a Button.
 

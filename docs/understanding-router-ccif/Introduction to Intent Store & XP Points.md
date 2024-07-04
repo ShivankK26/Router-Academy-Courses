@@ -6,7 +6,7 @@ sidebar_position: 9
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/OF2fZfvoOtQ" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-## Introduction
+## About Intent Store & XP Points
 
 Intent Store serves as a Repository of open-source ‘Adapters’ that are Smart Contracts Designed to Execute User Intents on the Blockchain. Developers can use them to Transform their existing dApps into cross-chain Applications or to Create new, Seamless cross-chain dApps (including but not Limited to EVM and Cosmos-Based Chains).
 
