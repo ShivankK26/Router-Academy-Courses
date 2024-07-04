@@ -1,6 +1,6 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 ---
 
-# Module 7: About Lending/Borrowing Adapters
+# Module 8: About Lending/Borrowing Adapters
 
