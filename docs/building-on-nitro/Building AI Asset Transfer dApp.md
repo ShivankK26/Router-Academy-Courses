@@ -2,7 +2,7 @@
 sidebar_position: 8
 ---
 
-# Building AI Asset Transfer dApp
+# Module 8: Building AI Asset Transfer dApp
 
 In this Tutorial, we'll be Building an AI dApp which can execute cross-chain Transactions based on Prompts. To view the CodeBase, Click on the Link at the Bottom. 
 

@@ -1,10 +1,10 @@
 ---
-sidebar_position: 9
+sidebar_position: 10
 ---
 
-# Building via Nitro iFrame
+# Module 10: Building via Nitro iFrame
 
-## Integrating iFrame
+## Integrating iFrame in any dApp
 
 Integrating Router Nitro in iFrame format in any dApp is pretty easy. Following are the ways to Integrate it either in Mainnet or Testnet -
 
