@@ -6,6 +6,8 @@ sidebar_position: 2
 
 ## Why there is a Need of Adapters?
 
+<img width="524" alt="Screenshot 2024-07-05 at 2 34 26 PM" src="https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/a43e30fd-b586-403f-acb7-9accdf3bb2d2">
+
 Intent Adapters are used to Simplify the UX in Crypto so that Interacting with dApps becomes easy. Each Blockchain requires a Unique Wallet with its own set of Private Keys and Mnemonic Phrases, complicating the Security and Management of Assets. The need to manually Monitor and Transfer Assets across these Fragmented Systems introduces Inefficiencies and Increases the Risk of Errors and Security Breaches.
 
 Staking in a Liquid Staking Platform on a Different Blockchain typically involves around 27 clicks, interaction with 3 Different dApps,
