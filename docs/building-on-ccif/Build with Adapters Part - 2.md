@@ -62,3 +62,26 @@ The Batch Handler Contract acts as a Versatile Contract, enabling the execution 
 
 ## Examples
 
+### **Example 1: Add Liquidity on UniSwap**
+
+- **Subcase 1:** If the User doesn't have Desired Tokens -
+
+    1. Swap to Tokens A and B using the Dexspan Adapter.
+    2. Add Liquidity on Uniswap using the Uniswap Adapter.
+
+   This Set of Transactions can be executed through Batch Transaction Contract's _executeBatchCallsSameChain_ function. In the above example, the Array of Targets would be Passed as [address of Dexspan Adapter, address of Uniswap Adapter], and the Data would be an Array of respective Inputs.
+
+- **Subcase 2:** If the User has Desired Tokens, they can add Liquidity on Uniswap using the Uniswap Adapter directly.
+
+   In this Case, the Array of Targets would be passed as [address of Uniswap Adapter] in the _executeBatchCallsSameChain_ function along with other Parameters accordingly.
+
+### **Example 2: cross-chain Liquid Stake ETH**
+
+- If the user wants to stake Ethereum on a liquid staking protocol but has funds on some other chain, say Polygon:
+
+    1. The user can bridge funds from Polygon to Ethereum using Nitro Adapter on Polygon.
+    2. After the request is received on Ethereum , the funds automatically get staked on the desired Liquid Staking Protocol.
+
+   This set of transactions can be executed through Batch transaction contract's executeBatchCallsSameChain function on the source chain.
+   
+   In this case, the array of targets would be passed here as [address of nitro adapter] . The data parameter will contain inputs to the Nitro adapter. Among the inputs, there is a message parameter in which the user has to encode the data pertaining to liquid staking on ethereum. The message to be sent would consist the refund address, destination targets (LST Adapter address) and the data for that adapter/target.
