@@ -46,9 +46,9 @@ The Batch Handler Contract acts as a Versatile Contract, enabling the execution 
 
     ```jsx
         function handleMessage(
-        address tokenSent,
-        uint256 amount,
-        bytes memory instruction
+            address tokenSent,
+            uint256 amount,
+            bytes memory instruction
         ) external override onlyNitro nonReentrant {}
     ```
 
