@@ -18,10 +18,10 @@ Import the Necessary Modules from the SDK into your CodeBase.
 
 #### Example:
 
-```javascript
-import { PathFinder, Network } from "@routerprotocol/asset-transfer-sdk-ts";
-import { evmSignerFromPrivateKeyAndRpc } from "@routerprotocol/asset-transfer-sdk-ts/pathfinder/ChainClient/EvmChainClient";
-```
+  ```javascript
+  import { PathFinder, Network } from "@routerprotocol/asset-transfer-sdk-ts";
+  import { evmSignerFromPrivateKeyAndRpc } from "@routerprotocol/asset-transfer-sdk-ts/pathfinder/ChainClient/EvmChainClient";
+  ```
 
 ### 2. Initializing Pathfinder
 
@@ -31,10 +31,10 @@ Next you need to initialize a `Pathfinder` Instance. You need to Provide your Un
 
 #### Example:
 
-```javascript
-const YOUR_WIDGET_ID = '24'; // Replace with your unique SDK ID
-const pathfinder = new PathFinder(Network.Testnet, YOUR_WIDGET_ID);
-```
+  ```javascript
+  const YOUR_WIDGET_ID = '24'; // Replace with your unique SDK ID
+  const pathfinder = new PathFinder(Network.Testnet, YOUR_WIDGET_ID);
+  ```
 
 ### 3. Main Function
 
@@ -44,13 +44,13 @@ Define a <code>main</code> Function where Asset Swapping Operations will be Orga
 
 #### Example:
 
-```javascript
-const main = async () => {
-  // Asset swapping logic
-};
+  ```javascript
+  const main = async () => {
+    // Asset swapping logic
+  };
 
-main();
-```
+  main();
+  ```
 
 ### 4. Building EVM Signer
 
@@ -60,12 +60,12 @@ Construct an EVM Signer Object using your Private Key and the RPC Endpoint. This
 
 #### Example:
 
-```javascript
-const evmSigner = evmSignerFromPrivateKeyAndRpc(
-  evmPrivateKey,
-  "https://rpc.ankr.com/avalanche_fuji"
-);
-```
+  ```javascript
+  const evmSigner = evmSignerFromPrivateKeyAndRpc(
+    evmPrivateKey,
+    "https://rpc.ankr.com/avalanche_fuji"
+  );
+  ```
 
 Make sure to Replace `evmPrivateKey` with your Private Key.
 Note: This is just a Tutorial, so Abstain from using Private Key which you use for Normal Usage.
@@ -79,15 +79,15 @@ Request a Quote from Pathfinder for the Desired Asset Transfer, specifying Sourc
 
 #### Example:
 
-```javascript
-const quote = await pathfinder.getQuote({
-  sourceChainId: "43113",
-  sourceTokenAddress: "0xb452b513552aa0B57c4b1C9372eFEa78024e5936",
-  destinationChainId: "17000",
-  destinationTokenAddress: "0x5c2c6ab36a6e4e160fb9c529e164b7781f7d255f",
-  expandedInputAmount: "10000000000000000000",
-});
-```
+  ```javascript
+  const quote = await pathfinder.getQuote({
+    sourceChainId: "43113",
+    sourceTokenAddress: "0xb452b513552aa0B57c4b1C9372eFEa78024e5936",
+    destinationChainId: "17000",
+    destinationTokenAddress: "0x5c2c6ab36a6e4e160fb9c529e164b7781f7d255f",
+    expandedInputAmount: "10000000000000000000",
+  });
+  ```
 
 ### 6. Executing Quote
 
@@ -97,19 +97,19 @@ Execute the Obtained Quote, handling Approval and Executing the Transaction to e
 
 #### Example:
 
-```javascript
-const transaction = await pathfinder.executeQuote(
-  {
-    quote,
-    slippageTolerance: "1",
-    senderAddress: evmSigner.address,
-    receiverAddress: evmSigner.address,
-  },
-  {
-    evmSigner,
-  }
-);
-```
+    ```javascript
+    const transaction = await pathfinder.executeQuote(
+      {
+        quote,
+        slippageTolerance: "1",
+        senderAddress: evmSigner.address,
+        receiverAddress: evmSigner.address,
+      },
+      {
+        evmSigner,
+      }
+    );
+    ```
 
 ### Congratulations!
 

@@ -74,78 +74,78 @@ The `extractVariables` function is designed to extract Specific Variables from a
 
 - A Promise that resolves to an object containing the extracted variables in the following format -
 
-  ```json
-    {
-      "sourceToken": "x",
-      "sourceChain": "a",
-      "desToken": "y",
-      "desChain": "b",
-      "amount": "z"
-    }
-  ```
-
-#### Usage
-
-  ```javascript
-      const sentence = "Transfer 100 USDT from Holsky to Fuji in exchange for USDC.";
-      extractVariables(sentence).then(variables => {
-      console.log(variables);
-      });
-  ```
-
-#### Function Details
-
-1. **Initialize OpenAI Instance:**
-   The function initializes an instance of the OpenAI Client using the Provided API Key.
-
-  ```javascript
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-      dangerouslyAllowBrowser: true 
-    });
-  ```
-
-2. **Call OpenAI API:**
-   The function sends a request to the OpenAI API's `chat.completions.create` endpoint, instructing it to extract the required variables from the input sentence. It uses the `gpt-3.5-turbo` model.
-
-  ```javascript
-    const completion = await openai.chat.completions.create({
-      messages: [{ role: "system", content: `Extract the sourceToken, sourceChain, desToken, desChain, and amount from the following sentence. Source Chains can be Holsky, Fuji and Amoy. Similarly, Destination Chains can be Holsky, Fuji and Amoy. Source and Destination Tokens can be AFTT, USDT, USDC. 
-      "${sentence}"
-      Return the results in the following format: 
+    ```json
       {
         "sourceToken": "x",
         "sourceChain": "a",
         "desToken": "y",
         "desChain": "b",
         "amount": "z"
-      }` }],
-      model: "gpt-3.5-turbo",
-    });
-  ```
+      }
+    ```
+
+#### Usage
+
+    ```javascript
+        const sentence = "Transfer 100 USDT from Holsky to Fuji in exchange for USDC.";
+        extractVariables(sentence).then(variables => {
+        console.log(variables);
+        });
+    ```
+
+#### Function Details
+
+1. **Initialize OpenAI Instance:**
+   The function initializes an instance of the OpenAI Client using the Provided API Key.
+
+    ```javascript
+      const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true 
+      });
+    ```
+
+2. **Call OpenAI API:**
+   The function sends a request to the OpenAI API's `chat.completions.create` endpoint, instructing it to extract the required variables from the input sentence. It uses the `gpt-3.5-turbo` model.
+
+    ```javascript
+      const completion = await openai.chat.completions.create({
+        messages: [{ role: "system", content: `Extract the sourceToken, sourceChain, desToken, desChain, and amount from the following sentence. Source Chains can be Holsky, Fuji and Amoy. Similarly, Destination Chains can be Holsky, Fuji and Amoy. Source and Destination Tokens can be AFTT, USDT, USDC. 
+        "${sentence}"
+        Return the results in the following format: 
+        {
+          "sourceToken": "x",
+          "sourceChain": "a",
+          "desToken": "y",
+          "desChain": "b",
+          "amount": "z"
+        }` }],
+        model: "gpt-3.5-turbo",
+      });
+    ```
 
 3. **Parse and Return Result:**
    The function parses the JSON response from the OpenAI API and returns the extracted variables.
 
-```javascript
-   const result = completion.choices[0].message["content"];
-   const variables = JSON.parse(result);
-   return variables;
-```
+    ```javascript
+      const result = completion.choices[0].message["content"];
+      const variables = JSON.parse(result);
+      return variables;
+    ```
 
 #### Example Output
 
 Given the input sentence "Transfer 100 USDT from Holsky to Fuji in exchange for USDC.", the function might return -
 
-```json
-{
-  "sourceToken": "USDT",
-  "sourceChain": "Holsky",
-  "desToken": "USDC",
-  "desChain": "Fuji",
-  "amount": "100"
-}
-```
+    ```json
+    {
+      "sourceToken": "USDT",
+      "sourceChain": "Holsky",
+      "desToken": "USDC",
+      "desChain": "Fuji",
+      "amount": "100"
+    }
+    ```
 
 **Note: For sake for simplicity we are limiting this application for transferring AFTT Tokens between Amoy, Fuji and Holsky only but you can extend it for other tokens and chains as well. For more details please visit [here](https://github.com/router-resources/SupportedChains/blob/main/supportedchains.js)**. 
 
@@ -157,27 +157,27 @@ To request a Quote, follow these steps -
 
 1. **Define the PATH_FINDER_API_URL:** Set the PATH_FINDER_API_URL variable to the URL of the Pathfinder API for the Voyager testnet. This is where you will send your Quote request.
 
-```javascript
-   const PATH_FINDER_API_URL = "https://api.pf.testnet.routerprotocol.com/api"
-```
+    ```javascript
+      const PATH_FINDER_API_URL = "https://api.pf.testnet.routerprotocol.com/api"
+    ```
 
 2. **Create the `getQuote` Function:** This function handles the Quote request. It uses the `axios` library to make an HTTP GET request to the Voyager Pathfinder API.
 
-```javascript
-   const getQuote = async (params) => {
-		const endpoint = "v2/quote"
-		const quoteUrl = `${PATH_FINDER_API_URL}/${endpoint}`
-	
-		console.log(quoteUrl)
-	
-		try {
-			const res = await axios.get(quoteUrl, { params })
-			return res.data;
-		} catch (e) {
-			console.error(`Fetching quote data from pathfinder: ${e}`)
-		}    
-	}
-```
+    ```javascript
+      const getQuote = async (params) => {
+        const endpoint = "v2/quote"
+        const quoteUrl = `${PATH_FINDER_API_URL}/${endpoint}`
+      
+        console.log(quoteUrl)
+      
+        try {
+          const res = await axios.get(quoteUrl, { params })
+          return res.data;
+        } catch (e) {
+          console.error(`Fetching quote data from pathfinder: ${e}`)
+        }    
+      }
+    ```
 
 3. **Call the `getQuote` Function:** Use this function to request a Quote by passing appropriate Parameters. In this repository, this function is called using a button.
 
@@ -196,21 +196,21 @@ To request a Quote, follow these steps -
    console.log("Quote Data:", quoteData);
    ```
 
-These Parameters Define the details of the Token Transfer you wish to Execute. Let’s Break down what each Parameter represents - 
+    These Parameters Define the details of the Token Transfer you wish to Execute. Let’s Break down what each Parameter represents - 
 
-- **'fromTokenAddress':** This should specify the address of the Token you want to Transfer from (the Source Token).
+    - **'fromTokenAddress':** This should specify the address of the Token you want to Transfer from (the Source Token).
 
-- **'toTokenAddress':** Provide the Address of the Token you want to Transfer to (the Dstination Token).
+    - **'toTokenAddress':** Provide the Address of the Token you want to Transfer to (the Dstination Token).
 
-- **'amount':** Set the Amount of the Token you wish to Transfer.
+    - **'amount':** Set the Amount of the Token you wish to Transfer.
 
-- **'fromTokenChainId':** This Parameter Represents the Chain ID of the Source Blockchain. In this Case, it’s Set to “80001.”
+    - **'fromTokenChainId':** This Parameter Represents the Chain ID of the Source Blockchain. In this Case, it’s Set to “80001.”
 
-- **'toTokenChainId':** Similarly, this Parameter Specifies the Chain ID of the Destination Blockchain, which, in this example, is “43113” (Fuji).
+    - **'toTokenChainId':** Similarly, this Parameter Specifies the Chain ID of the Destination Blockchain, which, in this example, is “43113” (Fuji).
 
-- **'widgetId':** This Parameter is used to identify the Widget Responsible for the Transfer. You’ll typically need to Obtain a Unique Widget ID through Contact with the Voyager Team, often via Telegram or other means. For now, let’s keep it as 0.
+    - **'widgetId':** This Parameter is used to identify the Widget Responsible for the Transfer. You’ll typically need to Obtain a Unique Widget ID through Contact with the Voyager Team, often via Telegram or other means. For now, let’s keep it as 0.
 
-With these Parameters, you can now Call the getQuote Function with this params Object to initiate a Quote Request for your Specific Token Transfer.
+    With these Parameters, you can now Call the getQuote Function with this params Object to initiate a Quote Request for your Specific Token Transfer.
 
 
 ### Response
@@ -221,82 +221,82 @@ The `getQuote` Function returns the Quote Data, which typically includes Details
 
 In Step 2 of using Router Nitro, you’ll Verify and Configure the Allowance for Token Transfers. This Process allows Router’s swap or Transfer Contract to safely move Tokens on your Behalf between Blockchain Networks.
 
-```javascript
-import { ethers, Contract } from 'ethers'
+    ```javascript
+    import { ethers, Contract } from 'ethers'
 
-// ERC20 Contract ABI for "Approve" and "Allowance" functions
-const erc20_abi = [
-    {
-        "name": "approve",
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "spender",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "name": "allowance",
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "owner",
-                "type": "address"
-            },
-            {
-                "internalType": "address",
-                "name": "spender",
-                "type": "address"
-            }
-        ],
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    }
-];
-
-// Fetch the current allowance and update if needed
-const checkAndSetAllowance = async (wallet, tokenAddress, approvalAddress, amount) => {
-    // Transactions with the native token don't need approval
-    if (tokenAddress === ethers.constants.AddressZero) {
-        return
-    }
-
-    const erc20 = new Contract(tokenAddress, erc20_abi, wallet);
-    const allowance = await erc20.allowance(await wallet.getAddress(), approvalAddress);
-    if (allowance.lt(amount)) {
-        const approveTx = await erc20.approve(approvalAddress, amount, {gasPrice: await wallet.provider.getGasPrice()});
-        try {
-            await approveTx.wait();
-            console.log(`Transaction mined succesfully: ${approveTx.hash}`)
+    // ERC20 Contract ABI for "Approve" and "Allowance" functions
+    const erc20_abi = [
+        {
+            "name": "approve",
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "spender",
+                    "type": "address"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                }
+            ],
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "name": "allowance",
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "spender",
+                    "type": "address"
+                }
+            ],
+            "outputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
         }
-        catch (error) {
-            console.log(`Transaction failed with error: ${error}`)
+    ];
+
+    // Fetch the current allowance and update if needed
+    const checkAndSetAllowance = async (wallet, tokenAddress, approvalAddress, amount) => {
+        // Transactions with the native token don't need approval
+        if (tokenAddress === ethers.constants.AddressZero) {
+            return
+        }
+
+        const erc20 = new Contract(tokenAddress, erc20_abi, wallet);
+        const allowance = await erc20.allowance(await wallet.getAddress(), approvalAddress);
+        if (allowance.lt(amount)) {
+            const approveTx = await erc20.approve(approvalAddress, amount, {gasPrice: await wallet.provider.getGasPrice()});
+            try {
+                await approveTx.wait();
+                console.log(`Transaction mined succesfully: ${approveTx.hash}`)
+            }
+            catch (error) {
+                console.log(`Transaction failed with error: ${error}`)
+            }
         }
     }
-}
-```
+    ```
 
 1. **Define ERC20 Contract ABI:** We begin by Defining the ABI (Application Binary Interface) for ERC20 Tokens, specifically focusing on the “approve” and “allowance” Functions. This ABI is essential for interacting with ERC20 Token Contracts.
 

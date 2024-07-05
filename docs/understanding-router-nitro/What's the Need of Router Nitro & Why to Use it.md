@@ -26,8 +26,8 @@ Several factors highlight the need for cross-chain Bridges -
 
 - Router Nitro’s additional Security Module allows for Perpetual Updates to accomodate for Cryptographic Advances in Security -
 
-1. Forwarders can claim funds only after verified settlement, deterring malicious activity.
+    1. Forwarders can claim funds only after verified settlement, deterring malicious activity.
 
-2. Blockchain Level, Contract Level Security and Code Level Security.
+    2. Blockchain Level, Contract Level Security and Code Level Security.
 
-3. Constant Security Updates, that make Nitro one step ahead of the Hackers.
+    3. Constant Security Updates, that make Nitro one step ahead of the Hackers.

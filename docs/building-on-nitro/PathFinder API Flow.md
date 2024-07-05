@@ -64,21 +64,21 @@ To Request a Auote, follow these Steps:
     console.log("Quote Data:", quoteData);
     ```
 
-These Parameters Define the Details of the Token Transfer you wish to Execute. Let's Break down what each Parameter represents:
+    These Parameters Define the Details of the Token Transfer you wish to Execute. Let's Break down what each Parameter represents:
 
-- `'fromTokenAddress'`: This should specify the address of the Token you want to Transfer from (the Source Token).
+    - `'fromTokenAddress'`: This should specify the address of the Token you want to Transfer from (the Source Token).
 
-- `'toTokenAddress'`: Provide the Address of the Token you want to Transfer to (the Dstination Token).
+    - `'toTokenAddress'`: Provide the Address of the Token you want to Transfer to (the Dstination Token).
 
-- `'amount'`: Set the Amount of the Token you wish to Transfer.
+    - `'amount'`: Set the Amount of the Token you wish to Transfer.
 
-- `'fromTokenChainId'`: This Parameter Represents the Chain ID of the Source Blockchain. In this Case, it's Set to "80001."
+    - `'fromTokenChainId'`: This Parameter Represents the Chain ID of the Source Blockchain. In this Case, it's Set to "80001."
 
-- `'toTokenChainId'`: Similarly, this Parameter Specifies the Chain ID of the Destination Blockchain, which, in this example, is "43113" (Fuji).
+    - `'toTokenChainId'`: Similarly, this Parameter Specifies the Chain ID of the Destination Blockchain, which, in this example, is "43113" (Fuji).
 
-- `'widgetId'`: This Parameter is used to identify the Widget Responsible for the Transfer. For now, Keep it as 0.
+    - `'widgetId'`: This Parameter is used to identify the Widget Responsible for the Transfer. For now, Keep it as 0.
 
-With these Parameters, you can now Call the `getQuote` Function with this `params` Object to initiate a Quote Request for your Specific Token Transfer.
+    With these Parameters, you can now Call the `getQuote` Function with this `params` Object to initiate a Quote Request for your Specific Token Transfer.
 
 ### Response
 
