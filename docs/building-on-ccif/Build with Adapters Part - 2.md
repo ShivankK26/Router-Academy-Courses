@@ -64,6 +64,8 @@ The Batch Handler Contract acts as a Versatile Contract, enabling the execution 
 
 ### **Example 1: Add Liquidity on UniSwap**
 
+![EXAMPLE_1](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/6d9c41e0-c890-42a3-8ed7-6dcad65d9d4f)
+
 - **Subcase 1:** If the User doesn't have Desired Tokens -
 
     1. Swap to Tokens A and B using the Dexspan Adapter.
@@ -76,6 +78,10 @@ The Batch Handler Contract acts as a Versatile Contract, enabling the execution 
    In this Case, the Array of Targets would be passed as [address of Uniswap Adapter] in the _executeBatchCallsSameChain_ function along with other Parameters accordingly.
 
 ### **Example 2: cross-chain Liquid Stake ETH**
+
+![EXAMPLE_2a](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/7aff2df3-a98c-435d-b7ce-15920ba41ede)
+
+![EXAMPLE_2b](https://github.com/ShivankK26/Router-Academy-Courses/assets/115289871/b2ab161a-9490-47b0-8c85-79ee4f10ea92)
 
 - If the user wants to stake Ethereum on a liquid staking protocol but has funds on some other chain, say Polygon:
 
