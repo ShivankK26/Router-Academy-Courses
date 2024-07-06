@@ -29,17 +29,17 @@ The Batch Handler Contract acts as a Versatile Contract, enabling the execution 
 
     The Parameters for this function are explained below -
 
-    a) **Tokens:** Array of addresses of the Tokens to fetch from the User.
+    a) **tokens:** Array of addresses of the Tokens to fetch from the User.
 
-    b) **Amounts:** Array of amounts of the Tokens to fetch from the User.
+    b) **amounts:** Array of amounts of the Tokens to fetch from the User.
 
-    c) **Target:** Array of addresses of the Contracts/Adapters to Call.
+    c) **target:** Array of addresses of the Contracts/Adapters to Call.
 
-    d) **Value:** Array of amounts of Native Tokens to send along with the Transactions.
+    d) **value:** Array of amounts of Native Tokens to send along with the Transactions.
 
-    e) **CallType:** Type of call. 1: call, 2: delegateCall.
+    e) **callType:** Type of call. 1: call, 2: delegateCall.
 
-    f) **Data:** Array of ABI-encoded Data for the respective Transactions.
+    f) **data:** Array of ABI-encoded Data for the respective Transactions.
 
 
 2. **handleMessage Function:** This function is used to handle cross-chain requests received from Router Nitro. It is also responsible for Calling execute function on every Adapter for Triggering respective Tasks such as Staking, Liquidity Addition, Lending, Borrowing and so on. Note that only Router Nitro can Call this function on Destination Chain.
