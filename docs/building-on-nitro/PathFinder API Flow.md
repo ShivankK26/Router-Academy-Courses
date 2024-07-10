@@ -21,9 +21,9 @@ Follow this Repository to [see](https://github.com/router-resources/BuidingonNit
 
 ### Step1: Get the Quote
 
-Router Nitro enables you to Interact with the Nitro Contract and initiate cross-chain Token Transfers. The First Step in this Process is to Request a Auote, which provides you with Essential Details about the Proposed Token Transfer.
+Router Nitro enables you to Interact with the Nitro Contract and initiate cross-chain Token Transfers. The First Step in this Process is to Request a Quote, which provides you with Essential Details about the Proposed Token Transfer.
 
-To Request a Auote, follow these Steps:
+To Request a Quote, follow these Steps:
 
 1. **Define the PATH_FINDER_API_URL:** Set the PATH_FINDER_API_URL Variable to the URL of the Pathfinder API for the Voyager Testnet. This is where you will send your Quote Request.
 
