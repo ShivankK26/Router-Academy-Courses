@@ -6,7 +6,7 @@ sidebar_position: 5
 
 ## Adapters for Bridging Assets
 
-This Module is Useful for Understanding the ***AssetBridgeAdapter*** and ***NitroAdapter*** Smart Contracts which are helpful for learning about Bridging Adapters.
+This Module is Useful for Understanding the ***AssetBridgeAdapter*** and ***NitroAdapter*** Smart Contracts which are helpful for learning about Bridging Adapters. Refer [this](https://github.com/router-protocol/router-intents-eoa-adapters/tree/main/evm/contracts/intent-adapters/bridge) Repository for Smart Contracts.
 
 ### Asset Bridge Adapter
 
@@ -150,7 +150,7 @@ This Tutorial will Guide you through the functionality of the `AssetBridgeAdapte
 
 #### Conclusion
 
-The `AssetBridgeAdapter` Contract Provides a Robust Solution for Bridging Assets and Instructions across Chains. By following this Documentation, Developers can understand the Contract's Structure, deploy it, and use its functions effectively.
+The `AssetBridgeAdapter` Contract Provides a Robust Solution for Bridging Assets and Instructions across Chains. By following this Tutorial, Developers can understand the Contract's Structure, deploy it, and use its functions effectively.
 
 
 ### NitroAdapter
@@ -351,4 +351,4 @@ This Tutorial will Guide you through the functionality and Usage of the `NitroAd
 
 #### Conclusion
 
-The `NitroAdapter` Contract provides a Robust Solution for Bridging Assets and Instructions across Chains. By following this Documentation, Developers can Understand the Contract's Structure, Deploy it, and use its functions Effectively. 
+The `NitroAdapter` Contract provides a Robust Solution for Bridging Assets and Instructions across Chains. By following this Tutorial, Developers can Understand the Contract's Structure, Deploy it, and use its functions Effectively. 
