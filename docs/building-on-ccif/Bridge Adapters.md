@@ -6,7 +6,7 @@ sidebar_position: 5
 
 ## Adapters for Bridging Assets
 
-This Module is Useful for Understanding the `AssetBridgeAdapter.sol` and `NitroAdapter.sol` Smart Contracts which are helpful for learning about Bridging Adapters.
+This Module is Useful for Understanding the ***AssetBridgeAdapter*** and ***NitroAdapter*** Smart Contracts which are helpful for learning about Bridging Adapters.
 
 ### Asset Bridge Adapter
 
