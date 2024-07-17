@@ -344,7 +344,7 @@ contract ThirdFySwap is RouterIntentEoaAdapterWithoutDataProvider, ThirdFyHelper
         }
         ```
 
-    b) ***name()*** - The name function returns the name of the Adapter.
+    b) ***name()*** - The `name` function returns the name of the Adapter.
 
         ```sol
         function name() public pure override returns (string memory) {
