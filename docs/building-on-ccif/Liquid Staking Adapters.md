@@ -114,7 +114,7 @@ IStoneVault public immutable stoneVault;
     }
     ```
 
-    f) ***parseInputs*** - The `parseInputs` function Decodes the Input Data.
+    f) ***parseInputs()*** - The `parseInputs` function Decodes the Input Data.
 
     ```sol
     function parseInputs(
@@ -318,7 +318,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```
 
-    e) ***parseInputs*** - Parses the Input Data to extract Recipient Address, Amount, Bridge Chain ID, and Bridge Data.
+    e) ***parseInputs()*** - Parses the Input Data to extract Recipient Address, Amount, Bridge Chain ID, and Bridge Data.
 
         ```sol
         function parseInputs(
@@ -328,7 +328,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```    
 
-    f) ***_bridge*** - Handles the Bridging Logic for various Chains.
+    f) ***_bridge()*** - Handles the Bridging Logic for various Chains.
 
         ```sol
         function _bridge(
@@ -354,7 +354,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```    
 
-    g) ***_bridgeToArbitrum*** - Handles the Bridging Logic to Arbitrum.
+    g) ***_bridgeToArbitrum()*** - Handles the Bridging Logic to Arbitrum.
 
         ```sol
         function _bridgeToArbitrum(
@@ -396,7 +396,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```
 
-    h) ***_bridgeToOptBaseMan*** - Handles the Bridging Logic to Optimism, Base, and Mantle.
+    h) ***_bridgeToOptBaseMan()*** - Handles the Bridging Logic to Optimism, Base, and Mantle.
 
         ```sol
         function _bridgeToOptBaseMan(
@@ -432,7 +432,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```
 
-    i) ***_bridgeToLinea*** - Handles the Bridging Logic to Linea.
+    i) ***_bridgeToLinea()*** - Handles the Bridging Logic to Linea.
 
         ```sol
         function _bridgeToLinea(bytes memory data) internal returns (bytes memory) {
@@ -458,7 +458,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```
 
-    j) ***_bridgeToZkSync*** - Handles the Bridging Logic to zkSync.
+    j) ***_bridgeToZkSync()*** - Handles the Bridging Logic to zkSync.
 
         ```sol
         function _bridgeToZkSync(
@@ -494,7 +494,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```
 
-    k) ***_bridgeToScroll*** - Handles the Bridging Logic to Scroll.
+    k) ***_bridgeToScroll()*** - Handles the Bridging Logic to Scroll.
 
         ```sol
         function _bridgeToScroll(
@@ -526,7 +526,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```    
 
-    l) ***convertToWstEth*** - Converts StEth to WstEth.
+    l) ***convertToWstEth()*** - Converts StEth to WstEth.
 
         ```sol
         function convertToWstEth(uint256 amount) internal returns (uint256) {
@@ -540,7 +540,7 @@ The `LidoStakeEth` Smart Contract. This Contract allows users to Stake their ETH
         }
         ```
 
-    m) ***getBridgeFee*** - Calculates the Bridge Fee for Different Chains.
+    m) ***getBridgeFee()*** - Calculates the Bridge Fee for Different Chains.
 
         ```sol
         function getBridgeFee(

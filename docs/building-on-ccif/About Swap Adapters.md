@@ -171,7 +171,7 @@ The `DexSpanAdapter` Smart Contract is Designed to facilitate Token Swaps using 
         }
         ```
 
-    d) ***_swap*** - The `_swap` function Performs the actual Token Swap using the `DexSpan` Contract.
+    d) ***_swap()*** - The `_swap` function Performs the actual Token Swap using the `DexSpan` Contract.
 
         ```sol
         function _swap(IDexSpan.SameChainSwapParams memory _swapData) internal returns (address[] memory tokens, bytes memory logData) {
@@ -198,7 +198,7 @@ The `DexSpanAdapter` Smart Contract is Designed to facilitate Token Swaps using 
         }
         ```        
 
-    e) ***parseInputs*** - The `parseInputs` function Decodes the Input Data into a `SameChainSwapParams` Struct.   
+    e) ***parseInputs()*** - The `parseInputs` function Decodes the Input Data into a `SameChainSwapParams` Struct.   
 
         ```sol
         function parseInputs(
@@ -415,7 +415,7 @@ contract ThirdFySwap is RouterIntentEoaAdapterWithoutDataProvider, ThirdFyHelper
         }
         ```
 
-    e) ***parseInputs*** - The `parseInputs` function Decodes the Input Data into `ExactInputSingleParams`.   
+    e) ***parseInputs()*** - The `parseInputs` function Decodes the Input Data into `ExactInputSingleParams`.   
 
         ```solidity
         function parseInputs(
@@ -425,7 +425,7 @@ contract ThirdFySwap is RouterIntentEoaAdapterWithoutDataProvider, ThirdFyHelper
         }
         ```
 
-    f) ***receive*** - The `receive` function allows the Contract to accept Native Token Deposits.  
+    f) ***receive()*** - The `receive` function allows the Contract to accept Native Token Deposits.  
 
         ```solidity
         receive() external payable {}
