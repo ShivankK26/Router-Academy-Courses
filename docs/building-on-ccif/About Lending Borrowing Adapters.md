@@ -125,7 +125,7 @@ The `BenqiSupply` Smart Contract Tutorial! This Guide will help you Understand t
 
     1. ***Deploying the Contract*** - To Deploy the `BenqiSupply` Contract, you will need to Provide the addresses of the Native Token, Wrapped Native Token, and QiToken.
    
-    2. ***Supplying Funds*** - To Supply funds to `Benqi` using this Contract, call the `execute` function with the appropriate Input Data, including the Asset, Recipient, and Amount.
+    2. ***Supplying Funds*** - To Supply funds to `Benqi` using this Contract, call the `execute` function with the appropriate Input Data, including the Asset, Recipient, and Amount. For Example -
 
         ```sol
         bytes memory data = abi.encode(assetAddress, recipientAddress, amount);
