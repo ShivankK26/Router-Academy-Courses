@@ -1,8 +1,8 @@
 ---
-sidebar_position: 4
+sidebar_position: 13
 ---
 
-# Module 4: Different Types of Adapters in Adapter Store
+# Module 3: Different Types of Adapters in Adapter Store
 
 ## Available Adapters in Adapter Store
 

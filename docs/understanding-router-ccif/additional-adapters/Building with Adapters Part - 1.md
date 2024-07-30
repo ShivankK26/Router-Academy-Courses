@@ -1,8 +1,8 @@
 ---
-sidebar_position: 2
+sidebar_position: 11
 ---
 
-# Module 2: Building with Adapters Part - 1
+# Module 1: Building with Adapters Part - 1
 
 ## Why there is a Need of Adapters?
 

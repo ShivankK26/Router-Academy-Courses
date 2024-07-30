@@ -1,8 +1,8 @@
 ---
-sidebar_position: 7
+sidebar_position: 16
 ---
 
-# Module 7: About Liquid Staking Adapters
+# Module 6: About Liquid Staking Adapters
 
 ## Adapters for Liquid Staking
 

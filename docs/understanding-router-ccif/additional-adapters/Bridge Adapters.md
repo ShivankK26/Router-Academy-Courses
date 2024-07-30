@@ -1,8 +1,8 @@
 ---
-sidebar_position: 5
+sidebar_position: 14
 ---
 
-# Module 5: About Bridge Adapters
+# Module 4: About Bridge Adapters
 
 ## Adapters for Bridging Assets
 

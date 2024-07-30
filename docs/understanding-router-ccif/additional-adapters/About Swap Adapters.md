@@ -1,8 +1,8 @@
 ---
-sidebar_position: 6
+sidebar_position: 15
 ---
 
-# Module 6: About Swap Adapters
+# Module 5: About Swap Adapters
 
 ## Adapters for Swapping Assets
 

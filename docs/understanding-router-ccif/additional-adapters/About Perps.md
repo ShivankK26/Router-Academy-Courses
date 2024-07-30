@@ -1,8 +1,8 @@
 ---
-sidebar_position: 9
+sidebar_position: 18
 ---
 
-# Module 9: About Perps Adapters
+# Module 8: About Perps Adapters
 
 ## Adapters for Perps
 

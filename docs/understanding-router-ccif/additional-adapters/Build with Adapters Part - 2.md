@@ -1,8 +1,8 @@
 ---
-sidebar_position: 3
+sidebar_position: 12
 ---
 
-# Module 3: Building with Adapters Part - 2
+# Module 2: Building with Adapters Part - 2
 
 ## Integrations & Concepts
 
