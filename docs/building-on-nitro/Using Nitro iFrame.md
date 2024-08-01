@@ -2,7 +2,7 @@
 sidebar_position: 10
 ---
 
-# Module 10: Building via Nitro iFrame
+# Module 9: Building via Nitro iFrame
 
 ## Integrating iFrame in any dApp
 
