@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Module 1: Introduction to the Course
 
-## Objectives of "Understanding Building on CCIF Course"
+## Objectives of "Building on CCIF Course"
 
 Welcome to a Deep Dived Course on Building on CCIF, wherein you’ll get hands-on experience on how you can utilize its Full Potential by Building dApps around it.
 
