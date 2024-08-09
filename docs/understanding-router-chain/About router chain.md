@@ -2,9 +2,7 @@
 sidebar_position: 3
 ---
 
-# Module 3: About Router Chain
-
-## About Router Chain
+# Module 3: What is Router Chain?
 
 ### About Router Chain
 
@@ -17,51 +15,51 @@ following sections -
 
 The Below Content describes the Key Characteristics and features of Router V2, a Blockchain Interoperability Solution that uses a Decentralized trust-based approach -
 
-### 1. Decentralized Trust-based Approach
+   #### 1. Decentralized Trust-based Approach
 
-   - ***Reasoning***: Router V2 Opts for a Decentralized trust-based Model over a Trustless one due to the Latter's limitations in Supporting application-specific Bridging Logic.
+      - ***Reasoning***: Router V2 Opts for a Decentralized trust-based Model over a Trustless one due to the Latter's limitations in Supporting application-specific Bridging Logic.
 
-   - ***Mechanism***: CrossChain requests pass through Router Chain's Tendermint-based PoS Consensus. Validators are Penalized for Malicious Behavior or excessive Downtime, Minimizing the need for users to trust the System.
+      - ***Mechanism***: CrossChain requests pass through Router Chain's Tendermint-based PoS Consensus. Validators are Penalized for Malicious Behavior or excessive Downtime, Minimizing the need for users to trust the System.
 
-   - ***Additional Security***: Router V2 Supports **Additional Security Modules (ASMs)** that allow Developers to add Custom Security Measures like Optimistic Verification and m-out-of-n Multisig.
+      - ***Additional Security***: Router V2 Supports **Additional Security Modules (ASMs)** that allow Developers to add Custom Security Measures like Optimistic Verification and m-out-of-n Multisig.
 
-### 2. Support for Middleware Contracts
+   ##### 2. Support for Middleware Contracts
 
-   - ***Flexibility***: Router V2 allows applications to Implement Custom Business Logic within the Bridging Layer, eliminating the need for Redundant Code and enabling features like Batching, Sequenced Transactions, and Atomicity.
+      - ***Flexibility***: Router V2 allows applications to Implement Custom Business Logic within the Bridging Layer, eliminating the need for Redundant Code and enabling features like Batching, Sequenced Transactions, and Atomicity.
 
-   - ***Advantages***: This Setup Rreduces Code redundancy and allows for more efficient and Customizable cross-chain Interactions.
+      - ***Advantages***: This Setup Rreduces Code redundancy and allows for more efficient and Customizable cross-chain Interactions.
 
-### 3. Router Chain as a Data Aggregation Layer
+   ##### 3. Router Chain as a Data Aggregation Layer
 
-   - ***Functionality***: The Router Chain can serve as a Data Aggregation and Synchronization Layer for various cross-chain applications. This includes enabling cross-chain Governance where Proposals and votes can be Synchronized across Different Blockchains via the Router Chain.
+      - ***Functionality***: The Router Chain can serve as a Data Aggregation and Synchronization Layer for various cross-chain applications. This includes enabling cross-chain Governance where Proposals and votes can be Synchronized across Different Blockchains via the Router Chain.
 
-### 4. Multilayer Security
+   ##### 4. Multilayer Security
 
-   - ***Customizable Security***: Applications can Implement their own Security Layers on top of the Router Chain’s infrastructure-level Security. For instance, MPC-based or Multisig Verification can be enforced before a cross-chain request is processed by the Relayer.
+      - ***Customizable Security***: Applications can Implement their own Security Layers on top of the Router Chain’s infrastructure-level Security. For instance, MPC-based or Multisig Verification can be enforced before a cross-chain request is processed by the Relayer.
 
-### 5. Flexibility
+   ##### 5. Flexibility
 
-   - ***Bridging and Security Model***: Router V2 Offers Developers flexibility over their Bridging (stateless or stateful) and Security Models, as well as the choice of Smart Contract Platforms (EVM or CosmWasm).
+      - ***Bridging and Security Model***: Router V2 Offers Developers flexibility over their Bridging (stateless or stateful) and Security Models, as well as the choice of Smart Contract Platforms (EVM or CosmWasm).
 
-   - ***Support for Multiple Languages***: Developers can use Rust, Solidity, or Vyper to build Middleware Contracts, accommodating Different Language Preferences and experience Levels.
+      - ***Support for Multiple Languages***: Developers can use Rust, Solidity, or Vyper to build Middleware Contracts, accommodating Different Language Preferences and experience Levels.
 
-   - ***Modular Security***: The Security Model can be Configured based on various Parameters like Source Chain, Transfer Value, and Latency Sensitivity. Applications can add custom Safeguards to enhance Security.
+      - ***Modular Security***: The Security Model can be Configured based on various Parameters like Source Chain, Transfer Value, and Latency Sensitivity. Applications can add custom Safeguards to enhance Security.
 
-### 6. Composability
+   #### 6. Composability
 
-   - ***Integration***: Router V2 is Designed with High Composability in mind, allowing Developers to freely Integrate various out-of-the-box Components and functionalities into their applications.
+      - ***Integration***: Router V2 is Designed with High Composability in mind, allowing Developers to freely Integrate various out-of-the-box Components and functionalities into their applications.
 
-### 7. Global Liquidity
+   #### 7. Global Liquidity
 
-   - ***Asset Swapping Engine***: Router V2 includes an Inbuilt asset-swapping engine for Securely and efficiently Transferring funds across Chains. Applications can Utilize this engine to move funds and execute Transactions, such as minting NFTs, on Destination Chains.
+      - ***Asset Swapping Engine***: Router V2 includes an Inbuilt asset-swapping engine for Securely and efficiently Transferring funds across Chains. Applications can Utilize this engine to move funds and execute Transactions, such as minting NFTs, on Destination Chains.
 
-### 8. Oracles
+   #### 8. Oracles
 
-   - ***Data Feeds***: Router V2 provides Decentralized Oracle Support for various needs, such as Price feeds, Gas Price estimation, and other application-specific Data. It uses reliable Oracle providers like the Band Protocol to fetch and maintain these feeds.
+      - ***Data Feeds***: Router V2 provides Decentralized Oracle Support for various needs, such as Price feeds, Gas Price estimation, and other application-specific Data. It uses reliable Oracle providers like the Band Protocol to fetch and maintain these feeds.
 
-### 9. Inter-Blockchain Communication Protocol (IBC)
+   #### 9. Inter-Blockchain Communication Protocol (IBC)
 
-   - ***Cosmos SDK Integration***: Since Router V2 is built using the Cosmos SDK, it supports IBC, allowing Seamless Interaction between applications built on any Cosmos-based Chain. This includes Token Transfers and instruction Transfers between Chains like Injective and Osmosis.
+      - ***Cosmos SDK Integration***: Since Router V2 is built using the Cosmos SDK, it supports IBC, allowing Seamless Interaction between applications built on any Cosmos-based Chain. This includes Token Transfers and instruction Transfers between Chains like Injective and Osmosis.
 
 Overall, Router V2 provides a Robust and flexible Framework for Building cross-chain applications, balancing Security, Efficiency, and Customization.
 
