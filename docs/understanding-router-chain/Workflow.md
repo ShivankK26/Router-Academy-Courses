@@ -25,7 +25,7 @@ The Below steps Outlines the process of Generating and Sending a cross-chain req
    - If an External Chain is the Destination Chain, the Bridge Contract generates an Outgoing request and pays the fees for the Transfer.
    - Any excess fees are refunded to the `feePayerAddress`.
   
-  <img width="1318" alt="1" src="https://github.com/user-attachments/assets/61fc7bea-2722-4758-bb34-31c04940993f">
+  <img width="1318" alt="1" src="https://github.com/user-attachments/assets/61fc7bea-2722-4758-bb34-31c04940993f" />
 
 6. **Outgoing Request Validation**: After the Transaction is mined on the Router Chain, the Outgoing request is Validated by the Orchestrators.
 
@@ -51,6 +51,6 @@ The Below steps Outlines the process of Generating and Sending an acknowledgment
    - If the dApp has requested the acknowledgment to be Sent back to the Source Chain, relayers forward it to the Source Chain’s Gateway Contract.
    - If not, the acknowledgment is Discarded.
 
-<img width="1323" alt="2" src="https://github.com/user-attachments/assets/046f3c50-eddf-490c-8654-ea7d8f50eb58">
+<img width="1323" alt="2" src="https://github.com/user-attachments/assets/046f3c50-eddf-490c-8654-ea7d8f50eb58" />
 
 5. **Final Acknowledgment Delivery**: The Gateway Contract on the Source Chain sends the acknowledgment to the application's Contract on the Source Chain.
