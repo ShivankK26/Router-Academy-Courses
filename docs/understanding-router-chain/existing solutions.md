@@ -67,7 +67,7 @@ In this Module, we'll examine some of the widely Deployed cross-chain Technologi
   - Introduces Trust assumptions (oracle and relayer).
   - Challenging to add new Chains.
 
-### 5. **Relays/Sidechains**
+### 5. Relays/Sidechains
 
 - ***Description***: Relays act as Smart Contracts or Scripts on one Chain with Verification Capabilities over another Chain, while Sidechains are independent Networks connected to a Parent Chain via a two-way Bridge.
 
@@ -79,7 +79,7 @@ In this Module, we'll examine some of the widely Deployed cross-chain Technologi
   - Inconsistent Consensus rates can affect Transaction Validity.
   - Typically limited to Communication with Parent or connected Chains only.
 
-### 6. **Optimistic Bridges**
+### 6. Optimistic Bridges
 
 - ***Description***: These Bridges use Optimistic Verification, where a Transaction is assumed Valid unless proven fraudulent within a Challenge Period.
 
@@ -89,7 +89,7 @@ In this Module, we'll examine some of the widely Deployed cross-chain Technologi
 - ***Drawbacks***:
   - High latency due to the need to wait for the Challenge Period to end before finalizing Transactions.
 
-### 7. **Chain-based Approaches**
+### 7. Chain-based Approaches
 
 - ***Description***: These Solutions Deploy a dedicated PoS Blockchain as a Hub connecting various Blockchains.
 

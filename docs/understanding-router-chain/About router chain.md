@@ -23,21 +23,21 @@ The Below Content describes the Key Characteristics and features of Router V2, a
 
       - ***Additional Security***: Router V2 Supports **Additional Security Modules (ASMs)** that allow Developers to add Custom Security Measures like Optimistic Verification and m-out-of-n Multisig.
 
-   ##### 2. Support for Middleware Contracts
+   #### 2. Support for Middleware Contracts
 
       - ***Flexibility***: Router V2 allows applications to Implement Custom Business Logic within the Bridging Layer, eliminating the need for Redundant Code and enabling features like Batching, Sequenced Transactions, and Atomicity.
 
       - ***Advantages***: This Setup Rreduces Code redundancy and allows for more efficient and Customizable cross-chain Interactions.
 
-   ##### 3. Router Chain as a Data Aggregation Layer
+   #### 3. Router Chain as a Data Aggregation Layer
 
       - ***Functionality***: The Router Chain can serve as a Data Aggregation and Synchronization Layer for various cross-chain applications. This includes enabling cross-chain Governance where Proposals and votes can be Synchronized across Different Blockchains via the Router Chain.
 
-   ##### 4. Multilayer Security
+   #### 4. Multilayer Security
 
       - ***Customizable Security***: Applications can Implement their own Security Layers on top of the Router Chain’s infrastructure-level Security. For instance, MPC-based or Multisig Verification can be enforced before a cross-chain request is processed by the Relayer.
 
-   ##### 5. Flexibility
+   #### 5. Flexibility
 
       - ***Bridging and Security Model***: Router V2 Offers Developers flexibility over their Bridging (stateless or stateful) and Security Models, as well as the choice of Smart Contract Platforms (EVM or CosmWasm).
 
