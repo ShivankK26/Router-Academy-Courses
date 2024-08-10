@@ -10,7 +10,7 @@ sidebar_position: 6
 
 Relayers are Permissionless entities that relay executable Proposals from the Router Chain to a specific Destination Chain. The Router Chain has a set of Relayers Operated by various third parties, which Distributes the responsibility. In the set, each Relayer listens to the Router Chain and relays Data to the Destination Chains as and when required. These relayers also carry out Subsequent actions based on the events that have been Transmitted.
 
-<img width="981" alt="figure 5" src="https://github.com/user-attachments/assets/e1e831fc-d397-413a-938d-3b86a5a90e1f">
+<img width="981" alt="figure 5" src="https://github.com/user-attachments/assets/e1e831fc-d397-413a-938d-3b86a5a90e1f" />
 
 #### Functionalities
 
@@ -51,7 +51,7 @@ In some cases, Multiple Relayers may pick up the same request. To avoid Collisio
 Scaling issues might arise if we process the requests Sequentially, i.e., in the Order of event nonce. To address this, the Router Chain’s Relay architecture allows for the Parallel execution of requests. Since the Relayer Network is Permissionless, each application can run its custom Relayer to process its requests. This way, an Outgoing request from one application Bridge Contract does not affect an Outgoing request
 from another.
 
-<img width="1142" alt="figure 6" src="https://github.com/user-attachments/assets/9715010c-db62-4d49-809b-66f20c107afd">
+<img width="1142" alt="figure 6" src="https://github.com/user-attachments/assets/9715010c-db62-4d49-809b-66f20c107afd" />
 
 #### Gas Estimation
 
