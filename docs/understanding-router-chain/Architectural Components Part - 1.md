@@ -38,7 +38,7 @@ Execute any cross-chain Transactions.
 
 Router Orchestrators are entities that Listen to incoming cross-chain requests from other Chains, attest their Validity, Parse them into a Unified format and post them on the Router Chain. These attested requests can then be picked up by the Relayers and forwarded to the Destination Chain. All Validators must run an Orchestrator instance to be a part of the Router Chain Ecosystem.
 
-IMAGE - FIGURE 4
+<img width="1067" alt="figure 4" src="https://github.com/user-attachments/assets/6d57f279-696d-4b2d-9c6c-fbf32aae8899">
 
 #### Working
 
