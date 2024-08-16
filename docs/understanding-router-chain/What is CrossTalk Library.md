@@ -18,7 +18,7 @@ Based on our Initial market Research, we have Discovered that a fair number of c
 
 The CrossTalk Workflow is very similar to the Middleware Flow, except that the Request from the Source Chain does not go to a Contract on the Router Chain. As soon as the Request is Validated on the Router Chain, it gets picked by the Relayer and gets forwarded to the Destination Chain.
 
-IMAGE - FIGURE 8
+<img width="1342" alt="Screenshot 2024-08-16 at 11 58 08 PM" src="https://github.com/user-attachments/assets/404b1809-c064-46a2-b379-2a35f1b20bfa" />
 
 ### Different Types of CrossTalk Requests
 
