@@ -26,20 +26,20 @@ Now that we have an Understanding of the CrossTalk Workflow, let us take a look 
 
 1. ***Number of Contract Calls*** 
    
-Depending on the Number of Contract Calls present in a cross-chain Request, a CrossTalk Request can be Categorized into two types - 
+    Depending on the Number of Contract Calls present in a cross-chain Request, a CrossTalk Request can be Categorized into two types - 
 
-- **Single-call Request:** A Request that includes only One Contract Call for Execution on the Destination Chain.
+   - **Single-call Request:** A Request that includes only One Contract Call for Execution on the Destination Chain.
 
-- **Multi-call Request:** A Request that includes Multiple Contract Calls for Execution on the Destination Chain.
+   - **Multi-call Request:** A Request that includes Multiple Contract Calls for Execution on the Destination Chain.
 
-Consider an application that allows users to Transfer their ERC20 Tokens from One Chain to another. If only one ERC20 Token is being transferred, then the Request will fall under the former Category. However, if Multiple Tokens are transferred in a Single Request, it will be Categorized as a multi-call Request.
+    Consider an application that allows users to Transfer their ERC20 Tokens from One Chain to another. If only one ERC20 Token is being transferred, then the Request will fall under the former Category. However, if Multiple Tokens are transferred in a Single Request, it will be Categorized as a multi-call Request.
 
-2. ***Acknowledgment Requirement***
+1. ***Acknowledgment Requirement***
    
-Depending on the need for an application to Receive an acknowledgment for its Request on the Source Chain, a CrossTalk Request can be Split into two Types -
+    Depending on the need for an application to Receive an acknowledgment for its Request on the Source Chain, a CrossTalk Request can be Split into two Types -
 
-- **Requests Without Acknowledgment:** An acknowledgment is not required on the Source Chain after the Request is executed on the Destination Chain.
+   - **Requests Without Acknowledgment:** An acknowledgment is not required on the Source Chain after the Request is executed on the Destination Chain.
 
-- **Request With Acknowledgment:** If an acknowledgment is required on the Source Chain, Developers need to Specify whether they want an acknowledgment only in the case of a Successful Call, a failed call, or in both Cases.
+   - **Request With Acknowledgment:** If an acknowledgment is required on the Source Chain, Developers need to Specify whether they want an acknowledgment only in the case of a Successful Call, a failed call, or in both Cases.
 
-If an acknowledgment is anticipated on the Source Chain, an acknowledgment Handler function with the Relevant Logic to handle the acknowledgment on the Source Chain has to be Implemented by the application in their Contract. If an acknowledgment is not anticipated, the acknowledgment Handler function can be left empty, as it will never get Invoked.
+    If an acknowledgment is anticipated on the Source Chain, an acknowledgment Handler function with the Relevant Logic to handle the acknowledgment on the Source Chain has to be Implemented by the application in their Contract. If an acknowledgment is not anticipated, the acknowledgment Handler function can be left empty, as it will never get Invoked.
