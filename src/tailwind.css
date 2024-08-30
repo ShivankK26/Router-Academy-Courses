@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Add this to your global CSS file if you're using one or directly in the tailwind.config.mjs file */
+.accent-color {
+    @apply text-accent-900; /* This applies your custom accent color */
+  }
+  
