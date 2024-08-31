@@ -3,8 +3,6 @@ title: Module 5 - Architectural Components Part - 1
 description: Get Started with Router Academy.
 ---
 
-## Architectural Components - 1
-
 ### Application Contracts
 
 These are Contracts Deployed by applications on third-party Chains and Serve as the Intermediary between end Users of the application and the Router cross-chain Infra. In the Lifecycle of a cross-chain Transaction, these Contracts are responsible for making the `iSend()` function Call to the Gateway Contracts on the Source Chain by passing the address of the Bridge Contract on the Router Chain as well as the relevant Payload. On the Destination Chain, application Contracts will execute the Instructions forwarded by the Gateway Contract.

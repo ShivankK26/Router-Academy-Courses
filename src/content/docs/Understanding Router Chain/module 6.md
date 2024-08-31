@@ -3,8 +3,6 @@ title: Module 6 - Architectural Components Part - 2
 description: Get Started with Router Academy.
 ---
 
-## Architectural Components - 2
-
 ### Relayers
 
 Relayers are Permissionless entities that relay executable Proposals from the Router Chain to a specific Destination Chain. The Router Chain has a set of Relayers Operated by various third parties, which Distributes the responsibility. In the set, each Relayer listens to the Router Chain and relays Data to the Destination Chains as and when required. These relayers also carry out Subsequent actions based on the events that have been Transmitted.

@@ -3,8 +3,6 @@ title: Module 8 - Fee Management
 description: Get Started with Router Academy.
 ---
 
-## About Fee Management
-
 ### Fee Payer Considerations
 
 The Fee associated with any cross-chain Request initiated by a dApp is Paid by the dApp’s corresponding Fee Payer account on the Router Chain. This Fee Payer account is set by the dApp for all the Integrated Chains and can be changed anytime. Any Fee refunds are also credited to this account.
@@ -37,16 +35,16 @@ Native Gas Token of the specified Destination Chain. It uses the Gas Price fetch
 
 CrossTalk works on a prepaid Fee Model. Upon receiving a CrossTalk Request, the Router Chain will Calculate the estimated Fee for executing the Transaction on the Destination Chain in terms of ROUTE Tokens and Deduct the Fee plus Incentive from the `feePayerAddress` Upfront.
 
-    ```
-    EstimatedFeeInRoute = EstimatedFeeInDestNativeToken * PriceRatio
-    ```
+```
+EstimatedFeeInRoute = EstimatedFeeInDestNativeToken * PriceRatio
+```
 
 where:
 
-    ```
-    EstimatedFeeInDestNativeToken = DestGasLimit * GasPriceInDestNativeToken
-    PriceRatio = DestNativeTokenPrice / RouteTokenPrice
-    ```
+```
+EstimatedFeeInDestNativeToken = DestGasLimit * GasPriceInDestNativeToken
+PriceRatio = DestNativeTokenPrice / RouteTokenPrice
+```
 
 ### Other Fee Considerations
 
