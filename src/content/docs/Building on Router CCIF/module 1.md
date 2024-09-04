@@ -5,7 +5,7 @@ description: Get Started with Router Academy.
 
 ## Objectives of "Building on CCIF Course"
 
-Welcome to a Deep Dived Course on Building on CCIF, wherein you’ll get hands-on experience on build a Cross Chain Staking DApp using Adapters.
+Welcome to a Deep Dived Course on Building on CCIF, wherein you’ll get hands-on experience on Building cross-chain Staking DApp using Adapters.
 
 - Help Developers Dive Deeper into Understanding the Cross Chain Intent Framework (CCIF) through Code Snippets.
 

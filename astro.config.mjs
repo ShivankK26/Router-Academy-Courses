@@ -51,6 +51,12 @@ export default defineConfig({
       	autogenerate: {
 			directory: 'Understanding Router Chain'
 		}
+	},
+	{
+		label: 'Building on Router Chain',
+      	autogenerate: {
+			directory: 'Building on Router Chain'
+		}
 	} 
 	]
   }), tailwind({
