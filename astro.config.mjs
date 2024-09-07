@@ -57,7 +57,7 @@ export default defineConfig({
       	autogenerate: {
 			directory: 'Building on Router Chain'
 		}
-	} 
+	},
 	]
   }), tailwind({
 	// Disable the default base styles:
