@@ -1,66 +1,68 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-
 import tailwind from "@astrojs/tailwind";
 
-// https://astro.build/config
 export default defineConfig({
   integrations: [starlight({
-    title: 'RouterAcademy',
+    title: 'Our Courses',
     social: {
       github: 'https://github.com/ShivankK26/Router-Academy-Courses',
-	  "x.com": "https://x.com/SuperRabbitsDAO",
+      "x.com": "https://x.com/SuperRabbitsDAO",
+	  telegram: "https://t.me/+nRKsasrX2285YTI1"
     },
-    customCss: ['./src/tailwind.css',],
+    customCss: ['./src/tailwind.css'],
     sidebar: [
-	{
-      label: 'Introduction',
-      items: [
-      // Each item here is one entry in the navigation menu.
       {
-        label: 'About',
-        slug: 'introduction/about'
-      }]
-  },
-	{
-		label: 'Understanding Router Nitro',
-      	autogenerate: {
-			directory: 'Understanding Router Nitro'
-		}
-	},
-  {
-		label: 'Building on Router Nitro',
-      	autogenerate: {
-			directory: 'Building on Router Nitro'
-		}
-	},
-  {
-		label: 'Understanding Router CCIF',
-      	autogenerate: {
-			directory: 'Understanding Router CCIF'
-		}
-	},
-  {
-		label: 'Building on Router CCIF',
-      	autogenerate: {
-			directory: 'Building on Router CCIF'
-		}
-	},
-  {
-		label: 'Understanding Router Chain',
-      	autogenerate: {
-			directory: 'Understanding Router Chain'
-		}
-	},
-	{
-		label: 'Building on Router Chain',
-      	autogenerate: {
-			directory: 'Building on Router Chain'
-		}
-	},
-	]
+        label: 'Introduction',
+        collapsed: true,
+        items: [
+          {
+            label: 'About',
+            link: '/introduction/about/'
+          }
+        ]
+      },
+      {
+        label: 'Understanding Router Nitro',
+        collapsed: true,
+        autogenerate: { directory: 'Understanding Router Nitro' }
+      },
+      {
+        label: 'Building on Router Nitro',
+        collapsed: true,
+        autogenerate: { directory: 'Building on Router Nitro' }
+      },
+      {
+        label: 'Understanding Router CCIF',
+        collapsed: true,
+        autogenerate: { directory: 'Understanding Router CCIF' }
+      },
+      {
+        label: 'Building on Router CCIF',
+        collapsed: true,
+        autogenerate: { directory: 'Building on Router CCIF' }
+      },
+      {
+        label: 'Understanding Router Chain',
+        collapsed: true,
+        autogenerate: { directory: 'Understanding Router Chain' }
+      },
+      {
+        label: 'Building on Router Chain',
+        collapsed: true,
+        autogenerate: { directory: 'Building on Router Chain' }
+      },
+    //   {
+    //     label: 'Articles',
+    //     link: '/articles/'
+    //   },
+    //   {
+    //     label: 'Tutorials',
+    //     link: '/tutorials/'
+    //   }
+    ]
   }), tailwind({
-	// Disable the default base styles:
-	applyBaseStyles: false,
+    // Disable the default base styles:
+    applyBaseStyles: false,
   })]
 });
