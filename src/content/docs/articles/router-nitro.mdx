@@ -3,57 +3,52 @@ title: Deep Diving Into Router Nitro & it's Architecture! 🚀
 description: Get Started with Router Academy.
 ---
 
-Introduction
-Heya folks, in this article we're gonna deep delve into what Router Nitro is and how its Architecture works. But before that, if you don't know what Router Protocol is then lemme explain it to you!
+## Introduction
+
+Heya folks, in this article we're gonna deep delve into what Router Nitro is and how its Architecture works. But before that, if you don't know what Router Protocol is then lemme explain it to you! 
 
 Router Protocol is a solution introduced to address the issues hindering the usability of Cross-Chain Liquidity Migration in the DeFi Ecosystem. It acts as a Bridge Connecting various layer 1 and layer 2 Blockchains, allowing for the flow of Contract-Level data across them. Router Protocol can either transfer Tokens between Chains or initiate operations on one chain and execute them on another.
 
-What is Router Nitro?
+## What is Router Nitro?
+
 Router Nitro is a Protocol designed to enable Cross-Chain Asset Transfer. It serves as a mechanism for seamlessly moving Digital Assets or Tokens between different Blockchain networks. In this system, a Forwarder Entity Delivers the requested Asset to the user on the Destination Chain. After confirming the Forwarder's successful settlement on the Destination Chain, they can access the user's deposited Funds on the Source Chain.
 
-Wanna Explore Router Nitro? Click Here. Don't Forget to ⭐️ the Repo.
+**Wanna Explore Router Nitro? Click [here](https://app.routernitro.com/).**
 
-Talking About The Architecture
-
+## Talking About The Architecture
 
 Building via Router Nitro is a 3-Step Process-
 
-Get The Quote
+1. Get The Quote
 
-Check & Set Allowance
+2. Check & Set Allowance
 
-Execute The Transaction
+3. Execute The Transaction
 
-Get The Quote-
+#### Get The Quote
 
-Router Nitro enables you to interact with the Smart Contract and initiate Cross-Chain Token Transfers. The first step in this process is to request a Quote, which provides you with essential details about the proposed Token Transfer.
+Router Nitro enables you to interact with the Smart Contract and initiate Cross-Chain Token Transfers. The first step in this process is to request a Quote, which provides you with essential details about the proposed Token Transfer. We Define a <code>Path Finder API URL</code> For The Nitro Testnet, the point where we send our Quote Request. Another step is creating a getQuote function which uses the axios library to make an HTTP Get Request to the Nitro Path Finder API URL.
 
-We Define a Path Finder API URL For The Nitro Testnet, the point where we send our Quote Request.
+Later on, we call the getQuote function by passing appropriate Parameters. Some Parameters define the details of the token transfer you wish to execute. The parameters are - 
 
-Another step is creating a getQuote function which uses the axios library to make an HTTP Get Request to the Nitro Path Finder API URL.
+- fromTokenAddress 
+- toTokenAddress
+- amount
+- fromTokenChainId
+- toTokenChainId
+- widgetId
 
-Later on, we call the getQuote function by passing appropriate Parameters. Some Parameters define the details of the token transfer you wish to execute. The parameters are- fromTokenAddress, toTokenAddress, amount, fromTokenChainId, toTokenChainId, widgetId.
+#### Check & Set Allowance
 
-Check & Set Allowance-
+This Step involves Verification and Configuration of the allowance for Token Transfer. It allows Router's Swap to safely Transfer Tokens between different Blockchains. We begin by defining an ABI (Application Binary Interface) for ERC20 Tokens, which is essential for interacting with ERC20 Token Contract. The `checkAndSetAllowance` function checks the current allowance, and if required, creates a new one. Using the provided Token Address and ERC20 ABI Address, one can Create an instance of the ERC20 Contract. If the Current Allowance is less than the Desired Amount, we proceed to set a new allowance. We initiate an approval Transaction to the ERC20 contract, Granting Permission to Router's swap or Transfer Contract to withdraw tokens on your behalf.
 
-This Step involves Verification and Configuration of the allowance for Token Transfer. It allows Router's Swap to safely Transfer Tokens between different Blockchains.
+The Code Handles the approved Transaction, monitors its status, and logs the Transaction hash upon Successful Confirmation. When the Button is clicked your signer (wallet) is set up and the `checkAndSetAllowance` function is called with the required parameters. You can find it in `quote.allowanceTo` in the quoteData obtained from Step 1.
 
-We begin by defining an ABI (Application Binary Interface) for ERC20 Tokens, which is essential for interacting with ERC20 Token Contract. The checkAndSetAllowance function checks the current allowance, and if required, creates a new one.
+#### Execute The Transaction
 
-Using the provided Token Address and ERC20 ABI Address, one can Create an instance of the ERC20 Contract. If the Current Allowance is less than the Desired Amount, we proceed to set a new allowance. We initiate an approval Transaction to the ERC20 contract, Granting Permission to Router's swap or Transfer Contract to withdraw tokens on your behalf.
+This step involves Executing a Transaction. This process involves sending a Transaction To Perform The Cross-Chain Token Transfer initiated in Steps 1 and 2. The function responsible for Executing the Transaction is getTransaction. It takes in the following parameters: fromTokenAddress, toTokenAddress, amount, fromTokenChainId, toTokenChainId, widgetId and quoteData from Step 1.
 
-The Code Handles the approved Transaction, monitors its status, and logs the Transaction hash upon Successful Confirmation. When the Button is clicked your signer (wallet) is set up and the checkAndSetAllowance function is called with the required parameters. You can find it in quote.allowanceTo in the quoteData obtained from Step 1.
+Later on, Call the getTransaction function with the necessary parameters to fetch the Transaction Data from the Nitro system. The Send Transaction Initiates the transaction using the data obtained from the Nitro system.
 
-Execute The Transaction-
+I hope that you must have found this article quite helpful. 
 
-This step involves Executing a Transaction. This process involves sending a Transaction To Perform The Cross-Chain Token Transfer initiated in Steps 1 and 2.
-
-The function responsible for Executing the Transaction is getTransaction. It takes in the following parameters: fromTokenAddress, toTokenAddress, amount, fromTokenChainId, toTokenChainId, widgetId and quoteData from Step 1.
-
-Later on, Call the getTransaction function with the necessary parameters to fetch the Transaction Data from the Nitro system.
-
-The Send Transaction Initiates the transaction using the data obtained from the Nitro system.
-
-I hope that you must have found this article quite helpful. If yes, then do give a read to some of my other articles!
-
-Who knows you might become a great programmer 🤔!
