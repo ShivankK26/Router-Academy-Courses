@@ -22,3 +22,9 @@ Below are the Details of Router Chain **Testnet**, which you can add in your Met
 - ***REST Endpoint***: `https://tmrpc.sentry.routerchain.dev`
 - ***GRPC Endpoint***: `https://grpcweb.sentry.routerchain.dev`
 - ***Coin Decimals***: `18`
+
+## CrossTalk Library
+
+Apart from CosmWasm, for Implementing cross-chain functionalities on Router Chain, one has to use CrossTalk Library. It Comprises of all the functions required for making for DApp cross-chain via Router Protocol.
+
+Click [here](https://docs.routerprotocol.com/develop/message-transfer-via-crosstalk) to Learn about CrossTalk Library.

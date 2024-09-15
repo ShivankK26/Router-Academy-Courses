@@ -1,0 +1,97 @@
+---
+title: Module 4 - Basics of CosmWasm
+description: Get Started with Router Academy.
+---
+
+import { Aside } from '@astrojs/starlight/components';
+import { FileTree } from '@astrojs/starlight/components';
+
+## Creating a CosmWasm Project
+
+To Create a CosmWasm Project, Run the following Command -
+
+```bash
+cargo generate --git https://github.com/CosmWasm/cw-template.git --name PROJECT_NAME
+```
+
+<Aside type="caution" title="Watch out!">
+  Before Running the above Command, make sure that you have Cargo Installed. To verify that you have Cargo Installed, Run -
+
+  ```bash
+  cargo --version
+  ```
+</Aside>
+
+This will create a new CosmWasm Project in the Current Directory.
+
+## Adding Dependencies
+
+After Running the above Command, you'll get the Project Structure as follows -
+
+<FileTree>
+
+- src/
+  - lib.rs
+- .gitignore
+- Cargo.lock
+- Cargo.toml
+
+</FileTree>
+
+- `src/lib.rs` — The Astro configuration file; includes the Starlight integration and configuration.
+
+
+Now, `cd` into the Project Directory and Run the following Command to add `cosmwasm-std` Dependency to the Project -
+
+```bash
+cargo add cosmwasm-std --features staking
+```
+
+## Entry Points
+
+Unlike Native applications, which have only a Single Main Entry Point, Smart Contracts have a Couple Corresponding to Different Message Types: `instantiate`, `execute`, `query`, `sudo`, `migrate` and more.
+
+- `instantiate` - function is called when the Contract is first created. It is Used to Initialize the Contract's State.
+
+- `execute` - function is called when the Contract is called to Perform an Action. It is Used to Update the Contract's State.
+
+- `query` - function is called when the Contract is Queried. It is Used to Read the Contract's State.
+
+Go to your `src/lib.rs` file, and Start with an `instantiate` Entry Point -
+
+```rust
+use cosmwasm_std::{
+    entry_point, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
+};
+
+#[entry_point]
+pub fn instantiate(
+    _deps: DepsMut,
+    _env: Env,
+    _info: MessageInfo,
+    _msg: Empty,
+) -> StdResult<Response> {
+    Ok(Response::new())
+}
+```
+
+Let's Break this Down -
+
+- `#[entry_point]` is an Attribute Macro that marks this function as an Entry Point for the Smart Contract. It's used by CosmWasm to identify the Contract's functions.
+
+- `pub fn instantiate` Defines a Public function named `instantiate`. This function is called when the Contract is first Deployed to the Blockchain.
+
+- The function takes four Parameters -
+  - `_deps: DepsMut`: Mutable Dependencies, allowing the Contract to Interact with its Environment.
+  - `_env: Env`: Information about the Current Blockchain Environment.
+  - `_info: MessageInfo`: Meta-information about the Message that Triggered this Contract Call.
+  - `_msg: Empty`: The Message Payload, which in this Case is `Empty`, meaning no Data is Expected.
+
+- The Underscore Prefix (`_`) on these Parameters indicates that they're Currently unused in the function Body.
+
+- The function returns a `StdResult<Response>`, which is a type alias for `Result<Response, StdError>`. This allows the function to return either a Successful `Response` or an Error.
+
+- In the function Body, `Ok(Response::new())` Creates a new, empty `Response` Object and Wraps it in `Ok`, indicating Successful Execution.
+
+## Building the Contract
+

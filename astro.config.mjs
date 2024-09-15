@@ -8,7 +8,7 @@ export default defineConfig({
     social: {
       github: 'https://github.com/ShivankK26/Router-Academy-Courses',
       "x.com": "https://x.com/SuperRabbitsDAO",
-	  telegram: "https://t.me/+nRKsasrX2285YTI1"
+	    telegram: "https://t.me/+nRKsasrX2285YTI1"
     },
     customCss: ['./src/tailwind.css'],
     sidebar: [
@@ -52,14 +52,14 @@ export default defineConfig({
         collapsed: true,
         autogenerate: { directory: 'Building on Router Chain' }
       },
-    //   {
-    //     label: 'Articles',
-    //     link: '/articles/'
-    //   },
-    //   {
-    //     label: 'Tutorials',
-    //     link: '/tutorials/'
-    //   }
+      {
+        label: 'Articles by Our Community ❤️',
+        link: '/articles/'
+      },
+      {
+        label: 'DApp Tutorials',
+        link: '/tutorials/'
+      }
     ]
   }), tailwind({
     // Disable the default base styles:
