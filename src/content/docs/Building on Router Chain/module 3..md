@@ -15,7 +15,7 @@ Router Faucet is used to get Testnet Tokens for your Router Chain Address. Click
 
 Below are the Details of Router Chain **Testnet**, which you can add in your MetaMask Wallet & fix in your Router Station -
 
-- ***Chain ID***: `router_9607-1`
+- ***Chain ID***: `9607`
 - ***RPC URL***: `https://lcd.sentry.routerchain.dev`
 - ***Token***: `ROUTE`
 - ***Denom***: `route`

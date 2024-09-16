@@ -30,22 +30,46 @@ After Running the above Command, you'll get the Project Structure as follows -
 
 <FileTree>
 
+- .cargo/
+  - config.toml
+- .circleci/
+  - config.yml
+- .github/
+  - workflows/
+    - Basic.yml
+    - Release.yml
 - src/
+  - bin/
+    - schema.rs
+  - contract.rs
+  - error.rs
+  - helpers.rs
   - lib.rs
+  - msg.rs
+  - state.rs
+- .editorconfig
 - .gitignore
 - Cargo.lock
 - Cargo.toml
+- LICENSE
+- NOTICE
+- ReadME.md
 
 </FileTree>
 
-- `src/lib.rs` — The Astro configuration file; includes the Starlight integration and configuration.
+Now, Let's Understand the Project Structure a bit - 
 
-
-Now, `cd` into the Project Directory and Run the following Command to add `cosmwasm-std` Dependency to the Project -
-
-```bash
-cargo add cosmwasm-std --features staking
-```
+1. `Cargo.toml` - This is the Manifest file for Rust's Package Manager, Cargo. It Defines the Project's Dependencies, Metadata, and Build Settings.
+2. `src/contract.rs` - This is the Main file Containing your Smart Contract Logic. It typically includes the Contract's Entry Points (instantiate, execute, query).
+3. `src/msg.rs` - Defines the Message Structs for your Contract's Interface, including InstantiateMsg, ExecuteMsg, and QueryMsg.
+4. `src/state.rs` - Contains definitions for the Contract's State, often using Storage Primitives from the `cw_storage_plus` crate.
+5. `src/error.rs` - Defines Custom Error Types for your Contract.
+6. `src/lib.rs` - The Library's root file, which usually re-exports important items from other modules.
+7. `src/bin/schema.rs` - Generates JSON Schema files for your Contract's messages, which can be used for front-end Integration.
+8. `tests/` - Directory Containing Integration Tests for your Contract.
+9. `examples/schema.rs` - An Example file Demonstrating how to use the Contract's Schema.
+10. `.cargo/config` - Contains Cargo Configuration, Often used to set the Target for WebAssembly Compilation.
+11. `.gitignore` - Specifies files that Git should ignore.
 
 ## Entry Points
 
@@ -57,41 +81,39 @@ Unlike Native applications, which have only a Single Main Entry Point, Smart Con
 
 - `query` - function is called when the Contract is Queried. It is Used to Read the Contract's State.
 
-Go to your `src/lib.rs` file, and Start with an `instantiate` Entry Point -
+## Building & Deploying the Contracts
 
-```rust
-use cosmwasm_std::{
-    entry_point, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
-};
+After you've had the Project Structure Initialized with you, it is time to Compile & Build the Contracts. Run the following Command in yout Directory to Build the Smart Contracts - 
 
-#[entry_point]
-pub fn instantiate(
-    _deps: DepsMut,
-    _env: Env,
-    _info: MessageInfo,
-    _msg: Empty,
-) -> StdResult<Response> {
-    Ok(Response::new())
-}
+```bash
+cargo build --target wasm32-unknown-unknown --release
 ```
 
-Let's Break this Down -
+After Building the Smart Contracts, you need to Deploy them and in CosmWasm that is being done using the `.wasm` file you get in the `artifacts` folder.
 
-- `#[entry_point]` is an Attribute Macro that marks this function as an Entry Point for the Smart Contract. It's used by CosmWasm to identify the Contract's functions.
+## Possible Errors you Might Get
 
-- `pub fn instantiate` Defines a Public function named `instantiate`. This function is called when the Contract is first Deployed to the Blockchain.
+<Aside type="danger">
+While Building your Contracts it might give you an error related to - 
+wasm32-unknown-unknown may not be installed.
+</Aside>
 
-- The function takes four Parameters -
-  - `_deps: DepsMut`: Mutable Dependencies, allowing the Contract to Interact with its Environment.
-  - `_env: Env`: Information about the Current Blockchain Environment.
-  - `_info: MessageInfo`: Meta-information about the Message that Triggered this Contract Call.
-  - `_msg: Empty`: The Message Payload, which in this Case is `Empty`, meaning no Data is Expected.
+For this try Running the Below Command - 
 
-- The Underscore Prefix (`_`) on these Parameters indicates that they're Currently unused in the function Body.
+```bash
+rustup target add wasm32-unknown-unknown
+```
 
-- The function returns a `StdResult<Response>`, which is a type alias for `Result<Response, StdError>`. This allows the function to return either a Successful `Response` or an Error.
+But if it Still gives an Error then Run - 
 
-- In the function Body, `Ok(Response::new())` Creates a new, empty `Response` Object and Wraps it in `Ok`, indicating Successful Execution.
+```bash
+export PATH=~/.cargo/bin:$PATH 
+```
 
-## Building the Contract
+To Permanantly Solve this Issue, Go to your Root Terminal and try Running the Command -
 
+```bash
+ls -a
+```
+
+Look out for `.zshrc`, Open the file and add `export PATH=~/.cargo/bin:$PATH ` Command to it.

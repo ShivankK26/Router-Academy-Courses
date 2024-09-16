@@ -25,6 +25,14 @@ cargo install cargo-generate --features vendored-openssl
 cargo install cargo-run-script
 ```
 
+### Installing Docker
+
+- For Optimizing your Rust Smart Contracts and Deploying it to Router Chain, you'll be needing Docker. For MacOS, Install [HomeBrew](https://brew.sh/) and then Run -
+
+```bash
+brew install --cask docker
+```
+
 ## Basic Concepts
 
 - To Learn the Basics of CosmWasm, Click [here](https://docs.cosmwasm.com/). You can also Refer CosmWasm Book [here](https://book.cosmwasm.com/).
