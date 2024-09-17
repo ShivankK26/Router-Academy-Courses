@@ -4,3 +4,32 @@ description: Get Started with Router Academy.
 ---
 
 ## Router Rust Optimizer
+
+After Building your Smart Contracts it is essential to Deploy them. Deployment is done via the `.wasm` file you get in the `artifacts` Directory. There are Two ways of Deploying the Contracts - 
+
+- Router Station
+- `routerd` CLI
+
+Before We Upload `.wasm` file to Chain, we need to ensure the Smallest Output Size Possible, as this will be included in the Body of a Transaction. We also want to have a Reproducible Build Process, so third Parties can Verify that the Uploaded Wasm Code did indeed come from the Claimed Rust Code.
+
+To Solve Both these issues, we have Produced `rust-optimizer`, a Docker Image to Produce an extremely Small Build Output in a Consistent Manner. The Suggest way to Run it is this -
+
+```bash
+docker run --rm -v "$(pwd)":/code \
+  --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
+  --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
+  cosmwasm/workspace-optimizer:0.12.6
+```
+
+Or, if you're on an arm64 machine, you should use a Docker Image Built with arm64.
+
+```bash
+docker run --rm -v "$(pwd)":/code \
+  --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
+  --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
+  cosmwasm/workspace-optimizer-arm64:0.12.6
+```
+
+## Deployment via Router Station
+
+## Deployment via CLI
