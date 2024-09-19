@@ -13,7 +13,7 @@ Router’s cross-chain Intent Framework (CCIF) is a Pluggable Intent Layer that 
 
 ## NFT Badge
 
-Mint your NFT Badge by Clicking [here].
+Mint your NFT Badge by Clicking [here](https://router-ccif-nft-badge.vercel.app/).
 
 ## CheatSheet
 

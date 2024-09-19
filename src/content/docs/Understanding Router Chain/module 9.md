@@ -11,7 +11,7 @@ Due to these factors, Interoperability is no longer a Luxury; it is a requiremen
 
 ## NFT Badge
 
-Mint your NFT Badge by Clicking [here].
+Mint your NFT Badge by Clicking [here](https://router-chain-nft-badge.vercel.app).
 
 ## CheatSheet
 

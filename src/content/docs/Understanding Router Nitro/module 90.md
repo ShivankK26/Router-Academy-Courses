@@ -15,7 +15,7 @@ We also understood about the Asset Transfer SDK of Router Protocol including ins
 
 ## NFT Badge
 
-Mint your NFT Badge by Clicking [here](https://nft-badge-one.vercel.app/).
+Mint your NFT Badge by Clicking [here](https://router-nitro-expert-nft-badge.vercel.app).
 
 ## CheatSheet
 
