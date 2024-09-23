@@ -6,6 +6,12 @@ description: Get Started with Router Academy.
 import { Aside } from '@astrojs/starlight/components';
 import { FileTree } from '@astrojs/starlight/components';
 
+## Basic Concepts
+
+- To Learn the Basics of CosmWasm, Click [here](https://docs.cosmwasm.com/). You can Refer CosmWasm Book [here](https://book.cosmwasm.com/).
+
+- To Learn the Basics of Rust, Click [here](https://doc.rust-lang.org/book/).
+
 ## Creating a CosmWasm Project
 
 To Create a CosmWasm Project, Run the following Command -
@@ -22,9 +28,9 @@ cargo generate --git https://github.com/CosmWasm/cw-template.git --name PROJECT_
   ```
 </Aside>
 
-This will create a new CosmWasm Project in the Current Directory.
+This will Create a new CosmWasm Project in the Current Directory.
 
-## Adding Dependencies
+## Project Structure
 
 After Running the above Command, you'll get the Project Structure as follows -
 
@@ -73,7 +79,7 @@ Now, Let's Understand the Project Structure a bit -
 
 ## Entry Points
 
-Unlike Native applications, which have only a Single Main Entry Point, Smart Contracts have a Couple Corresponding to Different Message Types: `instantiate`, `execute`, `query`, `sudo`, `migrate` and more.
+Unlike Native applications, which have only a Single Main Entry Point, Smart Contract have a Couple Corresponding to Different Message Types: `instantiate`, `execute`, `query`, `sudo`, `migrate` and more.
 
 - `instantiate` - function is called when the Contract is first created. It is Used to Initialize the Contract's State.
 
@@ -81,20 +87,20 @@ Unlike Native applications, which have only a Single Main Entry Point, Smart Con
 
 - `query` - function is called when the Contract is Queried. It is Used to Read the Contract's State.
 
-## Building & Deploying the Contracts
+## Building & Deploying the Contract
 
-After you've had the Project Structure Initialized with you, it is time to Compile & Build the Contracts. Run the following Command in yout Directory to Build the Smart Contracts - 
+After you've had the Project Structure Initialized with you, it is time to Compile & Build the Contract. Run the following Command in yout Directory to Build the Smart Contract - 
 
 ```bash
 cargo build --target wasm32-unknown-unknown --release
 ```
 
-After Building the Smart Contracts, you need to Deploy them and in CosmWasm that is being done using the `.wasm` file you get in the `artifacts` folder.
+After Building the Smart Contract, you need to Deploy them and in CosmWasm that is being done using the `.wasm` file you get in the `target` folder.
 
 ## Possible Errors you Might Get
 
 <Aside type="danger">
-While Building your Contracts it might give you an error related to - 
+While Building your Contract it might give you an error related to - 
 wasm32-unknown-unknown may not be installed.
 </Aside>
 
@@ -116,4 +122,4 @@ To Permanantly Solve this Issue, Go to your Root Terminal and try Running the Co
 ls -a
 ```
 
-Look out for `.zshrc`, Open the file and add `export PATH=~/.cargo/bin:$PATH ` Command to it.
+Look out for `.zshrc`, Open the file and add `export PATH=~/.cargo/bin:$PATH` Command to it.

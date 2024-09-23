@@ -1,5 +1,5 @@
 ---
-title: Module 5 - Deploying Smart Contracts on Router Chain
+title: Module 5 - Deploying Smart Contract on Router Chain
 description: Get Started with Router Academy.
 ---
 
@@ -7,7 +7,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 ## Router Rust Optimizer
 
-After Building your Smart Contracts it is essential to Deploy them. Deployment is done via the `.wasm` file you get in the `artifacts` Directory. There are Two ways of Deploying the Contracts - 
+After Building your Smart Contract it is essential to Deploy them. Deployment is done via the `.wasm` file you get in the `target` Directory. There are Two ways of Deploying the Contract - 
 
 - Router Station
 - `routerd` CLI
@@ -33,14 +33,14 @@ docker run --rm -v "$(pwd)":/code \
 ```
 
 <Aside type="danger">
-While Running this Command, make sure you have Docker Running in your Local Machine.
+While Running this Command, make sure you have Docker Desktop Running in your Local Machine.
 </Aside>
 
 ## Deployment via Router Station
 
 <img width="1067" alt="figure 4" src="https://res.cloudinary.com/dguv1yapd/image/upload/v1726600561/router-academy-courses/yoadmjs6eih2bt4uckaz.png" />
 
-On Router Chain, you can Directly Upload the `.wasm` file of your Project and Deploy the Contracts by Clicking on ***Upload and Instantiate***. Just Simply, Instantiate a Message and provide a Label for your Contract.
-After doing this, you'll be able to Query & Execute Smart Contracts on Router Chain.
+On Router Chain, you can Directly Upload the `.wasm` file of your Project and Deploy the Contract by Clicking on ***Upload***. Just Simply, Instantiate a Message and provide a Label for your Contract.
+After doing this, you'll be able to Query & Execute Smart Contract on Router Chain.
 
 ## Deployment via CLI

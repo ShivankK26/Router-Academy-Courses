@@ -9,32 +9,79 @@ The Router Chain is built using the Cosmos SDK and encapsulates all the features
 
 For interacting with CosmWasm & Writing Smart Contracts, one needs to have a Basic Understanding of Rust.
 
-## Some Installations
+## Installations
 
-### Installing Rust
+### Windows
 
-- Click [here](https://www.rust-lang.org/tools/install) to install Rust. It will download Rustup, later on also Download [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html), which is Rust's Package Manager.
+For Smooth Experience of Installation in Windows it is better if you have `wsl` Installed. Run the Below Command, if you don't have it - 
 
-### Installing CosmWasm
+```bash
+wsl --install
+```
 
-- Click [here](https://docs.cosmwasm.com/core/installation) to install CosmWasm or directly Run the Below 3 Commands -
+- Now, Click [here](https://www.rust-lang.org/tools/install) to Install Rust via Terminal or `exe` file. It will Install Rustup, later on also [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html), which is Rust's Package Manager.
+
+- Now, We'll be Installing CosmWasm by Directly Running the Below Commands -
   
 ```bash
 rustup target add wasm32-unknown-unknown
+```
+
+```bash
 cargo install cargo-generate --features vendored-openssl
+```
+
+```bash
 cargo install cargo-run-script
 ```
 
-### Installing Docker
+- Lastly, We'll be needing [Docker](https://docs.docker.com/desktop/install/windows-install/) for Optimizing the Rust Smart Contracts and Deploying it to Router Chain.
 
-- For Optimizing your Rust Smart Contracts and Deploying it to Router Chain, you'll be needing Docker. For MacOS, Install [HomeBrew](https://brew.sh/) and then Run -
+
+### macOS
+
+- Click [here](https://www.rust-lang.org/tools/install) to Install Rust. It will Install Rustup, later on also Download [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html), which is Rust's Package Manager.
+
+- Now, We'll be Installing CosmWasm by Directly Running the Below Commands -
+
+```bash
+rustup target add wasm32-unknown-unknown
+```
+
+```bash
+cargo install cargo-generate --features vendored-openssl
+```
+
+```bash
+cargo install cargo-run-script
+```
+
+- Lastly, We'll be needing Docker for Optimizing the Rust Smart Contracts and Deploying it to Router Chain. To Install it, first Install [HomeBrew](https://brew.sh/) and then Run -
 
 ```bash
 brew install --cask docker
 ```
 
-## Basic Concepts
+### Linux
 
-- To Learn the Basics of CosmWasm, Click [here](https://docs.cosmwasm.com/). You can also Refer CosmWasm Book [here](https://book.cosmwasm.com/).
+- Click [here](https://www.rust-lang.org/tools/install) to Install Rust. It will Install Rustup, later on also Download [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html), which is Rust's Package Manager.
 
-- To Learn the Basics of Rust, Click [here](https://doc.rust-lang.org/book/).
+- Now, We'll be Installing CosmWasm by Directly Running the Below Commands -
+
+```bash
+rustup target add wasm32-unknown-unknown
+```
+
+```bash
+cargo install cargo-generate --features vendored-openssl
+```
+
+```bash
+cargo install cargo-run-script
+```
+
+- Lastly, We'll be needing Docker for Optimizing the Rust Smart Contracts and Deploying it to Router Chain. To Install it, first Install [HomeBrew](https://brew.sh/) and then Run -
+
+```bash
+brew install --cask docker
+```
