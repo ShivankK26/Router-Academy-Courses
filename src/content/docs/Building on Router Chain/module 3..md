@@ -25,7 +25,7 @@ Below are the Details of Router Chain **Testnet**, which you can add in your Met
 
 ## Router Explorer
 
-
+To view all the Transaction Hashes on Router Chain Explorer, Click [here](https://testnet.routerscan.io/transactions).
 
 ## CrossTalk Library
 

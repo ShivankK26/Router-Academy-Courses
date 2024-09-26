@@ -35,7 +35,7 @@ cargo install cargo-generate --features vendored-openssl
 cargo install cargo-run-script
 ```
 
-- Lastly, We'll be needing [Docker](https://docs.docker.com/desktop/install/windows-install/) for Optimizing the Rust Smart Contracts and Deploying it to Router Chain.
+- Lastly, We'll be needing [Docker](https://docs.docker.com/desktop/install/windows-install/) to Optimize Production Code and make the Binary Size of Compiled CosmWasm Contracts as Small as Possible, we use Rust-Optimizer, which uses Docker to work. 
 
 
 ### macOS
@@ -56,7 +56,7 @@ cargo install cargo-generate --features vendored-openssl
 cargo install cargo-run-script
 ```
 
-- Lastly, We'll be needing Docker for Optimizing the Rust Smart Contracts and Deploying it to Router Chain. To Install it, first Install [HomeBrew](https://brew.sh/) and then Run -
+- Lastly, We'll be needing Docker to Optimize the Production Code and make the Binary Size of Compiled CosmWasm Contracts as Small as Possible, we use Rust-Optimizer, which uses Docker to work. To Install it, first Install [HomeBrew](https://brew.sh/) and then Run -
 
 ```bash
 brew install --cask docker
@@ -80,7 +80,7 @@ cargo install cargo-generate --features vendored-openssl
 cargo install cargo-run-script
 ```
 
-- Lastly, We'll be needing Docker for Optimizing the Rust Smart Contracts and Deploying it to Router Chain. To Install it, first Install [HomeBrew](https://brew.sh/) and then Run -
+- Lastly, We'll be needing Docker to Optimize the Production Code and make the Binary Size of Compiled CosmWasm Contracts as Small as Possible, we use Rust-Optimizer, which uses Docker to work. To Install it, first Install [HomeBrew](https://brew.sh/) and then Run -
 
 ```bash
 brew install --cask docker
