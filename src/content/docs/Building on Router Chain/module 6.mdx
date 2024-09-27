@@ -1,42 +1,552 @@
 ---
-title: Module 6 - Understanding the Code Part - 1
+title: Module 6 - Understanding CosmWasm Code
 description: Get Started with Router Academy.
 ---
 
-## Understanding CosmWasm Code
+import { FileTree } from '@astrojs/starlight/components';
 
-Go to your `src/lib.rs` file, and Start with an `instantiate` Entry Point -
+## File Structure
+ 
+In this Module, We'll be Understanding the CosmWasm Code and how it is Being Integrated. The Files under `src/` Directory are -
+
+<FileTree>
+
+- src/
+  - bin/
+    - schema.rs
+  - contract.rs
+  - error.rs
+  - helpers.rs
+  - integration_tests.rs
+  - lib.rs
+  - msg.rs
+  - state.rs
+
+</FileTree>
+
+## `contract.rs`
+
+Below is the Explaination of `contract.rs` file -
+
+### Imports and Configuration
 
 ```rust
-use cosmwasm_std::{
-    entry_point, Binary, Deps, DepsMut, Empty, Env, MessageInfo, Response, StdResult,
-};
+#[cfg(not(feature = "library"))]
+use cosmwasm_std::entry_point;
+use cosmwasm_std::{to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
+use cw2::set_contract_version;
 
-#[entry_point]
+use crate::error::ContractError;
+use crate::msg::{ExecuteMsg, GetCountResponse, InstantiateMsg, QueryMsg};
+use crate::state::{State, STATE};
+```
+
+This Section Imports necessary Modules -
+
+- The `entry_point` macro is Conditionally Imported Based on whether the "library" feature is enabled.
+- Various types from `cosmwasm_std` are Imported for handling Contract Interactions.
+- `set_contract_version` is imported from `cw2` for Setting the Contract Version.
+- Custom Types are Imported from Other files in the Project -
+  - `ContractError` from `error.rs`
+  - Message types from `msg.rs`
+  - State-related types from `state.rs`
+
+### Contract Information
+
+```rust
+const CONTRACT_NAME: &str = "crates.io:project-name";
+const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
+```
+
+These Constants Define the Contract's Name and Version. The Version is set to the Crate's Version using the `env!` macro.
+
+### Instantiate Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(
-    _deps: DepsMut,
+    deps: DepsMut,
     _env: Env,
-    _info: MessageInfo,
-    _msg: Empty,
-) -> StdResult<Response> {
-    Ok(Response::new())
+    info: MessageInfo,
+    msg: InstantiateMsg,
+) -> Result<Response, ContractError> {
+    // ... (implementation)
 }
 ```
 
-Let's Break this Down -
+This function is called when the Contract is first Uploaded to the Blockchain. It -
+1. Creates a new `State` Instance.
+2. Sets the Contract Version using `set_contract_version`.
+3. Saves the State using `STATE.save`.
+4. Returns a `Response` with attributes about the Instantiation.
 
-- `#[entry_point]` is an Attribute Macro that marks this function as an Entry Point for the Smart Contract. It's used by CosmWasm to identify the Contract's functions.
+### Execute Function
 
-- `pub fn instantiate` Defines a Public function named `instantiate`. This function is called when the Contract is first Deployed to the Blockchain.
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn execute(
+    deps: DepsMut,
+    _env: Env,
+    info: MessageInfo,
+    msg: ExecuteMsg,
+) -> Result<Response, ContractError> {
+    match msg {
+        ExecuteMsg::Increment {} => execute::increment(deps),
+        ExecuteMsg::Reset { count } => execute::reset(deps, info, count),
+    }
+}
+```
 
-- The function takes four Parameters -
-  - `_deps: DepsMut`: Mutable Dependencies, allowing the Contract to Interact with its Environment.
-  - `_env: Env`: Information about the Current Blockchain Environment.
-  - `_info: MessageInfo`: Meta-information about the Message that Triggered this Contract Call.
-  - `_msg: Empty`: The Message Payload, which in this Case is `Empty`, meaning no Data is Expected.
+This function handles all Execute Messages sent to the Contract. It matches on the `ExecuteMsg` enum (defined in `msg.rs`) and Calls the appropriate handler function.
 
-- The Underscore Prefix (`_`) on these Parameters indicates that they're Currently unused in the function Body.
+### Execute Handlers
 
-- The function returns a `StdResult<Response>`, which is a type alias for `Result<Response, StdError>`. This allows the function to return either a Successful `Response` or an Error.
+```rust
+pub mod execute {
+    // ... (implementation of increment and reset functions)
+}
+```
 
-- In the function Body, `Ok(Response::new())` Creates a new, empty `Response` Object and Wraps it in `Ok`, indicating Successful Execution.
+This Module Contains the Implementation of the `increment` and `reset` functions, which modify the Contract's State.
+
+### Query Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+    match msg {
+        QueryMsg::GetCount {} => to_json_binary(&query::count(deps)?),
+    }
+}
+```
+
+This function handles all Query Messages sent to the Contract. It matches on the `QueryMsg` enum (defined in `msg.rs`) and Calls the appropriate query handler.
+
+### Query Handlers
+
+```rust
+pub mod query {
+    // ... (implementation of count function)
+}
+```
+
+This Module Contains the Implementation of the `count` Query, which retrieves the Current count from the Contract's State.
+
+### Tests
+
+```rust
+#[cfg(test)]
+mod tests {
+    // ... (test implementations)
+}
+```
+
+This Module Contains Unit Tests for the Contract's functions. It includes Tests for proper Initialization, Incrementing the Counter, and resetting the Counter.
+
+### Relation to Other Files
+
+1. `msg.rs`: Defines the message Types (`InstantiateMsg`, `ExecuteMsg`, `QueryMsg`, `GetCountResponse`) used in this Contract.
+
+2. `state.rs`: Defines the `State` Struct and `STATE` Storage item used to manage the Contract's State.
+
+3. `error.rs`: Defines the `ContractError` Type used for Custom Error Handling.
+
+4. `lib.rs`: Likely the Entry Point of the Crate, which may re-export items from `contract.rs`.
+
+5. `Cargo.toml`: Defines the Project Dependencies and Metadata, including the Version Number used in `CONTRACT_VERSION`.
+
+
+## `error.rs`
+
+Below is the Explaination of `error.rs` file -
+
+### Imports and Configuration
+
+```rust
+use cosmwasm_std::StdError;
+use thiserror::Error;
+```
+
+These Lines Import necessary Types -
+
+- `StdError` from `cosmwasm_std`: This is the Standard Error Type provided by the CosmWasm Framework.
+- `Error` from `thiserror`: This is a Derive Macro that helps in Creating Custom Error Types.
+
+### Enum
+
+```rust
+#[derive(Error, Debug)]
+pub enum ContractError {
+    // ...
+}
+```
+
+This Defines a Custom Error Enum called `ContractError`. The `#[derive(Error, Debug)]` attribute automatically Implements the `std::error::Error` Trait and the `Debug` Trait for our Enum.
+
+```rust
+    #[error("{0}")]
+    Std(#[from] StdError),
+```
+
+This Variant allows our `ContractError` to Wrap a `StdError`. The `#[from]` attribute automatically Implements `From<StdError>` for `ContractError`, allowing easy Conversion. The `#[error("{0}")]` attribute Defines how this error Variant should be Displayed, in this case, it will use the Display Implementation of the Wrapped `StdError`.
+
+```rust
+    #[error("Unauthorized")]
+    Unauthorized {},
+```
+
+This is a Custom Error Variant for Unauthorized Actions. The `#[error("Unauthorized")]` attribute Defines the Error Message for this Variant.
+
+### Relation to Other Files
+
+1. `contract.rs`: The `ContractError` type is used throughout the contract implementation. For example:
+
+   ```rust
+   pub fn instantiate(
+       // ...
+   ) -> Result<Response, ContractError> {
+       // ...
+   }
+
+   pub fn execute(
+       // ...
+   ) -> Result<Response, ContractError> {
+       // ...
+   }
+
+   pub fn reset(deps: DepsMut, info: MessageInfo, count: i32) -> Result<Response, ContractError> {
+       STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
+           if info.sender != state.owner {
+               return Err(ContractError::Unauthorized {});
+           }
+           // ...
+       })?;
+       // ...
+   }
+   ```
+
+   The `Unauthorized` Error is Specifically used in the `reset` function when someone other than the Owner tries to reset the count.
+
+2. `lib.rs`: This file might re-export the `ContractError` Type to make it available to Other Parts of the Crate or to Users of the Crate.
+
+3. `Cargo.toml`: This file (not shown) would include the necessary Dependencies -
+
+   ```toml
+   [dependencies]
+   cosmwasm-std = "1.0.0"
+   thiserror = "1.0.21"
+   ```
+
+## `helpers.rs`
+
+Below is the Explaination of `helpers.rs` file - 
+
+### Imports and Configuration
+
+```rust
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+
+use cosmwasm_std::{
+    to_json_binary, Addr, CosmosMsg, CustomQuery, Querier, QuerierWrapper, StdResult, WasmMsg,
+    WasmQuery,
+};
+
+use crate::msg::{ExecuteMsg, GetCountResponse, QueryMsg};
+```
+
+These Lines Import necessary Types and Traits -
+
+- `JsonSchema` from `schemars`: Used for Generating JSON Schema for Types.
+- `Deserialize` and `Serialize` from `serde`: Used for Serialization and Deserialization.
+- Various types from `cosmwasm_std`: These are Standard CosmWasm Types used for Interacting with the Blockchain.
+- `ExecuteMsg`, `GetCountResponse`, and `QueryMsg` from the Local `msg.rs` file.
+
+### CwTemplateContract Struct
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
+pub struct CwTemplateContract(pub Addr);
+```
+
+This Defines a Wrapper Struct around `Addr` (which represents a blockchain address). The Derive macros add Various Useful Traits to the Struct, including Serialization, Deserialization, and JSON Schema Generation.
+
+### CwTemplateContract Implementation
+
+```rust
+impl CwTemplateContract {
+    pub fn addr(&self) -> Addr {
+        self.0.clone()
+    }
+
+    pub fn call<T: Into<ExecuteMsg>>(&self, msg: T) -> StdResult<CosmosMsg> {
+        let msg = to_json_binary(&msg.into())?;
+        Ok(WasmMsg::Execute {
+            contract_addr: self.addr().into(),
+            msg,
+            funds: vec![],
+        }
+        .into())
+    }
+
+    pub fn count<Q, T, CQ>(&self, querier: &Q) -> StdResult<GetCountResponse>
+    where
+        Q: Querier,
+        T: Into<String>,
+        CQ: CustomQuery,
+    {
+        let msg = QueryMsg::GetCount {};
+        let query = WasmQuery::Smart {
+            contract_addr: self.addr().into(),
+            msg: to_json_binary(&msg)?,
+        }
+        .into();
+        let res: GetCountResponse = QuerierWrapper::<CQ>::new(querier).query(&query)?;
+        Ok(res)
+    }
+}
+```
+
+This Implementation Block provides helper methods for the `CwTemplateContract` -
+
+1. `addr`: Returns the Wrapped `Addr`.
+
+2. `call`: Creates a `CosmosMsg` for Executing a Message on this Contract. It takes any Type that can be Converted into an `ExecuteMsg`.
+
+3. `count`: Queries the Contract for its Current Count. It uses a `Querier` to send a `GetCount` Query to the Contract and returns the result.
+
+### Relation to Other Files
+
+1. `msg.rs`: The `ExecuteMsg`, `QueryMsg`, and `GetCountResponse` Types are Imported from this file. These Types Define the Structure of Messages that can be sent to or received from the Contract.
+
+2. `contract.rs`: While not Directly referenced here, the `CwTemplateContract` Struct and its methods provide a Convenient way to Interact with the Contract Defined in `contract.rs`. For example -
+
+   - The `call` method can be used to Create Messages for the `execute` function in `contract.rs`.
+   - The `count` method Corresponds to the `GetCount` Query handled in the `query` function of `contract.rs`.
+
+3. `state.rs`: The `count` method retrieves the Count, which is likely Stored in the Contract's State Defined in `state.rs`.
+
+4. `error.rs`: The `StdResult` Type used in the return Values of these methods can Potentially contain `ContractError` Types Defined in `error.rs`.
+
+This helpers file provides a Convenient Abstraction Layer for Interacting with the Contract. It Encapsulates the Logic for Creating Execute Messages and Queries, making it easier for other Parts of the Project to Interact with this Contract.
+
+## `integration_tests.rs`
+
+It Contains the Test Scripts for all Smart Contracts.
+
+## `lib.rs` 
+
+The `lib.rs` file Serves as the Root of the Rust Crate and Defines the Public API of the Library. Let's Go through it Line by Line -
+
+### Imports and Configuration
+
+```rust
+pub mod contract; // This Line makes the `contract` module Public, allowing External Code to access its Contents. The `contract` Module likely Contains the main Smart Contract Logic, including the `instantiate`, `execute`, and `query` functions we saw earlier.
+
+mod error; // This Declares the `error` Module, but keeps it Private to the Crate. This Module Contains the `ContractError` enum we saw earlier, which Defines Custom Error Types for the Contract.
+
+pub mod helpers; // This makes the `helpers` Module Public. This Module Contains the `CwTemplateContract` Struct and its Implementation, which provides helper functions for Interacting with the Contract.
+
+pub mod integration_tests; // This Declares a Public `integration_tests` Module. 
+
+pub mod msg; // This makes the `msg` Module Public. This Module Defines the Message Types used for Interacting with the Contract, including `InstantiateMsg`, `ExecuteMsg`, `QueryMsg`, and `GetCountResponse`.
+
+pub mod state; // This Declares the `state` Module as Public. This Module likely Defines the Contract's State Structure and provides methods for Interacting with the Contract's Storage.
+
+pub use crate::error::ContractError; // This Line re-exports the `ContractError` Type from the `error` Module, making it Directly accessible to Users of this Crate without needing to Import it through the `error` Module.
+```
+
+### Relation to Other Files
+
+1. `contract.rs`: Made public here, allowing external code to access the contract's main functions.
+
+2. `error.rs`: Kept private, but its `ContractError` type is re-exported for public use.
+
+3. `helpers.rs`: Made public, allowing external code to use the helper functions for interacting with the contract.
+
+4. `msg.rs`: Made public, allowing external code to use the message types defined for this contract.
+
+5. `state.rs`: Made public, potentially allowing external code to understand and interact with the contract's state structure.
+
+6. `integration_tests.rs`: Made public, though this is likely more for organization within the project rather than for external use.
+
+## `msg.rs`
+
+The `msg.rs` file Defines the Message Structures used for Interacting with the Smart Contract. Let's go through it -
+
+### Imports and Configuration
+
+```rust
+use cosmwasm_schema::{cw_serde, QueryResponses};
+```
+This Line Imports the `cw_serde` and `QueryResponses` macros from the `cosmwasm_schema` Crate. These macros are used to automatically Derive Serialization, Deserialization, and Schema Generation Traits for the Message Structures.
+
+```rust
+#[cw_serde]
+pub struct InstantiateMsg {
+    pub count: i32,
+}
+```
+This Defines the Structure for the Instantiation Message. The `#[cw_serde]` macro automatically Derives `Serialize`, `Deserialize`, `JsonSchema`, `Clone`, and `Debug` Traits for this Struct. The `InstantiateMsg` Contains a single field `count` of type `i32`, which is used to set the initial count when the Contract is Instantiated.
+
+```rust
+#[cw_serde]
+pub enum ExecuteMsg {
+    Increment {},
+    Reset { count: i32 },
+}
+```
+This enum Defines the possible Execute Messages that can be sent to the Contract. Again, `#[cw_serde]` is used to Derive necessary Traits. There are Two Variants -
+
+- `Increment`: An Empty Struct, likely used to Increment the count.
+- `Reset`: Contains a `count` field, Likely used to reset the count to a specific value.
+
+```rust
+#[cw_serde]
+#[derive(QueryResponses)]
+pub enum QueryMsg {
+    #[returns(GetCountResponse)]
+    GetCount {},
+}
+```
+This enum Defines the possible Query Messages. The `#[derive(QueryResponses)]` attribute is used to Generate Metadata about the return types of Queries, which is useful for Tooling and Client Generation. There's only one Query Type -
+
+- `GetCount`: An Empty Struct that returns a `GetCountResponse`.
+
+```rust
+#[cw_serde]
+pub struct GetCountResponse {
+    pub count: i32,
+}
+```
+This Struct Defines the response format for the `GetCount` Query. It Contains a single `count` field of type `i32`.
+
+### Relation to Other Files
+
+1. `contract.rs`: The Message Types Defined here are used in the `instantiate`, `execute`, and `query` functions in `contract.rs`. For Example -
+   ```rust
+   pub fn instantiate(
+       deps: DepsMut,
+       _env: Env,
+       info: MessageInfo,
+       msg: InstantiateMsg,
+   ) -> Result<Response, ContractError> {
+       // ...
+   }
+
+   pub fn execute(
+       deps: DepsMut,
+       _env: Env,
+       info: MessageInfo,
+       msg: ExecuteMsg,
+   ) -> Result<Response, ContractError> {
+       match msg {
+           ExecuteMsg::Increment {} => execute::increment(deps),
+           ExecuteMsg::Reset { count } => execute::reset(deps, info, count),
+       }
+   }
+
+   pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+       match msg {
+           QueryMsg::GetCount {} => to_json_binary(&query::count(deps)?),
+       }
+   }
+   ```
+
+2. `state.rs`: The `count` field in these Messages likely Corresponds to the State Variable Defined in `state.rs`.
+
+3. `helpers.rs`: The `CwTemplateContract` Struct in `helpers.rs` uses these Message Types in its methods -
+   ```rust
+   pub fn call<T: Into<ExecuteMsg>>(&self, msg: T) -> StdResult<CosmosMsg> {
+       // ...
+   }
+
+   pub fn count<Q, T, CQ>(&self, querier: &Q) -> StdResult<GetCountResponse>
+   where
+       Q: Querier,
+       T: Into<String>,
+       CQ: CustomQuery,
+   {
+       let msg = QueryMsg::GetCount {};
+       // ...
+   }
+   ```
+
+4. `lib.rs`: The `msg` Module is made Public in `lib.rs`, allowing these Message Types to be used by External Code Interacting with this Contract.
+
+5. `error.rs`: While not Directly related, the `ContractError` Defined in `error.rs` is Often used as the Error Type in functions that handle these Messages.
+
+## `msg.rs`
+
+Let's go through the `state.rs` file Line by Line -
+
+### Imports and Configuration
+
+```rust
+// These Lines Import the necessary Traits for JSON Schema Generation (`JsonSchema`) and serialization/deserialization (`Deserialize`, `Serialize`).
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+
+This Imports the `Addr` Type from `cosmwasm_std`, which represents a Validated Address on the Blockchain.
+use cosmwasm_std::Addr;
+
+// This Imports the `Item` Type from `cw_storage_plus`, which is a helper for handling Storage in CosmWasm Contracts.
+use cw_storage_plus::Item;
+```
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
+pub struct State {
+    pub count: i32,
+    pub owner: Addr,
+}
+```
+
+This defines the `State` Struct, which represents the State of the Contract. It has two fields -
+
+- `count`: An `i32` that Stores the current count.
+- `owner`: An `Addr` that Stores the address of the Contract Owner.
+
+The Derive Macros add various Useful Traits to the Struct, including Serialization, Deserialization, Cloning, Debugging, Equality Comparison, and JSON Schema Generation.
+
+```rust
+pub const STATE: Item<State> = Item::new("state");
+```
+This Line Creates a Constant `STATE` of Type `Item<State>`. `Item` is a Wrapper provided by `cw_storage_plus` that helps with Storing and retrieving a Single Item from Contract Storage. The `state` argument is the Key under which this Item will be Stored.
+
+### Relation to Other Files
+
+1. `contract.rs`: The `State` Struct and `STATE` Constants are used extensively in the Contract Logic. For Example -
+
+   ```rust
+   pub fn instantiate(
+       deps: DepsMut,
+       _env: Env,
+       info: MessageInfo,
+       msg: InstantiateMsg,
+   ) -> Result<Response, ContractError> {
+       let state = State {
+           count: msg.count,
+           owner: info.sender.clone(),
+       };
+       STATE.save(deps.storage, &state)?;
+       // ...
+   }
+
+   pub fn execute::increment(deps: DepsMut) -> Result<Response, ContractError> {
+       STATE.update(deps.storage, |mut state| -> Result<_, ContractError> {
+           state.count += 1;
+           Ok(state)
+       })?;
+       // ...
+   }
+   ```
+
+2. `msg.rs`: The `count` field in the `State` Struct corresponds to the `count` field in various Messages Defined in `msg.rs`, such as `InstantiateMsg`, `ExecuteMsg::Reset`, and `GetCountResponse`.
+
+3. `helpers.rs`: While not Directly using the `State` struct, the helper functions Interact with the Contract's State indirectly through Execute and Query Messages.
+
+4. `error.rs`: The `ContractError` might be used when Operations on the `STATE` fail, although we don't see this Directly in the provided Code.
+
+5. `lib.rs`: The `state` Module is made Public in `lib.rs`, allowing External Code to Understand the Structure of the Contract's State if needed.
+
