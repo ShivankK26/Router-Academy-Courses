@@ -1,6 +1,573 @@
 ---
-title: Module 8 - Building a Tic Tac Toe Game on Router Chain
+title: Module 8 - Building a Tic Tac Toe Contract on Router Chain
 description: Get Started with Router Academy.
 ---
 
-## Coming Soon
+import { Aside } from '@astrojs/starlight/components';
+
+## Cloning the Repository
+
+For Understanding how to Write a Smart Contract for Tic Tac Toe Game on Router Chain, Clone the Below Repository in your Local Machine -
+
+```bash
+git clone https://github.com/ShivankK26/Basic-Router-Chain-Contracts .
+```
+
+<Aside type="caution" title="Watch out!">
+  Before Running the above Command, make sure that you have Cargo Installed. To verify that you have Cargo Installed, Run -
+
+  ```bash
+  git --version
+  ```
+</Aside>
+
+This will Clone a Tic Tac Toe Game Smart Contract in the Current Directory.
+
+import { FileTree } from '@astrojs/starlight/components';
+
+## File Structure
+ 
+In this Module, the File Structure under `src/` Directory is -
+
+<FileTree>
+
+- src/
+  - contract.rs
+  - data.rs
+  - errors.rs
+  - execution.rs
+  - lib.rs
+  - msg.rs
+  - query.rs
+  - state.rs
+  - tests.rs
+
+</FileTree>
+
+## `Contract.rs`
+
+Below is the Explaination of `Contract.rs` file - 
+
+### Imports and Configuration
+
+```rust
+use crate::errors::ContractError;
+use crate::execution::{try_accept, try_invite, try_play, try_reject};
+use crate::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use crate::query::{query_game, query_games};
+use crate::state::GAMES_COUNT;
+use cosmwasm_std::to_binary;
+#[cfg(not(feature = "library"))]
+use cosmwasm_std::{entry_point, Binary, Deps, DepsMut, Env, MessageInfo, Response, StdResult};
+use cw2::{get_contract_version, set_contract_version};
+```
+
+This Section Imports necessary Modules and Types -
+
+- Custom Modules for Error Handling, Execution Logic, Message Definitions, Querying, and State Management.
+- CosmWasm Standard Library Types and functions.
+- CW2 for Contract Versioning.
+
+### Contract Version
+
+```rust
+const CONTRACT_NAME: &str = "tic-tac-toe";
+const CONTRACT_VERSION: &str = "0.1.0";
+```
+
+These Constants Define the Contract Name and Version, used for Migration Purposes.
+
+### Instantiate Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn instantiate(
+    deps: DepsMut,
+    _env: Env,
+    _info: MessageInfo,
+    _msg: InstantiateMsg,
+) -> StdResult<Response> {
+    set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+    GAMES_COUNT.save(deps.storage, &0)?;
+    Ok(Response::new().add_attribute("action", "tic-tac-toe"))
+}
+```
+
+This function is Called when the Contract is first Deployed -
+
+- It Sets the Contract Version in Storage.
+- Initializes the Games Count to 0.
+- Returns a response with an "action" Attribute.
+
+### Execute Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn execute(
+    deps: DepsMut,
+    _env: Env,
+    info: MessageInfo,
+    msg: ExecuteMsg,
+) -> Result<Response, ContractError> {
+    match msg {
+        ExecuteMsg::Invite { coord, opponent } => try_invite(deps, info, coord, opponent),
+        ExecuteMsg::Reject { as_host, opponent, game_id } => try_reject(deps, info, as_host, opponent, game_id),
+        ExecuteMsg::Accept { coord, host, game_id } => try_accept(deps, info, coord, host, game_id),
+        ExecuteMsg::Play { as_host, coord, opponent, game_id } => try_play(deps, info, as_host, coord, opponent, game_id),
+    }
+}
+```
+
+This Function handles all state-changing Operations -
+
+- It uses Pattern Matching to Route Different Types of Execute Messages to their respective Handler functions.
+- Supports actions like Inviting a Player, Rejecting/accepting Invitations, and making Moves.
+
+### Query Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn query(deps: Deps, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+    match msg {
+        QueryMsg::GetContractVersion {} => to_binary(&get_contract_version(deps.storage)?),
+        QueryMsg::Game { key, game_id } => to_binary(&query_game(deps, key, game_id)?),
+        QueryMsg::Games { status } => to_binary(&query_games(deps, status)?),
+    }
+}
+```
+
+This Function handles read-only Operations -
+
+- It uses Pattern Matching to Route Different Types of Query Messages.
+- Supports Queries for Contract Version, Specific Game Information, and Multiple Games based on Status.
+
+## `data.rs`
+
+Below is the Explaination of `data.rs` file - 
+
+```rust
+use cosmwasm_std::Addr;
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use crate::state::Game;
+```
+
+### Imports and Configuration
+
+These are the Import Statements -
+
+- `cosmwasm_std::Addr`: This is a Type from the CosmWasm Standard Library that represents a Blockchain Address.
+- `schemars::JsonSchema`: This Trait is used to Generate JSON Schema for the Struct, which is useful for Documentation and Client-side Validation.
+- `serde::{Deserialize, Serialize}`: These Traits allow the Struct to be Serialized and Deserialized, which is necessary for Storing and Retrieving Data from the Blockchain.
+- `crate::state::Game`: This Imports the `Game` Type from the `state.rs` file in the same Crate, which likely Contains the Core Game State.
+
+### Struct 
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct GameResponse {
+    pub game: Game,
+    pub host: Addr,
+    pub opponent: Addr,
+}
+```
+
+This Defines a Struct called `GameResponse` -
+
+- The `#[derive(...)]` attribute automatically Implements Several Traits for the Struct -
+
+  - `Serialize` and `Deserialize`: For Converting the Struct to and from formats like JSON.
+  - `Clone`: Allows the Struct to be Duplicated.
+  - `Debug`: Enables formatting of the Struct for Debugging Purposes.
+  - `PartialEq`: Allows Instances of the Struct to be compared for Equality.
+  - `JsonSchema`: Generates a JSON Schema for the Struct.
+
+- The Struct has three Fields -
+
+  - `game`: Of type `Game`, which likely Contains the Current State of the Game (board position, whose turn it is, etc.).
+  - `host`: Of type `Addr`, representing the Blockchain Address of the Player who Created or is hosting the Game.
+  - `opponent`: Also of type `Addr`, representing the Blockchain Address of the Other Player.
+
+This `GameResponse` struct is used when Querying the Contract for Information about a Specific Game. It Packages together all the Relevant Information about a Game: its Current State and the Addresses of Both Players Involved.
+
+## `errors.rs`
+
+Below is the Explaination of `errors.rs` file -
+
+### Imports and Configuration
+
+```rust
+use cosmwasm_std::{Addr, StdError};
+use thiserror::Error;
+use super::state::Coord;
+```
+
+- `cosmwasm_std::{Addr, StdError}`: Imports the `Addr` Type (for blockchain addresses) and `StdError` (standard errors) from CosmWasm.
+- `thiserror::Error`: A Library for easily Defining Custom Error Types.
+- `super::state::Coord`: Imports the `Coord` Type from the `state.rs` file, likely representing Game Board Coordinates.
+
+### Error Enum Definition
+
+```rust
+#[derive(Error, Debug, PartialEq)]
+pub enum ContractError {
+    // ... (error variants)
+}
+```
+
+This Defines a Custom Error Enum called `ContractError`. The Derive Macros provide -
+
+- `Error`: Implements the `std::error::Error` Trait.
+- `Debug`: Allows formatting of the Error for Debugging.
+- `PartialEq`: Allows Comparing Errors for Equality.
+
+### Error Variants
+
+1. Standard Error:
+   ```rust
+   #[error("{0}")]
+   Std(#[from] StdError),
+   ```
+   Wraps Standard CosmWasm Errors.
+
+2. Authorization Error:
+   ```rust
+   #[error("Unauthorized")]
+   Unauthorized {},
+   ```
+   Used When an Operation is attempted by an Unauthorized Address.
+
+3. Invalid Game Start:
+   ```rust
+   #[error("Game against yourself cannot be started")]
+   CannotStartGame {},
+   ```
+   Prevents a Player from Starting a Game against themselves.
+
+4. Duplicate Game:
+   ```rust
+   #[error("Game between {host} and {opponent} already exists. Complete the previous game to start a new one")]
+   GameAlreadyInProgress { host: Addr, opponent: Addr },
+   ```
+   Prevents Starting a new Game when One already exists Between the same Players.
+
+5. Game Not Found:
+   ```rust
+   #[error("Game between {host} and {opponent} not found. You cannot reject it")]
+   GameNotFound { host: Addr, opponent: Addr },
+   ```
+   Used when Trying to Interact with a non-existent Game.
+
+6. Invalid Game:
+   ```rust
+   #[error("Game between {host} and {opponent} is invalid. Try starting another game.")]
+   InvalidGame { host: Addr, opponent: Addr },
+   ```
+   Indicates an Issue with the Game's State.
+
+7. Coordinate Already Played:
+   ```rust
+   #[error("x={{coord.x}} and y={{coord.y}} already contain symbol. Try using another coordinate.")]
+   CoordinateAlreadyPlayed { coord: Coord },
+   ```
+   Prevents Playing on an already Occupied Position.
+
+8. Out of Turn Play:
+   ```rust
+   #[error("You already played this turn. Wait for '{{second_player}}' to play its turn.")]
+   TurnAlreadyPlayed { second_player: String },
+   ```
+   Prevents a Player from making Multiple moves in a Row.
+
+9. Invalid Coordinate:
+   ```rust
+   #[error("Invalid coordinate x={{coord.x}} y={{coord.y}}. Coordinates must be between 0 and 2")]
+   InvalidCoord { coord: Coord },
+   ```
+   Ensures that Played Coordinates are within the Valid Range (0-2 for a 3x3 board).
+
+10. Invalid Funds:
+    ```rust
+    #[error("The funds you send must be equal to the prize of the game")]
+    InvalidReceivedFunds {},
+    ```
+    Ensures that the Correct amount of Funds is sent with game-related Transactions.
+
+## `execution.rs`
+
+This `execution.rs` file Contains the Core Logic for Executing Various actions in the Tic-Tac-Toe Game Implemented as a CosmWasm Smart Contract. Let's Break Down each function -
+
+### 1. `try_invite`
+
+This function handles the Invitation to Start a new Game.
+
+```rust
+pub fn try_invite(
+    deps: DepsMut,
+    info: MessageInfo,
+    coord: Coord,
+    opponent: String,
+) -> Result<Response, ContractError>
+```
+
+Key points -
+
+- Validates the Opponent's Address and the Initial Coordinate.
+- Prevents self-play (playing against oneself).
+- Increments and Saves the Game Count.
+- Creates a new Game and Saves it to Storage.
+- Returns a Response with Game Details.
+
+### 2. `try_reject`
+
+This function allows Rejecting a Game Invitation.
+
+```rust
+pub fn try_reject(
+    deps: DepsMut,
+    info: MessageInfo,
+    as_host: bool,
+    opponent: String,
+    game_id: u64,
+) -> Result<Response, ContractError>
+```
+
+Key points -
+
+- Determines the Correct Key for the Game Based on whether the Rejector is the host or not.
+- Checks if the Game exists and is in the INVITED State.
+- Updates the Game Status to REJECTED.
+- Refunds the Prize to the appropriate Address.
+
+### 3. `try_accept`
+
+This function handles accepting a Game Invitation.
+
+```rust
+pub fn try_accept(
+    deps: DepsMut,
+    info: MessageInfo,
+    coord: Coord,
+    host: String,
+    game_id: u64,
+) -> Result<Response, ContractError>
+```
+
+Key points -
+
+- Validates the Coordinate and Checks if the Game exists and is in the INVITED State.
+- Ensures the Coordinate hasn't been Played and the Correct funds are sent.
+- Updates the Game State (doubles the prize, plays the move, finishes the round).
+- Changes the Game Status to PLAYING.
+
+### 4. `try_play`
+
+This function handles making a Move in an Ongoing Game.
+
+```rust
+pub fn try_play(
+    deps: DepsMut,
+    info: MessageInfo,
+    as_host: bool,
+    coord: Coord,
+    opponent: String,
+    game_id: u64,
+) -> Result<Response, ContractError>
+```
+
+Key points -
+
+- Validates the Coordinate and Retrieves the Game.
+- Checks if the Move is Valid (coordinate not played, correct player's turn).
+- Updates the Game State with the new Move.
+- Checks for a Win or Draw Condition.
+- If the Game is Completed, handles Prize Distribution.
+- Returns a response with the Updated Game State.
+
+### Common Patterns
+
+1. ***Error Handling:*** Each function returns a `Result<Response, ContractError>`, allowing for precise Error Management.
+2. ***State Management:*** The Contract uses `GAMES` and `GAMES_COUNT` to manage Game States.
+3. ***Fund Management:*** The Contract handles Prizes, including Doubling, Refunding, and Distributing based on Game Outcomes.
+4. ***Response Building:*** Each function Constructs a `Response` with relevant attributes for client-side Processing.
+
+## `lib.rs`
+
+The `lib.rs` file Serves as the Root of the Rust Crate for the Tic-Tac-Toe Game Contract. Let's break it Down line by line -
+
+
+### Imports and Configuration
+
+```rust
+pub mod contract;
+```
+This Declares a Public Module named `contract`. The `pub` Keyword makes this module accessible to other Crates that might use this one. This Module likely Contains the Main Contract Logic, including Entry Points for Instantiation, Execution, and Querying.
+
+```rust
+mod data;
+mod errors;
+mod execution;
+mod msg;
+mod query;
+mod state;
+```
+These lines Declare several Private Modules. They're not prefixed with `pub`, so they're only accessible within this Crate. Each module likely Corresponds to a Separate file -
+
+- `data`: Probably Contains Data Structures used throughout the Contract.
+- `errors`: Defines Custom Error Types for the Contract.
+- `execution`: Likely Contains the Logic for Executing various Contract Actions.
+- `msg`: Probably Defines Message Types for Contract Interactions.
+- `query`: Likely Contains Logic for Querying Contract State.
+- `state`: Probably Defines the Contract's State and Storage Logic.
+
+```rust
+pub use serde::{Deserialize, Serialize};
+```
+This Line re-exports the `Deserialize` and `Serialize` Traits from the `serde` Crate. This makes these Traits available to Users of this Crate without them needing to explicitly Import `serde`. These Traits are Crucial for Serialization and Deserialization in CosmWasm Contracts.
+
+```rust
+#[cfg(test)]
+mod tests;
+```
+This Declares a `tests` Module that's only Compiled when Running Tests (due to the `#[cfg(test)]` attribute). This is where Unit Tests for the Contract would be located.
+
+## `msg.rs`
+
+This `msg.rs` file Defines the Message Structures used for Interacting with the Tic-Tac-Toe Game Contract. These Structures are Crucial for Defining how Users and other Contracts can Interact with this Smart Contract.
+
+### Imports and Common Traits
+
+```rust
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+use crate::state::{Coord, Status};
+```
+
+- `JsonSchema`: For Generating JSON Schema for the Structs.
+- `Deserialize`, `Serialize`: For Converting between Rust Types and JSON.
+- `Coord`, `Status`: Custom Types from the Contract's `state` Module.
+
+All Structs and Enums are Derived with `Serialize`, `Deserialize`, `Clone`, `Debug`, `PartialEq`, and `JsonSchema` traits, which are Standard for CosmWasm Message Types.
+
+### InstantiateMsg
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct InstantiateMsg {}
+```
+
+This Empty Struct is used when Instantiating the Contract. In this case, no Initial Configuration is needed.
+
+### ExecuteMsg
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum ExecuteMsg {
+    Invite { coord: Coord, opponent: String },
+    Reject { as_host: bool, opponent: String, game_id: u64 },
+    Accept { coord: Coord, host: String, game_id: u64 },
+    Play { as_host: bool, coord: Coord, opponent: String, game_id: u64 },
+}
+```
+
+This Enum Defines the possible Execute Messages -
+
+1. `Invite`: Start a new Game, specifying the first Move and Opponent.
+2. `Reject`: Reject a Game Invitation.
+3. `Accept`: Accept a Game Invitation and make the first Move.
+4. `Play`: Make a Move in an Ongoing Game.
+
+The `#[serde(rename_all = "snake_case")]` attribute Ensures that the Enum Variants are Serialized in snake_case, which is the Convention in JSON.
+
+### QueryMsg
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum QueryMsg {
+    GetContractVersion {},
+    Game { key: QueryKey, game_id: u64 },
+    Games { status: Option<Status> },
+}
+```
+
+This enum defines the possible query messages -
+
+1. `GetContractVersion`: Retrieve the Contract's Version Information.
+2. `Game`: Query a Specific Game by its Key and ID.
+3. `Games`: Query Multiple Games, Optionally filtered by Status.
+
+### QueryKey
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub struct QueryKey {
+    pub host: String,
+    pub opponent: String,
+}
+```
+
+This Struct is used to Specify the Key for Querying a Specific Game, Consisting of the host and Opponent addresses.
+
+## `query.rs`
+
+The `query.rs` file Defines two Main Query functions for the Tic-Tac-Toe Game Contract: `query_game` and `query_games`. These functions allow Users or other Contracts to retrieve Information about Specific Games or Sets of Games.
+
+### Imports and Configuration
+
+```rust
+#[cfg(not(feature = "library"))]
+use crate::data::GameResponse;
+use crate::msg::QueryKey;
+use crate::state::{Status, GAMES};
+use cosmwasm_std::{Deps, Order, StdResult};
+```
+
+- `GameResponse`: A Struct representing the response format for Game Queries.
+- `QueryKey`: A Struct used to Specify the Key for Querying a Specific Game.
+- `Status`, `GAMES`: From the Contract's State Module, likely an Enum for Game Status and a Storage Map for Games.
+- `Deps`, `Order`, `StdResult`: CosmWasm Standard Types for Dependency Injection, Ordering, and Results.
+
+### query_game Function
+
+```rust
+pub fn query_game(deps: Deps, key: QueryKey, game_id: u64) -> StdResult<Vec<GameResponse>> {
+    // ... (implementation)
+}
+```
+
+This function Queries a Specific Game -
+
+1. It Validates the Host and Opponent Addresses from the `QueryKey`.
+2. It attempts to Load the Game from Storage using `GAMES.may_load()`.
+3. If the Game is found, it Constructs a `GameResponse` with the Game Data and Player addresses.
+4. It returns a Vector Containing either one `GameResponse` (if the game is found) or an Empty Vector (if not found).
+
+### query_games Function
+
+```rust
+pub fn query_games(deps: Deps, status: Option<Status>) -> StdResult<Vec<GameResponse>> {
+    // ... (implementation)
+}
+```
+
+This function Queries Multiple Games, Optionally filtered by Status -
+
+1. It uses `GAMES.range()` to Iterate over all Games in Storage.
+2. For each Game, it Constructs a `GameResponse` with the Game Data and Player addresses.
+3. If a Status filter is Provided, it filters the Results to include only Games matching that Status.
+4. It returns a Vector of all matching `GameResponse` Objects.
+
+### Error Handling
+
+Both functions return `StdResult<Vec<GameResponse>>`, allowing for Propagation of any Errors that might occur During address Validation or Storage access.
+
+## `state.rs`
+
+
+
+## `tests.rs`
+
+This file Basically Comprises of all the Tests Scripts used for Testing of the Smart Contract.

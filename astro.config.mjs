@@ -7,8 +7,9 @@ export default defineConfig({
     title: 'Our Courses',
     social: {
       github: 'https://github.com/ShivankK26/Router-Academy-Courses',
+      "youtube": 'https://www.youtube.com/@RouterProtocol',
+      telegram: "https://t.me/+nRKsasrX2285YTI1",
       "x.com": "https://x.com/SuperRabbitsDAO",
-	    telegram: "https://t.me/+nRKsasrX2285YTI1"
     },
     customCss: ['./src/tailwind.css'],
     sidebar: [
