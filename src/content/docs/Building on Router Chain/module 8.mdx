@@ -566,7 +566,87 @@ Both functions return `StdResult<Vec<GameResponse>>`, allowing for Propagation o
 
 ## `state.rs`
 
+The `state.rs` file Defines the Core Data Structures and Storage Mechanisms for the Tic-Tac-Toe Game Contract. It includes Game Logic, State Management, and persistent Storage Definitions.
 
+### Imports and Setup
+
+```rust
+use std::fmt;
+use cosmwasm_std::{Addr, Coin, Uint128};
+use cw_storage_plus::{Item, Map};
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+```
+
+- `fmt`: For Implementing Custom formatting Traits.
+- `Addr`, `Coin`, `Uint128`: CosmWasm Types for addresses, Coins, and Large Integers.
+- `Item`, `Map`: CosmWasm Storage Primitives.
+- `JsonSchema`, `Deserialize`, `Serialize`: For JSON Schema Generation and Serialization.
+
+### Game Struct
+
+```rust
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+pub struct Game {
+    pub board: Vec<Vec<Option<PlayerSymbol>>>,
+    pub host_symbol: PlayerSymbol,
+    pub player_round: Option<PlayerSymbol>,
+    pub prize: Vec<Coin>,
+    pub status: Status,
+    pub winner: Option<PlayerSymbol>,
+}
+```
+
+This Struct represents the State of a single Tic-Tac-Toe Game -
+
+- `board`: A 3x3 Grid represented as nested Vectors.
+- `host_symbol`: The Symbol (X or O) of the Game Creator.
+- `player_round`: Indicates whose turn it is.
+- `prize`: The Reward for the Winner.
+- `status`: Current Game State (INVITED, PLAYING, COMPLETED, REJECTED).
+- `winner`: The Winner of the Game, if any.
+
+### Supporting Types
+
+```rust
+pub enum PlayerSymbol { X, O }
+pub enum Status { INVITED, PLAYING, COMPLETED, REJECTED }
+pub struct Coord { pub x: u8, pub y: u8 }
+```
+
+- `PlayerSymbol`: Represents the two Possible Player Markers.
+- `Status`: Represents the four possible Game States.
+- `Coord`: Represents a position on the Game Board.
+
+### Game Logic Implementation
+
+The `Game` struct Implements Several Methods -
+
+```rust
+impl Game {
+    pub fn new(coord: Coord, prize: Vec<Coin>) -> Game { ... }
+    pub fn already_played_on(&self, coord: Coord) -> bool { ... }
+    pub fn already_played(&mut self, as_host: bool) -> bool { ... }
+    pub fn double_prize(&mut self) -> &mut Game { ... }
+    pub fn get_half_prize(&self) -> Vec<Coin> { ... }
+    pub fn play(&mut self, coord: Coord) -> &mut Game { ... }
+    pub fn finish_round(&mut self) -> &mut Game { ... }
+    pub fn is_full_board(&self) -> bool { ... }
+    pub fn is_current_player_winner(&self) -> bool { ... }
+}
+```
+
+### Persistent Storage
+
+```rust
+pub const GAMES_COUNT: Item<u64> = Item::new("tic-tac-toe-count");
+pub const GAMES: Map<(&Addr, &Addr, u64), Game> = Map::new("tic-tac-toe");
+```
+
+- `GAMES_COUNT`: Keeps Track of the Total number of Games.
+- `GAMES`: Stores Individual Game States, keyed by Both players' Addresses and a Game ID.
+
+This State Definition provides a Robust Foundation for the Tic-Tac-Toe Game, handling Game Mechanics, State Transitions, and Blockchain Integration efficiently. It's Designed to be used in Conjunction with other Contract Components like Message handling (`msg.rs`) and Querying (`query.rs`) to Create a full-featured Blockchain-based Game.
 
 ## `tests.rs`
 
