@@ -24,34 +24,52 @@ export default defineConfig({
         ]
       },
       {
-        label: 'Understanding Router Nitro',
+        label: 'Router Nitro',
         collapsed: true,
-        autogenerate: { directory: 'Understanding Router Nitro' }
+        items: [
+          {
+            label: 'Understanding Router Nitro',
+            collapsed: true,
+            autogenerate: { directory: 'Router Nitro/Understanding Router Nitro' }
+          },
+          {
+            label: 'Building on Router Nitro',
+            collapsed: true,
+            autogenerate: { directory: 'Router Nitro/Building on Router Nitro' }
+          }
+        ]
       },
       {
-        label: 'Building on Router Nitro',
+        label: 'Router CCIF',
         collapsed: true,
-        autogenerate: { directory: 'Building on Router Nitro' }
+        items: [
+          {
+            label: 'Understanding Router CCIF',
+            collapsed: true,
+            autogenerate: { directory: 'Router CCIF/Understanding Router CCIF' }
+          },
+          {
+            label: 'Building on Router CCIF',
+            collapsed: true,
+            autogenerate: { directory: 'Router CCIF/Building on Router CCIF' }
+          }
+        ]
       },
       {
-        label: 'Understanding Router CCIF',
+        label: 'Router Chain',
         collapsed: true,
-        autogenerate: { directory: 'Understanding Router CCIF' }
-      },
-      {
-        label: 'Building on Router CCIF',
-        collapsed: true,
-        autogenerate: { directory: 'Building on Router CCIF' }
-      },
-      {
-        label: 'Understanding Router Chain',
-        collapsed: true,
-        autogenerate: { directory: 'Understanding Router Chain' }
-      },
-      {
-        label: 'Building on Router Chain',
-        collapsed: true,
-        autogenerate: { directory: 'Building on Router Chain' }
+        items: [
+          {
+            label: 'Understanding Router Chain',
+            collapsed: true,
+            autogenerate: { directory: 'Router Chain/Understanding Router Chain' }
+          },
+          {
+            label: 'Building on Router Chain',
+            collapsed: true,
+            autogenerate: { directory: 'Router Chain/Building on Router Chain' }
+          }
+        ]
       },
       {
         label: 'Articles by Our Community ❤️',
