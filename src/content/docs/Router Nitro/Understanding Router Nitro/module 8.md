@@ -53,9 +53,9 @@ Once <code>NodeJS</code> is installed, verify its installation by running <code>
 
     Install <code>ts-node</code> as a Development Dependency:
 
-        ```
-        yarn add -D ts-node
-        ```
+    ```
+    yarn add -D ts-node
+    ```
 
 7. Install the Latest Version of Asset Transfer SDK -
 
