@@ -72,6 +72,10 @@ export default defineConfig({
         ]
       },
       {
+        label: 'SDKs',
+        link: '/sdks/',
+      },
+      {
         label: 'Articles by Our Community ❤️',
         link: '/articles/'
       },

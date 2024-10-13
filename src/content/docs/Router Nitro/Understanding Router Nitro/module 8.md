@@ -23,13 +23,13 @@ Once <code>NodeJS</code> is installed, verify its installation by running <code>
     cd my-nitro-project
     ```
 
-2. Initialize a <code>package.json</code> file, which will Manage your Project's Dependencies, using Yarn -
+2. Initialize a <code>package.json</code> file, which will Manage your Project's Dependencies, using `yarn` -
 
     ```
     yarn init -y
     ```
 
-3. Install TypeScript as a Development Dependency using Yarn -
+3. Install TypeScript as a Development Dependency using `yarn` -
 
     ```
     yarn add -D typescript
@@ -49,7 +49,7 @@ Once <code>NodeJS</code> is installed, verify its installation by running <code>
     touch index.ts
     ```
 
-6. Since TypeScript Code needs to be Compiled to JavaScript before <code>NodeJS</code> can Execute it, you'll use the ts-node Package for Development -
+6. Since TypeScript Code needs to be Compiled to JavaScript before <code>NodeJS</code> can Execute it, you'll use the `ts-node` Package for Development -
 
     Install <code>ts-node</code> as a Development Dependency:
 
