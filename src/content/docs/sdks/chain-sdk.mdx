@@ -3,11 +3,17 @@ title: Router Chain TypeScript SDK
 description: Get Started with Router Academy.
 ---
 
+import { Aside } from '@astrojs/starlight/components';
+
 ## Introduction
 
 Router Chain Ts SDK is a SDK which is used to Build CrossChain DApps on Router Chain. Refer [this](https://router-protocol.github.io/router-chain-ts-sdk/modules.html) Documentation to Learn in-detail about the Methods available in Ts SDK Package.
 
 Now, Let's Explore Some of the functions available.
+
+<Aside type="caution" title="Source Code!">
+Click [here](https://github.com/ShivankK26/Router-Chain-Ts-SDK) to Refer the Repository with Sample Code. 
+</Aside>
 
 ## Setting Up the Project
 
@@ -64,3 +70,117 @@ Now, Let's Explore Some of the functions available.
 
 ## Fetching an Account's Balance
 
+Refer the Below SDK Implementation to Understand how to fetch an Account's Balance.
+
+```ts
+import { ChainGrpcBankApi, getEndpointsForNetwork, Network } from '@routerprotocol/router-chain-sdk-ts';
+
+const endpoint = getEndpointsForNetwork(Network.Testnet);
+const bankClient = new ChainGrpcBankApi(endpoint.grpcEndpoint);
+  
+async function fetchAccountDetails() {
+  // Fetch all balances of an account
+  const accountBalances = await bankClient.fetchBalances(
+      'router16sqwdtdxjl6zdvx49rvayhkyelfrhavpmknxh9'
+  );
+  console.log(accountBalances);
+    
+  // Fetch particular coin's balance of an account
+  const routersBalances = await bankClient.fetchBalance({
+      accountAddress: 'router16sqwdtdxjl6zdvx49rvayhkyelfrhavpmknxh9',
+      denom: 'route',
+  });
+  console.log(routersBalances);
+}
+  
+fetchAccountDetails();
+```
+
+## Possible Errors
+
+For using the SDK with UI it is recommended to use Node version v18.12.1 or above. If you get Webpack errors when using with create-react-app, follow these steps -
+
+1. Install `craco` and required packages.
+
+```bash
+yarn add -D @craco/craco
+```
+
+```bash
+yarn add -D path-browserify stream-browserify stream-http https-browserify os-browserify assert url buffer process crypto-browsify fs
+```
+
+2. Add `craco.config.js` file in your project root.
+
+```js
+//craco.config.js
+
+const { ProvidePlugin } = require('webpack');
+module.exports = {
+  webpack: {
+    configure: webpackConfig => {
+      return {
+        ...webpackConfig,
+        resolve: {
+          ...webpackConfig.resolve,
+          fallback: {
+            ...(webpackConfig.resolve?.fallback ?? {}),
+            path: require.resolve('path-browserify'),
+            stream: require.resolve('stream-browserify'),
+            buffer: require.resolve('buffer/'),
+            crypto: require.resolve('crypto-browserify'),
+            http: require.resolve('stream-http'),
+            https: require.resolve('https-browserify'),
+            os: require.resolve('os-browserify/browser'),
+            assert: require.resolve('assert/'),
+            url: require.resolve('url/'),
+          },
+        },
+        plugins: [
+          ...(webpackConfig.plugins ?? []),
+          new ProvidePlugin({
+            Buffer: ['buffer', 'Buffer'],
+          }),
+          new ProvidePlugin({
+            process: 'process/browser',
+          }),
+        ],
+      };
+    },
+  },
+};
+```
+
+3. Replace these scripts in `package.json`.
+
+```js
+"scripts": {
+		-  ~~"start": "react-scripts start"~~
+		+  "start": "craco start"
+		-  ~~"build": "react-scripts build"~~
+		+  "build": "craco build"
+		-  ~~"test": "react-scripts test"~~
+		+  "test": "craco test"
+}
+```
+
+4. `yarn start` and the Webpack errors should be gone. 
+
+5. If you get Webpack errors when using Vue’s nuxt framework, do this small change in `nuxt.config.js` build key -
+
+```js
+//nuxt.config.js
+build: {
+    extend(config, ctx) {
+      config.module.rules.push({
+        test: /\.js$/, // apply this rule to .js files
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"], // use the preset-env preset
+          },
+        },
+      });
+    },
+  }
+```  
