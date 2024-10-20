@@ -3,4 +3,244 @@ title: Module 9 - Building an OmniChain Token on Router Chain
 description: Get Started with Router Academy.
 ---
 
-## Coming Soon
+import { Aside } from '@astrojs/starlight/components';
+import { FileTree } from '@astrojs/starlight/components';
+
+## Cloning the Repository
+
+For Understanding how to Write a Smart Contract for an OmniChain Token on Router Chain, Clone the Below Repository in your Local Machine -
+
+```bash
+git clone https://github.com/ShivankK26/OmniChain-Crypto-Token .
+```
+
+<Aside type="caution" title="Watch out!">
+  Before Running the above Command, make sure that you have git Installed. In case, you don't have it then Install it as per your OS -
+
+  1. Windows
+  
+  ```bash
+  https://git-scm.com/downloads/win
+  ```
+
+  2. macOS
+
+  ```bash
+  brew install git
+  ```
+
+  3. Linux
+
+  ```bash
+  sudo apt update
+  sudo apt install git
+  ```
+</Aside>
+
+This will Clone a Tic Tac Toe Game Smart Contract in the Current Directory.
+
+## File Structure
+ 
+The `cosmwasm` Directory consists of Smart Contracts written on Router Chain and `evm` Directory consists of the Smart Contracts written on Polygon and Arbitrum.
+
+<FileTree>
+
+- cosmwasm/
+    - .cargo/
+        - config
+    - contracts/
+        - xerc20/
+            - examples/
+                - schema.rs
+            - src/
+                - contract.rs
+                - execution.rs
+                - handle_sudo_execution.rs
+                - lib.rs
+                - modifiers.rs
+                - query.rs
+                - state.rs
+                - tests.rs
+            - Cargo.toml
+    - packages/
+        - new-crosstalk-sample/
+            - src/
+                - lib.rs
+                - xerc20.rs
+            - Cargo.toml
+    - scripts/
+        - build.sh
+    - .editorconfig
+    - .gitignore
+    - Cargo.lock
+    - Cargo.toml  
+    - rustfmt.toml
+- evm/
+    - contracts/
+        - XERC20.sol
+    - deployment/
+        - config/
+            - xerc20.json
+        - deployments.json
+    - tasks/
+         - deploy/
+            - DeployOnEachChain.ts
+            - XERC20.ts
+         - enroll_added_chain.ts
+         - enroll_on_chain.ts
+         - index.ts
+         - storeDeployments.ts
+    - test/
+        - PingPong.ts
+    - utils/
+        - chain.ts
+        - onEachChain.ts
+        - types.ts
+        - utils.ts    
+    - .gitignore    
+    - hardhat.config.ts
+    - package-lock.json
+    - package.json
+    - README.md
+    - tsconfig.json  
+    - yarn.lock
+
+</FileTree>
+
+## CosmWasm-side
+
+### `Contract.rs`
+
+#### 1. Imports and Constants
+
+```rust
+use crate::execution::handle_execute;
+use crate::handle_sudo_execution::{handle_sudo_ack, handle_sudo_request};
+use crate::query::handle_query;
+use crate::state::{CREATE_I_SEND_REQUEST, CROSS_CHAIN_TOKEN, INSTANTIATE_REPLY_ID, OWNER};
+// ... (other imports)
+
+const CONTRACT_NAME: &str = "XERC20";
+const CONTRACT_VERSION: &str = "0.1.1";
+```
+
+This section imports necessary modules and defines constants for the contract name and version. It uses various CosmWasm libraries and Router Protocol bindings.
+
+### 2. Instantiate Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn instantiate(
+    deps: DepsMut<RouterQuery>,
+    env: Env,
+    info: MessageInfo,
+    msg: InstantiateMsg,
+) -> StdResult<Response> {
+    OWNER.save(deps.storage, &info.sender.to_string())?;
+    set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+    Ok(Response::new().add_submessage(SubMsg {
+        // ... (CW20 token instantiation details)
+    }))
+}
+```
+
+The instantiate function is called when the contract is first deployed. It:
+1. Saves the contract owner
+2. Sets the contract version
+3. Creates a new CW20 token as the underlying token for omnichain functionality
+
+The CW20 token is created via a submessage, allowing for asynchronous handling of the token creation.
+
+### 3. Reply Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn reply(deps: DepsMut<RouterQuery>, _env: Env, msg: Reply) -> StdResult<Response<RouterMsg>> {
+    match msg.id {
+        INSTANTIATE_REPLY_ID => {
+            // ... (Handle CW20 token instantiation reply)
+        }
+        CREATE_I_SEND_REQUEST => {
+            // ... (Handle cross-chain send request reply)
+        }
+        id => return Err(StdError::generic_err(format!("Unknown reply id: {}", id))),
+    }
+    Ok(Response::new())
+}
+```
+
+The reply function handles responses from submessages. It has two main cases:
+1. INSTANTIATE_REPLY_ID: Handles the reply from CW20 token creation, saving the new token's address.
+2. CREATE_I_SEND_REQUEST: Handles replies from cross-chain send requests, including logging debug information.
+
+### 4. Execute Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn execute(
+    deps: DepsMut<RouterQuery>,
+    env: Env,
+    info: MessageInfo,
+    msg: ExecuteMsg,
+) -> StdResult<Response<RouterMsg>> {
+    handle_execute(deps, env, info, msg)
+}
+```
+
+This function is the entry point for all execute messages sent to the contract. It delegates the actual handling to a separate `handle_execute` function.
+
+### 5. Sudo Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn sudo(deps: DepsMut<RouterQuery>, env: Env, msg: SudoMsg) -> StdResult<Response<RouterMsg>> {
+    match msg {
+        SudoMsg::HandleIReceive { ... } => handle_sudo_request(...),
+        SudoMsg::HandleIAck { ... } => handle_sudo_ack(...),
+    }
+}
+```
+
+The sudo function handles privileged operations, typically called by the Router Protocol infrastructure. It has two main operations:
+1. HandleIReceive: Processes incoming cross-chain requests
+2. HandleIAck: Handles acknowledgments for outgoing cross-chain requests
+
+### 6. Migrate Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn migrate(deps: DepsMut<RouterQuery>, env: Env, _msg: MigrateMsg) -> StdResult<Response> {
+    let ver = cw2::get_contract_version(deps.storage)?;
+    if ver.contract != CONTRACT_NAME.to_string() {
+        return Err(StdError::generic_err("Can only upgrade from same type").into());
+    }
+    // ... (logging and version update)
+    Ok(Response::default())
+}
+```
+
+This function allows for upgrading the contract. It checks that the migration is from the correct contract type and logs information about the migration.
+
+### 7. Query Function
+
+```rust
+#[cfg_attr(not(feature = "library"), entry_point)]
+pub fn query(deps: Deps<RouterQuery>, env: Env, msg: QueryMsg) -> StdResult<Binary> {
+    handle_query(deps, env, msg)
+}
+```
+
+This function handles all query requests to the contract, delegating to a separate `handle_query` function.
+
+## Key Features
+
+1. CW20 Base: Uses a CW20 token as its base, extending it with cross-chain functionality.
+2. Router Protocol Integration: Integrates with Router Protocol for cross-chain operations.
+3. Modular Design: Separates concerns by delegating complex logic to separate functions.
+4. Upgrade Capability: Includes migration functionality for future upgrades.
+5. Privileged Operations: Uses the sudo pattern for secure cross-chain interactions.
+
+This contract serves as the main entry point for the omnichain token, coordinating between local token operations (via the CW20 token) and cross-chain operations (via Router Protocol).
+
+## EVM-side
+

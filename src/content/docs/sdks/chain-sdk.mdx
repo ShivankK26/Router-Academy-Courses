@@ -3,30 +3,39 @@ title: Router Chain TypeScript SDK
 description: Get Started with Router Academy.
 ---
 
+## Introduction
+
+Router Chain Ts SDK is a SDK which is used to Build CrossChain DApps on Router Chain. Refer [this](https://router-protocol.github.io/router-chain-ts-sdk/modules.html) Documentation to Learn in-detail about the Methods available in Ts SDK Package.
+
+Now, Let's Explore Some of the functions available.
+
 ## Setting Up the Project
 
 1. Navigate to your Desired Workspace Directory and Create a new Directory for your Project using the <code>mkdir</code> Command and <code>cd</code> to that directory -
 
-    ```
+    ```bash
     mkdir my-router-chain-project
+    ```
+
+    ```bash
     cd my-router-chain-project
     ```
 
 2. Initialize a <code>package.json</code> file, which will Manage your Project's Dependencies, using `yarn` -
 
-    ```
+    ```bash
     yarn init -y
     ```
 
 3. Install TypeScript as a Development Dependency using `yarn` -
 
-    ```
+    ```bash
     yarn add -D typescript
     ```
 
 4. Generate a Basic TypeScript Configuration file using the TypeScript Compiler -
 
-    ```
+    ```bash
     yarn tsc --init
     ```
 
@@ -34,7 +43,7 @@ description: Get Started with Router Academy.
 
 5. Create a New file for your Application code with a <code>.ts</code> Extension (e.g., index.ts) -
 
-    ```
+    ```bash
     touch index.ts
     ```
 
@@ -42,12 +51,16 @@ description: Get Started with Router Academy.
 
     Install <code>ts-node</code> as a Development Dependency:
 
-    ```
+    ```bash
     yarn add -D ts-node
     ```
 
 7. Install the Latest Version of Asset Transfer SDK -
 
-    ```
+    ```bash
     yarn add @routerprotocol/router-chain-sdk-ts
     ```
+
+
+## Fetching an Account's Balance
+

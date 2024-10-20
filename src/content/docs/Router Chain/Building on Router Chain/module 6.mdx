@@ -3,4 +3,247 @@ title: Module 6 - Understanding Router Wasm Bindings
 description: Get Started with Router Academy.
 ---
 
-## Coming Soon
+## Introduction
+
+`router_wasm_bindings` is a `crate` package which we'll be using to Import all the features provided by Router Protocol. It includes methods for making your DApp CrossChain. Refer [this](https://docs.rs/router-wasm-bindings/1.0.3/router_wasm_bindings/all.html) Documentation to Learn in-detail the `router_wasm_bindings` package.
+
+Now, Let's Explore Some of the Methods available in `router_wasm_bindings` package.
+
+## Structs
+
+### RouterQuerier
+
+```rust
+pub struct RouterQuerier<'a> { /* private fields */ }
+```
+
+This is a helper Wrapper to easily use our Custom Queries.
+
+### CrossChainRequestResponse
+
+```rust
+pub struct CrosschainRequestResponse {
+    pub request_identifier: u64,
+    pub fee_deducted: Coin,
+}
+```
+
+This is a Wrapper used to Record CrossChain Response.
+
+### GasPriceResponse
+
+```rust
+pub struct GasPriceResponse {
+    pub gas_price: u64,
+}
+```
+
+This is a Wrapper used to Record Gas Price Response.
+
+### RequestMetaData
+
+```rust
+pub struct RequestMetaData {
+    pub dest_gas_limit: u64,
+    pub dest_gas_price: u64,
+    pub ack_gas_limit: u64,
+    pub ack_gas_price: u64,
+    pub relayer_fee: Uint128,
+    pub ack_type: AckType,
+    pub is_read_call: bool,
+    pub asm_address: String,
+}
+```
+This is a Wrapper used to get the Request Metadata to be used while Initiating cross-chain Request.
+
+### TokenPriceResponse
+
+```rust
+pub struct TokenPriceResponse {
+    pub token_price: Uint128,
+    pub token_decimal: u64,
+}
+```
+
+This is a Wrapper used to get the Token Price Response.
+
+## Enums
+
+### RouterMsg
+
+```rust
+pub enum RouterMsg {
+    CrosschainCall {
+        version: u64,
+        route_amount: Uint128,
+        route_recipient: String,
+        dest_chain_id: String,
+        request_metadata: Bytes,
+        request_packet: Bytes,
+    },
+}
+```
+
+A number of Custom Messages that can Call into the Router Bindings.
+
+### RouterQuery
+
+```rust
+pub enum RouterQuery {
+    TokenPrice {
+        symbol: String,
+    },
+    GasPrice {
+        chain_id: String,
+    },
+}
+```
+
+An Enum used to Query Token Price and Gas Price.
+
+### SudoMsg
+
+```rust
+pub enum SudoMsg {
+    HandleIReceive {
+        request_sender: String,
+        src_chain_id: String,
+        request_identifier: u64,
+        payload: Binary,
+    },
+    HandleIAck {
+        request_identifier: u64,
+        exec_flag: bool,
+        exec_data: Binary,
+        refund_amount: Coin,
+    },
+}
+```
+
+An Enum consists of HandleIReceive and HandleIAck - 
+
+- ***HandleIReceive*** - a function to handle the Acknowledgement received from the Destination Chain Back on the Source Chain.
+
+- ***HandleIAck*** - function to handle the cross-chain Request received from some Other Chain.
+
+### AckType
+
+```rust
+pub enum AckType {
+    NoAck,
+    AckOnSuccess,
+    AckOnError,
+    AckOnBoth,
+}
+```
+
+An Enum which gives the Acknowledgement Type of the Request.
+
+### ChainType
+
+```rust
+pub enum ChainType {
+    ChainTypeNone,
+    ChainTypeRouter,
+    ChainTypeEvm,
+    ChainTypeCosmos,
+    ChainTypePolkadot,
+    ChainTypeSolana,
+    ChainTypeNear,
+    ChainTypeTron,
+    ChainTypeStarknet,
+    ChainTypeBitcoin,
+    ChainTypeSui,
+    ChainTypeAlephZero,
+}
+```
+
+An Enum which tells about the Type of the Chain.
+
+## Functions
+
+### `convert_address_from_bytes_to_string`
+
+```rust
+pub fn convert_address_from_bytes_to_string(
+    address: &[u8],
+    chain_type: u64,
+) -> StdResult<String>
+```
+
+A function which is used to convert an Address from Bytes to String.
+
+### `convert_address_from_string_to_bytes`
+
+```rust
+pub fn convert_address_from_string_to_bytes(
+    address: String,
+    chain_type: u64,
+) -> StdResult<Bytes>
+```
+
+A function which is used to convert an Address from String to Bytes.
+
+### `evm_address_to_router_address`
+
+```rust
+pub fn evm_address_to_router_address(address: &[u8]) -> StdResult<String>
+```
+
+A function which is used to Convert any EVM Address to Router Chain Address.
+
+### `fetch_oracle_gas_price`
+
+```rust
+pub fn fetch_oracle_gas_price(
+    deps: Deps<'_, RouterQuery>,
+    chain_id: String,
+) -> StdResult<GasPriceResponse>
+```
+
+A function which is used to fetch the Gas Price of an Oracle.
+
+### `fetch_oracle_token_price`
+
+```rust
+pub fn fetch_oracle_token_price(
+    deps: Deps<'_, RouterQuery>,
+    symbol: String,
+) -> StdResult<TokenPriceResponse>
+```
+
+A function which is used to fetch the Token Price of an Oracle.
+
+### `router_address_to_evm_address`
+
+```rust
+pub fn router_address_to_evm_address(router_address: &str) -> StdResult<Vec<u8>>
+```
+
+A function which is used to Convert any Router Chain Address to EVM Address.
+
+## Constants
+
+### `EVM_ADDRESS_LENGTH`
+
+```rust
+pub const EVM_ADDRESS_LENGTH: usize = 20;
+```
+
+A Constant which is used to Calculate the Length of an EVM Address.
+
+### `INBOUND_OUTBOUND_MAPPING_EVENT_NAME`
+
+```rust
+pub const INBOUND_OUTBOUND_MAPPING_EVENT_NAME: &str = "inbound_outbound_mapping_event";
+```
+
+A Constant which is used to Determine the InBound and OutBound Mapping.
+
+### `NATIVE_DENOM`
+
+```rust
+pub const NATIVE_DENOM: &str = "route";
+```
+
+A Constant which is set to Natve Denom as "route".
