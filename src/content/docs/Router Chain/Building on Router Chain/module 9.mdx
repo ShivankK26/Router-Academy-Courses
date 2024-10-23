@@ -771,6 +771,94 @@ This is the Core of the Omnichain functionality, enabling Token Transfers across
 
 ### `handle_sudo_execution.rs`
 
+The `handle_sudo_execution.rs` file handles two Important Parts of the Omnichain Token Project -
+
+1. `handle_sudo_request`
+2. `handle_sudo_ack`
+
+```rust
+pub fn handle_sudo_request(
+    deps: DepsMut<RouterQuery>,
+    _env: Env,
+    request_sender: String,
+    src_chain_id: String,
+    request_identifier: u64,
+    payload: Binary,
+) -> StdResult<Response<RouterMsg>> {
+    deps.api.debug("XERC20 INFO: Handle Sudo Request");
+    let src_chain_type: u64 = CHAIN_TYPE_MAPPING.load(deps.storage, &src_chain_id)?; // Retrieves the type of the source chain from the contract's storage (e.g., EVM, Cosmos, etc.).
+    let sender: String = match src_chain_type { // If the chain is of type 1 (likely an EVM chain), it converts the sender's address to lowercase.
+        1 => request_sender.to_lowercase(),
+        _ => request_sender.clone(),
+    };
+
+    is_white_listed_modifier(deps.as_ref(), &src_chain_id, &sender)?; // Verifies if the sender's contract on the source chain is whitelisted.
+    deps.api.debug("Request Coming from whitelisted Contract");
+    // bytes memory packet = abi.encode(recipient, amount);
+    let token_vec = match decode(&[ParamType::Bytes, ParamType::Uint(128)], &payload.0) { // Decodes the payload, which contains: recepient address, amount to mint.
+        Ok(data) => data,
+        Err(_) => {
+            return Err(StdError::GenericErr {
+                msg: String::from("err.into()"),
+            });
+        }
+    };
+
+    let u128_val: u128 = token_vec[1].clone().into_uint().unwrap().as_u128(); // Extracts the recipient address and the amount to mint.
+    let amount = Uint128::new(u128_val);
+    let addr: Bytes = token_vec[0].clone().into_bytes().unwrap();
+
+    let recipient = // Converts the recipient's address from bytes to a string using the Cosmos chain type.
+        convert_address_from_bytes_to_string(&addr, ChainType::ChainTypeCosmos.get_chain_code())?;
+    let info_str: String = format!("recipient {:?}, amount {:?}", recipient, amount);
+    deps.api.debug(&info_str);
+
+    deps.api.addr_validate(&recipient)?;
+    let mint_msg = cw20_base::msg::ExecuteMsg::Mint { recipient, amount }; // Creates a Mint message for the CW20 token contract to mint the specified amount of tokens to the recipient.
+
+    let xerc20_token: String = CROSS_CHAIN_TOKEN.load(deps.storage)?;
+    let exec_mint_msg: CosmosMsg<RouterMsg> = CosmosMsg::Wasm(WasmMsg::Execute { // Executes the mint operation by sending the mint_msg to the XERC20 contract. The xerc20_token address is retrieved from storage using CROSS_CHAIN_TOKEN.
+        contract_addr: xerc20_token,
+        funds: vec![],
+        msg: to_binary(&mint_msg)?,
+    });
+    let info_str: String = format!("exec_mint_token {:?}", exec_mint_msg);
+    deps.api.debug(&info_str);
+
+    let res: Response<RouterMsg> = Response::new() // The function constructs a response that includes the mint message and adds relevant attributes like the request sender, request identifier, and source chain ID.
+        .add_message(exec_mint_msg)
+        .add_attribute("sender", request_sender)
+        .add_attribute("request_identifier", request_identifier.to_string())
+        .add_attribute("src_chain_id", src_chain_id);
+    Ok(res)
+}
+```
+
+This function is responsible for handling Incoming Sudo Requests, Verifying them, and Minting Tokens on the Target Chain for the Recipient.
+
+```rust
+pub fn handle_sudo_ack(
+    deps: DepsMut<RouterQuery>,
+    _env: Env,
+    request_identifier: u64,
+    exec_flag: bool,
+    exec_data: Binary,
+    _refund_amount: Coin,
+) -> StdResult<Response<RouterMsg>> {
+    let info_str: String = format!(  // Logs the execution status, including the request identifier and any execution data.
+        "handle_sudo_ack, request_identifier {:?}, exec_data {:?}",
+        request_identifier, exec_data
+    );
+    deps.api.debug(&info_str);
+    let event = Event::new("ExecutionStatus") // Creates an event named "ExecutionStatus" with attributes for the request identifier and execution flag.
+        .add_attribute("requestIdentifier", request_identifier.to_string())
+        .add_attribute("execFlag", exec_flag.to_string());
+
+    Ok(Response::new().add_event(event)) // Returns a response with the execution status event.
+}
+```
+
+This function handles the Acknowledgment of a Sudo Request Execution, Logging whether the Execution was Successful.
 
 
 ### `lib.rs`
@@ -859,7 +947,173 @@ pub fn is_white_listed_modifier(
 
 ### `query.rs`
 
+The `query.rs` file in the Omnichain Token Project Defines various Query handlers and helper functions to fetch Specific information from the Contract's State and External Sources. These functions respond to Queries sent to the Contract and provide Information related to the Contract's Configuration, such as Whitelisted Contracts, Chain Types, Owner Details, and Prices for Gas and Tokens from an External Oracle (via Router Protocol).
 
+#### Imports and Constants
+
+```rust
+use cosmwasm_std::{to_binary, Binary, Deps, Env, Order, StdResult, Uint128};
+use cw2::get_contract_version;
+use new_crosstalk_sample::xerc20::QueryMsg;
+use router_wasm_bindings::{
+    types::{GasPriceResponse, TokenPriceResponse},
+    RouterQuerier, RouterQuery,
+};
+
+use crate::state::{
+    CHAIN_ID, CHAIN_TYPE_MAPPING, CROSS_CHAIN_TOKEN, OWNER, WHITELISTED_CONTRACT_MAPPING,
+};
+```
+
+The above Code Comprises of Importing `cosmwasm_std`, `cw2`, `router_wasm_bindings`, etc. packages.  
+
+#### Handling Query Function
+
+```rust
+pub fn handle_query(deps: Deps<RouterQuery>, _env: Env, msg: QueryMsg) -> StdResult<Binary> {
+    match msg {
+        QueryMsg::GetContractVersion {} => to_binary(&get_contract_version(deps.storage)?),        // Fetches the contract version.
+        QueryMsg::FetchWhiteListedContract { chain_id } => {                                       // Fetches the whitelisted contract on a given chain using its chain_id.
+            to_binary(&fetch_white_listed_contract(deps, &chain_id)?)
+        }
+        QueryMsg::FetchOwner {} => to_binary(&fetch_owner(deps)?),                                 // Returns the contract owner.
+        QueryMsg::FetchXerc20 {} => to_binary(&fetch_xerc20_addr(deps)?),                          // Fetches the address of the cross-chain token (XERC20).
+        QueryMsg::FetchChainId {} => to_binary(&fetch_chain_id(deps)?),                            // Returns the chain_id of the current contract.
+        QueryMsg::AllWhiteListedContract {} => to_binary(&fetch_all_white_listed_contract(deps)?), // Fetches all whitelisted contracts.
+        QueryMsg::FetchChainType { chain_id } => to_binary(&fetch_chain_type(deps, &chain_id)?),   // Fetches the type of the chain corresponding to the given chain_id.
+    }
+}
+```
+
+#### Helper Functions
+
+```rust
+pub fn is_white_listed_contract(
+    deps: Deps<RouterQuery>,
+    chain_id: &str,
+    contract_addr: &str,
+) -> bool {
+    match WHITELISTED_CONTRACT_MAPPING.load(deps.storage, chain_id) {
+        Ok(contract) => return contract == contract_addr,
+        _ => false,
+    }
+}
+```
+
+- It Checks if the given Contract on a Specified Chain is Whitelisted.
+- Loads the Whitelisted Contract for a given `chain_id` from Storage.
+- Compares the Loaded Contract Address with the provided `contract_addr`.
+
+```rust
+pub fn fetch_white_listed_contract(deps: Deps<RouterQuery>, chain_id: &str) -> StdResult<String> {
+    WHITELISTED_CONTRACT_MAPPING.load(deps.storage, chain_id)
+}
+```
+
+- It fetches the Whitelisted Contract Address for a given Chain.
+- Loads the Whitelisted Contract for the provided `chain_id` from Storage.
+
+```rust
+pub fn fetch_owner(deps: Deps<RouterQuery>) -> StdResult<String> {
+    OWNER.load(deps.storage)
+}
+```
+
+- It fetches the Owner of the Contract.
+- Loads the Owner from Storage and returns the Owner's Address as a String.
+
+```rust
+pub fn fetch_all_white_listed_contract(
+    deps: Deps<RouterQuery>,
+) -> StdResult<Vec<(String, String)>> {
+    match WHITELISTED_CONTRACT_MAPPING
+        .range(deps.storage, None, None, Order::Ascending)
+        .collect()
+    {
+        Ok(data) => return Ok(data),
+        Err(err) => return Err(err),
+    };
+}
+```
+
+- It fetches all Whitelisted Contracts Stored in the Contract.
+- Retrieves all entries in `WHITELISTED_CONTRACT_MAPPING`, which Stores Chain IDs and Contract Addresses.
+- The `range()` method is used to fetch all Records, which are then returned as a Cector of Tuples (`chain_id`, `contract_address`).
+
+```rust
+pub fn fetch_chain_type(deps: Deps<RouterQuery>, chain_id: &str) -> StdResult<u64> {
+    CHAIN_TYPE_MAPPING.load(deps.storage, chain_id)
+}
+```
+
+- It fetches the type of the chain corresponding to a given `chain_id`.
+- Loads the Chain Type (as a u64) for the provided `chain_id` from Storage and returns it.
+
+```rust
+pub fn fetch_oracle_gas_price(deps: Deps<RouterQuery>, chain_id: String) -> StdResult<u64> {
+    let router_querier: RouterQuerier = RouterQuerier::new(&deps.querier);
+    let gas_price_response: GasPriceResponse = router_querier.gas_price(chain_id)?;
+    Ok((gas_price_response.gas_price * 120) / 100)
+}
+```
+
+- It fetches the Gas Price for a given Chain by querying the Router Protocol Oracle.
+- Uses `RouterQuerier` to Query the Router Protocol Oracle for the Gas Price of a specified Chain.
+- The returned Gas Price is multiplied by 120% to adjust it Before returning the Result.
+
+```rust
+pub fn fetch_oracle_token_price(deps: Deps<RouterQuery>, symbol: String) -> StdResult<Uint128> {
+    let router_querier: RouterQuerier = RouterQuerier::new(&deps.querier);
+    let token_price_response: TokenPriceResponse = router_querier.token_price(symbol)?;
+    Ok(token_price_response.token_price)
+}
+```
+
+- It fetches the Price of a given Token Symbol by Querying the Router Protocol Oracle.
+- Queries the Router Protocol Oracle for the Price of a Specific Token Symbol using `RouterQuerier`.
+
+```rust
+pub fn fetch_xerc20_addr(deps: Deps<RouterQuery>) -> StdResult<String> {
+    CROSS_CHAIN_TOKEN.load(deps.storage)
+}
+```
+
+- It fetches the Address of the cross-chain XERC20 Token.
+- Loads the XERC20 Token Address from Storage and returns it as a String.
+
+```rust
+pub fn fetch_chain_id(deps: Deps<RouterQuery>) -> StdResult<String> {
+    CHAIN_ID.load(deps.storage)
+}
+```
+
+- It fetches the Chain ID of the Current Contract.
+- Loads the Chain ID from storage and returns it as a String.
+
+### `state.rs`
+
+The `state.rs` file Defines the Contract's State Variables and how they are stored in the Blockchain using CosmWasm's Storage Utilities like Item and Map. These Variables are used throughout the Contract to Maintain important pieces of Data, such as the Contract Owner, Whitelisted Contracts, Chain Types, Chain IDs, and the cross-chain Token Information.
+
+```rust
+use cw_storage_plus::{Item, Map};
+
+pub const INSTANTIATE_REPLY_ID: u64 = 1;  // to track the reply ID when the contract is instantiated
+pub const CREATE_I_SEND_REQUEST: u64 = 2; // used when creating a send request for cross-chain operations.
+
+pub const OWNER: Item<String> = Item::new("owner"); // keeps the contract owner's address, which is used to control administrative functions within the contract.
+
+pub const WHITELISTED_CONTRACT_MAPPING: Map<&str, String> = Map::new("forwarder_contract_mapping"); // used to store the contracts on different chains that are allowed to interact with this contract.
+
+pub const CHAIN_TYPE_MAPPING: Map<&str, u64> = Map::new("chain_type_mapping"); // stores the type of the chain corresponding to the chain_id. This could be used to distinguish between different types of chains
+
+pub const CHAIN_ID: Item<String> = Item::new("chain_id"); // identifies the blockchain network on which the contract is deployed. It’s stored under the key "chain_id"
+
+pub const CROSS_CHAIN_TOKEN: Item<String> = Item::new("cross_chain_token"); // holds the address of the token that is being used for cross-chain transfers or interactions.
+```
+
+### `tests.rs`
+
+It Contains the Test Scripts for the Smart Contract which we Wite.
 
 ## EVM-side
 
