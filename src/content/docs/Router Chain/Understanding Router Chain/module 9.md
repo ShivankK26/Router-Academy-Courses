@@ -3,6 +3,8 @@ title: Module 9 - Summary & CheatSheets
 description: Get Started with Router Academy.
 ---
 
+<img src="https://res.cloudinary.com/dguv1yapd/image/upload/v1729665613/router-academy-courses/hvk0jwxuvviwcyelqeqm.png" />
+
 ## Summary & CheatSheet
 
 Over the Past Few years, we have witnessed Web3 evolve from a Novel Innovation to an ethos Defining the new Era of Computation and Digital Governance. The Maturity of Ethereum’s Infrastructure and Ecosystem fostered true Innovation, which has Paved the way for a variety of Decentralized Applications. However, Increased adoption by users led to Scalability issues, resulting in the Emergence of Multiple Layer 1 and Layer 2 Networks. Trilemma Design trade-offs in most of these Solutions have been focused on Reduced Gas Costs and improved throughput. While these new Networks have Played an essential Role in OnBoarding new users to the DeFi Ecosystem, their Proliferation has resulted in the Fragmentation of Liquidity, User Base, and activity across multiple Networks. 

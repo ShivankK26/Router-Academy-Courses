@@ -37,7 +37,7 @@ git clone https://github.com/ShivankK26/OmniChain-Crypto-Token .
   ```
 </Aside>
 
-This will Clone a Tic Tac Toe Game Smart Contract in the Current Directory.
+This will Clone the OmniChain Token Contract in the Current Directory.
 
 ## File Structure
  
@@ -111,7 +111,7 @@ The `cosmwasm` Directory consists of Smart Contracts written on Router Chain and
 
 ### `Contract.rs`
 
-#### 1. Imports and Constants
+#### Imports and Constants
 
 ```rust
 use crate::execution::handle_execute;
@@ -124,9 +124,9 @@ const CONTRACT_NAME: &str = "XERC20";
 const CONTRACT_VERSION: &str = "0.1.1";
 ```
 
-This section imports necessary modules and defines constants for the contract name and version. It uses various CosmWasm libraries and Router Protocol bindings.
+This Section Imports necessary Modules and Defines Constants for the Contract Name and Version. It uses various CosmWasm Libraries and Router Protocol Bindings.
 
-### 2. Instantiate Function
+#### Instantiate Function
 
 ```rust
 #[cfg_attr(not(feature = "library"), entry_point)]
@@ -139,108 +139,727 @@ pub fn instantiate(
     OWNER.save(deps.storage, &info.sender.to_string())?;
     set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
     Ok(Response::new().add_submessage(SubMsg {
-        // ... (CW20 token instantiation details)
+    msg: WasmMsg::Instantiate {  // This creates a new contract instance
+        // The deployer of the parent contract becomes the admin of the token contract
+        admin: Some(info.sender.to_string()),
+        
+        // The code_id references the pre-deployed CW20 contract code on chain
+        code_id: msg.cw20_code_id,
+        
+        // Token configuration parameters
+        msg: to_binary(&TokenInstantiateMsg {
+            name: msg.token_name,          // Token name from instantiate message
+            symbol: msg.token_symbol,      // Token symbol from instantiate message
+            decimals: 18,                  // Standard 18 decimals
+            initial_balances: vec![],      // No initial token distribution
+            mint: Some(MinterResponse {    // Configure minting privileges
+                // This contract gets minting rights
+                minter: env.contract.address.to_string(),
+                cap: None,                 // No maximum supply cap
+            }),
+            marketing: None,               // No marketing info
+        })?,
+        
+        funds: vec![],                    // No funds sent with instantiation
+        label: "XERC20 TOKEN".to_string(), // Label for the new contract
+    }
+    .into(),
+    gas_limit: None,                      // No specific gas limit
+    id: INSTANTIATE_REPLY_ID,             // ID to identify this message in the reply
+    reply_on: ReplyOn::Success,           // Only trigger reply on successful execution
     }))
 }
 ```
 
-The instantiate function is called when the contract is first deployed. It:
-1. Saves the contract owner
-2. Sets the contract version
-3. Creates a new CW20 token as the underlying token for omnichain functionality
+The instantiate function is called when the Contract is first Deployed. It -
+1. Saves the Contract Owner.
+2. Sets the Contract Version.
+3. Creates a new CW20 Token as the underlying Token for Omnichain functionality.
+4. `Response::new()` - Creates a new empty Response.
+5. `add_submessage()` - Adds a Submessage to be executed after the Current Transaction.
+6. `SubMsg` - A Submessage that can Trigger a reply.
+7. `WasmMsg::Instantiate` - Message Type for Creating a new Contract Instance.
 
-The CW20 token is created via a submessage, allowing for asynchronous handling of the token creation.
+The CW20 Token is Created via a Submessage, allowing for Asynchronous handling of the Token Creation. The Contract will receive a Reply when this Succeeds (via `INSTANTIATE_REPLY_ID`).
 
-### 3. Reply Function
+#### Reply Function
 
 ```rust
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn reply(deps: DepsMut<RouterQuery>, _env: Env, msg: Reply) -> StdResult<Response<RouterMsg>> {
+pub fn reply(
+    deps: DepsMut<RouterQuery>,  // Provides mutable access to storage, API, and Router-specific queries
+    _env: Env,                   // Environment info (unused, hence underscore)
+    msg: Reply                   // Contains the reply data from submessage execution
+) -> StdResult<Response<RouterMsg>> {  // Returns a Response that can contain Router-specific messages
+    
+    // Handle different reply scenarios based on their ID
     match msg.id {
+        // Handle reply from CW20 token instantiation
         INSTANTIATE_REPLY_ID => {
-            // ... (Handle CW20 token instantiation reply)
+            // Parse the instantiation response to get new contract's information
+            let response = parse_reply_instantiate_data(msg).unwrap();
+            
+            // Store the new token's contract address in permanent storage
+            CROSS_CHAIN_TOKEN.save(deps.storage, &response.contract_address)?;
+            
+            // Return success response with the token address as an attribute for event logging
+            return Ok(
+                Response::new().add_attribute("cw20token", response.contract_address.clone())
+            );
         }
+
+        // Handle reply from cross-chain send request
         CREATE_I_SEND_REQUEST => {
-            // ... (Handle cross-chain send request reply)
+            // Log the reply ID for debugging
+            deps.api.debug(&msg.id.to_string());
+            
+            // Create empty response object for Router messages
+            let response: Response<RouterMsg> = Response::new();
+            
+            // Handle the result of the submessage
+            match msg.result {
+                // If submessage was successful
+                SubMsgResult::Ok(msg_result) => match msg_result.data {
+                    // If the successful result contains data
+                    Some(binary_data) => {
+                        deps.api.debug("Binary Data Found");
+                        
+                        // Parse the binary data into a CrosschainRequestResponse
+                        let cross_chain_req_res: CrosschainRequestResponse =
+                            from_binary(&binary_data).unwrap();
+
+                        // Format and log debug information about the response
+                        let info_str: String = format!(
+                            "Binary data {:?}, response {:?}",
+                            &binary_data.to_string(),
+                            cross_chain_req_res
+                        );
+                        deps.api.debug(&info_str);
+                        
+                        // Return empty success response
+                        return Ok(response);
+                    }
+                    // If no data was included in the successful result
+                    None => deps.api.debug("No Binary Data Found"),
+                },
+                // If submessage execution failed
+                SubMsgResult::Err(err) => deps.api.debug(&err.to_string()),
+            }
         }
+
+        // Handle any unknown reply IDs
         id => return Err(StdError::generic_err(format!("Unknown reply id: {}", id))),
     }
+    
+    // Return empty success response if no other return occurred
     Ok(Response::new())
 }
 ```
 
-The reply function handles responses from submessages. It has two main cases:
-1. INSTANTIATE_REPLY_ID: Handles the reply from CW20 token creation, saving the new token's address.
-2. CREATE_I_SEND_REQUEST: Handles replies from cross-chain send requests, including logging debug information.
+- The Reply function handles Responses from Submessages. It has Two Main Cases -
 
-### 4. Execute Function
+    1. `INSTANTIATE_REPLY_ID` - Handles the Reply from CW20 Token Creation, Saving the new Token's Address.
+    2. `CREATE_I_SEND_REQUEST` - Handles Replies from cross-chain Send Requests, including Logging Debug Information.
+
+- Key features - 
+
+    1. It's an entry point for handling submessage replies.
+    2. Includes Extensive Debug Logging for Development Purposes.
+    3. Uses the Router's Specific Query and Message Types (RouterQuery, RouterMsg).
+    4. Has a TODO Note about nonce handling which suggests Incomplete cross-chain functionality.
+    5. Returns error for Unknown Reply IDs to prevent Unhandled Cases.
+
+#### Execute Function
 
 ```rust
+// Entry point attribute - marks this as an entry point when not compiled as a library
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn execute(
+    // Dependencies including storage access and Router-specific queries
     deps: DepsMut<RouterQuery>,
+    
+    // Blockchain environment information (block height, time, contract address etc)
     env: Env,
+    
+    // Information about the message sender and funds sent with the transaction
     info: MessageInfo,
+    
+    // The actual execute message containing the action to perform
     msg: ExecuteMsg,
+    
+// Returns either a success Response with Router messages or an error
 ) -> StdResult<Response<RouterMsg>> {
+    // Delegates all execution handling to a separate function
+    // This pattern is common for better code organization and testing
     handle_execute(deps, env, info, msg)
 }
 ```
 
-This function is the entry point for all execute messages sent to the contract. It delegates the actual handling to a separate `handle_execute` function.
+- This is a Standard CosmWasm execute entry Point. It acts as a Thin Wrapper around `handle_execute`. It uses Router-specific Types (RouterQuery, RouterMsg) Suggesting cross-chain functionality.
+- This function is the entry point for all Execute Messages sent to the Contract. It Delegates the actual handling to a Separate `handle_execute` function.
 
-### 5. Sudo Function
+#### Sudo Function
 
 ```rust
+// Entry point attribute - marks this as a privileged sudo entry point
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn sudo(deps: DepsMut<RouterQuery>, env: Env, msg: SudoMsg) -> StdResult<Response<RouterMsg>> {
+pub fn sudo(
+    // Dependencies for storage access and Router-specific queries
+    deps: DepsMut<RouterQuery>,
+    
+    // Blockchain environment information
+    env: Env,
+    
+    // Special privileged message type that can only be called by the chain's sudo authority
+    msg: SudoMsg,
+    
+) -> StdResult<Response<RouterMsg>> {
+    // Match on the type of sudo message received
     match msg {
-        SudoMsg::HandleIReceive { ... } => handle_sudo_request(...),
-        SudoMsg::HandleIAck { ... } => handle_sudo_ack(...),
+        // Handle incoming cross-chain requests
+        SudoMsg::HandleIReceive {
+            // Address that sent the cross-chain request
+            request_sender,
+            
+            // ID of the chain where the request originated
+            src_chain_id,
+            
+            // Unique identifier for this cross-chain request
+            request_identifier,
+            
+            // Actual data/payload sent in the cross-chain request
+            payload,
+            
+        } => handle_sudo_request(
+            deps,
+            env,
+            request_sender,
+            src_chain_id,
+            request_identifier,
+            payload,
+        ),
+
+        // Handle acknowledgments of cross-chain requests
+        SudoMsg::HandleIAck {
+            // Identifier of the original request being acknowledged
+            request_identifier,
+            
+            // Flag indicating if the cross-chain execution was successful
+            exec_flag,
+            
+            // Data resulting from the cross-chain execution
+            exec_data,
+            
+            // Amount to be refunded if the operation failed or wasn't fully used
+            refund_amount,
+            
+        } => handle_sudo_ack(
+            deps,
+            env,
+            request_identifier,
+            exec_flag,
+            exec_data,
+            refund_amount,
+        ),
     }
 }
 ```
 
-The sudo function handles privileged operations, typically called by the Router Protocol infrastructure. It has two main operations:
-1. HandleIReceive: Processes incoming cross-chain requests
-2. HandleIAck: Handles acknowledgments for outgoing cross-chain requests
+- The Sudo function handles Privileged Operations, typically Called by the Router Protocol Infrastructure. It has Two Main Operations -
+    1. `HandleIReceive` - Processes Incoming cross-chain Requests. It processes - who sent the Request, Which Chain it came from, A Unique Identifier, and the actual Payload Data.
+    2. `HandleIAck` - Handles Acknowledgments for Outgoing cross-chain Requests. It processes - The Request being Acknowledged, whether it succeeded, any returned Data, and any refund Amount.
 
-### 6. Migrate Function
+- It Delegates actual handling to Two Separate functions -
+    1. `handle_sudo_request` for incoming requests.
+    2. `handle_sudo_ack` for acknowledgments.
+
+#### Migrate Function
 
 ```rust
+// Entry point attribute - marks this as a migration entry point
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn migrate(deps: DepsMut<RouterQuery>, env: Env, _msg: MigrateMsg) -> StdResult<Response> {
+pub fn migrate(
+    // Dependencies for storage access and Router-specific queries
+    deps: DepsMut<RouterQuery>,
+    
+    // Blockchain environment information
+    env: Env,
+    
+    // Migration message (unused, hence underscore)
+    _msg: MigrateMsg,
+    
+) -> StdResult<Response> {
+    // Get the current version information of the contract from storage
     let ver = cw2::get_contract_version(deps.storage)?;
+    
+    // Verify that we're migrating the correct contract type
+    // This prevents accidentally migrating from a different contract
     if ver.contract != CONTRACT_NAME.to_string() {
         return Err(StdError::generic_err("Can only upgrade from same type").into());
     }
-    // ... (logging and version update)
+    
+    // NOTE: Version check is commented out but would prevent upgrading from newer versions
+    // Proper semver comparison would be better than string comparison
+    // if ver.version >= CONTRACT_VERSION.to_string() {
+    //     return Err(StdError::generic_err("Cannot upgrade from a newer version").into());
+    // }
+
+    // Log migration information for debugging
+    let info_str: String = format!(
+        "migrating contract: {}, new_contract_version: {}, contract_name: {}",
+        env.contract.address,          // Current contract's address
+        CONTRACT_VERSION.to_string(),  // New version being upgraded to
+        CONTRACT_NAME.to_string()      // Name of the contract
+    );
+    deps.api.debug(&info_str);
+    
+    // Update the contract version in storage to the new version
+    set_contract_version(deps.storage, CONTRACT_NAME, CONTRACT_VERSION)?;
+    
+    // Return empty successful response
     Ok(Response::default())
 }
 ```
 
-This function allows for upgrading the contract. It checks that the migration is from the correct contract type and logs information about the migration.
+This function allows for Upgrading the Contract. It Checks that the Migration is from the Correct Contract Type and Logs Information about the Migration.
 
-### 7. Query Function
+#### Query Function
 
 ```rust
+// Entry point attribute - marks this as a query entry point when not compiled as a library
 #[cfg_attr(not(feature = "library"), entry_point)]
-pub fn query(deps: Deps<RouterQuery>, env: Env, msg: QueryMsg) -> StdResult<Binary> {
+pub fn query(
+    // Read-only dependencies for storage access and Router-specific queries
+    // Note: Uses Deps instead of DepsMut since queries are read-only
+    deps: Deps<RouterQuery>,
+    
+    // Blockchain environment information (block height, time, contract address etc)
+    env: Env,
+    
+    // The query message containing what information is being requested
+    msg: QueryMsg,
+    
+// Returns a binary-encoded response that can be decoded by the caller
+) -> StdResult<Binary> {
+    // Delegates actual query handling to a separate function
+    // This pattern is common for better code organization and testing
     handle_query(deps, env, msg)
 }
 ```
 
-This function handles all query requests to the contract, delegating to a separate `handle_query` function.
+This function handles all Query Requests to the Contract, Delegating to a Separate `handle_query` function.
 
-## Key Features
 
-1. CW20 Base: Uses a CW20 token as its base, extending it with cross-chain functionality.
-2. Router Protocol Integration: Integrates with Router Protocol for cross-chain operations.
-3. Modular Design: Separates concerns by delegating complex logic to separate functions.
-4. Upgrade Capability: Includes migration functionality for future upgrades.
-5. Privileged Operations: Uses the sudo pattern for secure cross-chain interactions.
+This Contract serves as the Main Entry Point for the Omnichain Token, Coordinating between Local Token Operations (via the CW20 token) and cross-chain Operations (via Router Protocol).
 
-This contract serves as the main entry point for the omnichain token, coordinating between local token operations (via the CW20 token) and cross-chain operations (via Router Protocol).
+### `execution.rs`
+
+This is an Implementation of a cross-chain (omnichain) Token System that allows Tokens to move Between different Blockchains. Think of it as a Bridge that Connects Multiple Blockchain Networks, allowing Users to send Tokens from one Chain to another.
+
+#### Imports and Constants
+
+```rust
+use cosmwasm_std::{
+    to_binary, Binary, CosmosMsg, DepsMut, Env, Event, MessageInfo, ReplyOn, Response, StdResult,
+    SubMsg, Uint128, WasmMsg,
+};
+use new_crosstalk_sample::xerc20::{ChainTypeInfo, ContractInfo, ExecuteMsg};
+use router_wasm_bindings::{
+    ethabi::{encode, ethereum_types::U256, Token},
+    types::{AckType, RequestMetaData},
+    Bytes, RouterMsg, RouterQuery,
+};
+
+use crate::{
+    modifiers::is_owner_modifier,
+    query::{fetch_oracle_gas_price, fetch_white_listed_contract},
+    state::{
+        CHAIN_ID, CHAIN_TYPE_MAPPING, CREATE_I_SEND_REQUEST, CROSS_CHAIN_TOKEN, OWNER,
+        WHITELISTED_CONTRACT_MAPPING,
+    },
+};
+```
+
+- These are the Core Types and functions from `cosmwasm_std`, which is the main Library for Building CosmWasm Smart Contracts. 
+- These Imports come from the Router Protocol Bindings and the `new_crosstalk_sample` Contract.
+
+#### Execute Handler (Main Entry Point)
+
+```rust
+pub fn handle_execute(
+    deps: DepsMut<RouterQuery>, 
+    env: Env, 
+    info: MessageInfo, 
+    msg: ExecuteMsg
+) -> StdResult<Response<RouterMsg>> {
+    match msg {
+        ExecuteMsg::SetChainTypes { chain_type_info } => {
+            set_chain_types_info(deps, env, info, chain_type_info)
+        }
+        ExecuteMsg::UpdateOwner { new_owner } => update_owner(deps, &env, &info, new_owner),
+        ExecuteMsg::SetChainId { id } => set_chain_id(deps, env, info, id),
+        ExecuteMsg::SetXerc20Addr { addr } => set_xerc20_addr(deps, env, info, addr),
+        ExecuteMsg::Mint { recipient, amount } => mint(deps, &env, &info, recipient, amount),
+        ExecuteMsg::SetWhiteListedContracts { contracts } => {
+            set_white_listed_contracts(deps, &env, &info, contracts)
+        }
+        ExecuteMsg::TrasferCrossChain {
+            amount, recipient, dest_chain_id
+        } => transfer_cross_chain(deps, env, info, amount, recipient, dest_chain_id),
+    }
+}
+```
+
+This is like a Traffic Controller that directs different Operations to their Specific Handlers. It Supports -
+- Administrative Operations (setting configurations)
+- Token Operations (minting, cross-chain transfers)
+- System Configuration (chain IDs, contract addresses)
+- This function Matches the Message (msg) with the different Operations, like setting chain types, updating ownership, minting, etc.
+- Each `ExecuteMsg` variant Calls a Different function to handle the Logic for that particular Operation.
+
+#### Administrative Functions
+
+```rust
+// Owner Management
+pub fn update_owner(
+    deps: DepsMut<RouterQuery>,
+    _env: &Env,
+    info: &MessageInfo,
+    new_owner: String,
+) -> StdResult<Response<RouterMsg>> {
+    is_owner_modifier(deps.as_ref(), &info)?;
+
+    OWNER.save(deps.storage, &new_owner)?;
+    let res = Response::new();
+    Ok(res)
+}
+```
+
+The Contract allows Changing the Owner, but Only the Current Owner can perform this Operation -
+- Controls who has Administrative Rights
+- Only Current Owner can Transfer Ownership
+- Critical for Security Governance
+- ***Ownership check -*** The Modifier `is_owner_modifier` ensures only the Current Owner can change Ownership.
+- ***Update state -*** The new Owner's Address is saved in the Contract's State.
+
+```rust
+// Whitelist Management
+pub fn set_white_listed_contracts(
+    deps: DepsMut<RouterQuery>,
+    _env: &Env,
+    info: &MessageInfo,
+    contracts: Vec<ContractInfo>,
+) -> StdResult<Response<RouterMsg>> {
+    is_owner_modifier(deps.as_ref(), &info)?;
+
+    for i in 0..contracts.len() {            // iterates through `contracts` vector
+        WHITELISTED_CONTRACT_MAPPING.save(   // `WHITELISTED_CONTRACT_MAPPING` is updated using the save function for each contract in the vector.
+            deps.storage,                    // save stores the contract_addr under the chain_id key in the contract’s storage. 
+            &contracts[i].chain_id,          // This ensures that each contract's address is mapped to its respective chain ID in the whitelist.
+            &contracts[i].contract_addr,
+        )?;
+    }
+
+    let res = Response::new().add_attribute("action", "SetCustodyContracts");
+    Ok(res)
+}
+```
+
+The function `set_white_listed_contracts` is responsible for Setting a list of Whitelisted Contracts on different Chains in the Contract's State. Only the Contract Owner is allowed to execute this Operation, which is enforced by the `is_owner_modifier` function.
+
+- This Line Calls the `is_owner_modifier` function to ensure that only the Contract Owner can execute this function.
+- ***add_attribute("action", "SetCustodyContracts") -*** Adds a Custom Attribute to the Response, indicating that the action performed was the Setting of Custody Contracts (whitelisting contracts). This is Useful for Debugging, Logging, and Transaction Tracking.
+
+```rust
+// Chain Configuration
+pub fn set_chain_types_info(
+    deps: DepsMut<RouterQuery>,
+    _env: Env,
+    info: MessageInfo,
+    chain_type_info: Vec<ChainTypeInfo>,
+) -> StdResult<Response<RouterMsg>> {
+    is_owner_modifier(deps.as_ref(), &info)?;
+
+    for i in 0..chain_type_info.len() {
+        CHAIN_TYPE_MAPPING.save(
+            deps.storage,
+            &chain_type_info[i].chain_id,
+            &chain_type_info[i].chain_type,
+        )?;
+    }
+
+    let event_name = String::from("SetChainTypeInfo");
+    let set_chain_bytes_info_event = Event::new(event_name);
+
+    let res = Response::new()
+        .add_attribute("action", "SetChainTypeInfo")
+        .add_event(set_chain_bytes_info_event);
+    Ok(res)
+}
+```
+
+When the `SetChainTypes` Message is received, the Contract Sets the Mapping for different Chain Types -
+
+- ***Purpose -*** Stores Information about Different Chain Types in the `CHAIN_TYPE_MAPPING`.
+- ***Ownership check -*** The function begins by Verifying that the Caller is the Contract Owner with `is_owner_modifier`.
+- ***Chain Type Mapping -*** It Loops over `chain_type_info` to Store each Chain ID and Type Pair.
+- ***Event -*** Emits an event `SetChainTypeInfo` for Tracking.
+
+```rust
+pub fn set_xerc20_addr(
+    deps: DepsMut<RouterQuery>,
+    _env: Env,
+    info: MessageInfo,
+    addr: String,
+) -> StdResult<Response<RouterMsg>> {
+    is_owner_modifier(deps.as_ref(), &info)?;
+
+    CROSS_CHAIN_TOKEN.save(deps.storage, &addr)?;
+    let event_name: String = String::from("SetXERC20Addr");
+    let event: Event = Event::new(event_name);
+
+    let res = Response::new()
+        .add_attribute("action", "SetXERC20Addr")
+        .add_event(event);
+    Ok(res)
+}
+```
+
+The function `set_xerc20_addr` is responsible for Setting the Address of a cross-chain Token (referred to as XERC20 in this case) in the Contract’s Storage. This function ensures that only the Contract Owner can Execute this Operation, which is enforced by the `is_owner_modifier`. Let’s go through each part of the function -
+
+- This Line Calls the `is_owner_modifier` function to ensure that the Sender (identified in info.sender) is the Owner of the Contract. 
+- `CROSS_CHAIN_TOKEN` - This is a Constant or State Variable that refers to the Storage Location where the address of the cross-chain Token is saved. The save function Stores the provided value (the new XERC20 token address, addr) into the Contract’s Storage. 
+- ***Event -*** CosmWasm Contracts can emit events that are useful for External Systems (like blockchain explorers) to Track specific actions Within the Contract. This Line Creates an event called `SetXERC20Addr`.
+
+```rust
+pub fn set_chain_id(
+    deps: DepsMut<RouterQuery>,
+    _env: Env,
+    info: MessageInfo,
+    id: String,
+) -> StdResult<Response<RouterMsg>> {
+    is_owner_modifier(deps.as_ref(), &info)?;   // This line checks whether the sender of the message (info.sender) is the contract owner using the `is_owner_modifier` function.
+
+    CHAIN_ID.save(deps.storage, &id)?;
+    let event_name: String = String::from("SetChainId");  // This part of the function creates a new event that will be logged in the transaction output.
+    let event: Event = Event::new(event_name);   // `String::from("SetChainId")`: Creates a string with the event name `SetChainId`, indicating that the chain ID has been set.
+
+    let res = Response::new()  // Response::new(): Creates a new response object that will be returned once the function execution is complete.
+        .add_attribute("action", "SetChainId")   // `add_attribute("action", "SetChainId")`: Adds an attribute to the response to provide additional information about the action performed.
+        .add_event(event);
+    Ok(res)
+}
+```
+
+- `CHAIN_ID` is a variable in the Contract’s State that represents the ID of the Blockchain Network the Contract is working with.
+- `save(deps.storage, &id)` - This stores the new `CHAIN_ID` in the Contract’s Persistent Storage. deps.storage is used to access the Contract’s Storage, and id is the new Chain ID value Passed to the function.
+
+
+#### Token Operations
+
+```rust
+// Minting Function
+pub fn mint(
+    deps: DepsMut<RouterQuery>,
+    _env: &Env,
+    info: &MessageInfo,
+    recipient: String,
+    amount: Uint128,
+) -> StdResult<Response<RouterMsg>> {
+    is_owner_modifier(deps.as_ref(), &info)?;
+    deps.api.addr_validate(&recipient)?;
+
+    let mint_msg = cw20_base::msg::ExecuteMsg::Mint { recipient, amount };
+
+    let xerc20_token: String = CROSS_CHAIN_TOKEN.load(deps.storage)?;
+    let exec_mint_msg: CosmosMsg<RouterMsg> = CosmosMsg::Wasm(WasmMsg::Execute {
+        contract_addr: xerc20_token,
+        funds: vec![],
+        msg: to_binary(&mint_msg)?,
+    });
+
+    let res = Response::new().add_message(exec_mint_msg);
+    Ok(res)
+}
+```
+
+This function Mints new Tokens to a specific Recipient Address -
+
+- ***OwnershipCheck -*** Only the Contract Owner can Mint new Tokens.
+- ***Recipient Validation -*** The Recipient's address is Validated to ensure it's a Valid address on-chain.
+- ***Mint Message -*** The Contract creates a Mint Message using the `cw20_base` standard for Minting Tokens.
+- ***Execute the Mint -*** It sends a Message to the Contract responsible for handling cross-chain Tokens (xerc20_token) to Mint Tokens for the Recipient.
+
+#### Cross-Chain Transfer (Most Complex Operation)
+
+```rust
+pub fn transfer_cross_chain(
+    deps: DepsMut<RouterQuery>,
+    _env: Env,
+    info: MessageInfo,
+    amount: Uint128,
+    recipient: Binary,
+    dest_chain_id: String,
+) -> StdResult<Response<RouterMsg>> {
+    let u256 = U256::from(amount.u128());
+    let payload: Vec<u8> = encode(&[Token::Bytes(recipient.0), Token::Uint(u256)]);
+    let burn_msg = cw20_base::msg::ExecuteMsg::BurnFrom {
+        owner: info.sender.to_string(),
+        amount,
+    };
+
+    let xerc20_token: String = CROSS_CHAIN_TOKEN.load(deps.storage)?;
+    let exec_burn_msg: CosmosMsg<RouterMsg> = CosmosMsg::Wasm(WasmMsg::Execute {
+        contract_addr: xerc20_token,
+        funds: vec![],
+        msg: to_binary(&burn_msg)?,
+    });
+
+    // Cross-chain metadata and relay information
+    let chain_id = CHAIN_ID.load(deps.storage)?;
+    let ack_gas_price = fetch_oracle_gas_price(deps.as_ref(), chain_id)?;
+    let dest_gas_price = fetch_oracle_gas_price(deps.as_ref(), dest_chain_id.clone())?;
+    let dest_contract_address = fetch_white_listed_contract(deps.as_ref(), &dest_chain_id)?;
+    let request_metadata = RequestMetaData {
+        dest_gas_limit: 200_000,
+        dest_gas_price,
+        ack_gas_limit: 200_000,
+        ack_gas_price,
+        relayer_fee: Uint128::zero(),
+        ack_type: AckType::AckOnBoth,
+        is_read_call: false,
+        asm_address: String::default(),
+    };
+
+    let request_packet: Bytes = encode(&[
+        Token::String(dest_contract_address.clone()),
+        Token::Bytes(payload),
+    ]);
+
+    let i_send_request: RouterMsg = RouterMsg::CrosschainCall {
+        version: 1,
+        route_amount: Uint128::zero(),
+        route_recipient: String::default(),
+        dest_chain_id,
+        request_metadata: request_metadata.get_abi_encoded_bytes(),
+        request_packet,
+    };
+
+    let cross_chain_sub_msg = SubMsg {
+        id: CREATE_I_SEND_REQUEST,
+        msg: i_send_request.into(),
+        gas_limit: None,
+        reply_on: ReplyOn::Success,
+    };
+
+    let res = Response::new()
+        .add_message(exec_burn_msg)
+        .add_submessage(cross_chain_sub_msg.into())
+        .add_attribute("dest_contract_address", dest_contract_address);
+    Ok(res)
+}
+```
+
+This is the Core of the Omnichain functionality, enabling Token Transfers across Chains. Here's what happens -
+
+- ***Burn Token Locally -*** Before Transferring Tokens cross-chain, the Amount is Burned from the Sender’s Balance using the `BurnFrom` message.
+- ***Prepare cross-chain Message -*** The Payload contains the Recipient Address and amount to Transfer, which is encoded.
+- ***Oracle Gas Prices -*** Fetches Gas Prices from an Oracle for the Source and Destination Chains.
+- ***Whitelisted Contract Check -*** Ensures that the Destination Chain’s Contract is Whitelisted before Proceeding with the Transfer.
+- ***RouterMsg -*** The `RouterMsg::CrosschainCall` sends the Transfer Request through Router Protocol to the Destination Chain, with Metadata like Gas Limits and acknowledgment Types.
+
+
+### `handle_sudo_execution.rs`
+
+
+
+### `lib.rs`
+
+#### Imports and Constants
+
+```rust
+pub mod contract;
+pub mod execution;
+pub mod handle_sudo_execution;
+pub mod modifiers;
+pub mod query;
+pub mod state;
+
+pub use serde::{Deserialize, Serialize};
+#[cfg(test)]
+mod tests;
+```
+
+The above Code Implementation is a Standard `lib.rs` file of a CosmWasm Project.
+
+### `modifiers.rs`
+
+The file `modifiers.rs` Defines Two functions (`is_owner_modifier` and `is_white_listed_modifier`) that act as "modifiers" or Checks Before allowing Certain Operations to proceed. These functions help ensure that Only Authorized Users (the owner or whitelisted contracts) can Perform Specific Actions on the Contract.
+
+#### Imports and Constants
+
+```rust
+use cosmwasm_std::{Deps, MessageInfo, StdError, StdResult};
+use router_wasm_bindings::RouterQuery;
+
+use crate::{query::is_white_listed_contract, state::OWNER};
+```
+
+In the above Code, We're Implementing `router_wasm_bindings` package along with `cosmwasm_std` package.
+
+```rust
+pub fn is_owner_modifier(deps: Deps<RouterQuery>, info: &MessageInfo) -> StdResult<()> {
+    let owner: String = match OWNER.load(deps.storage) {  // The function tries to load the owner's address from the contract's storage using OWNER.load(deps.storage).
+        Ok(owner) => owner,
+        Err(err) => return StdResult::Err(err),
+    };
+    if owner != info.sender {                             // info.sender holds the address of the person attempting to execute the function.
+        return StdResult::Err(StdError::GenericErr {
+            msg: String::from("Auth: Invalid Owner"),
+        });
+    }
+    Ok(())
+}
+```
+
+- The `is_owner_modifier` function Checks if the Person trying to execute a Specific function is the Contract Owner. If they are not, it returns an error, preventing further Execution of the function.
+- The Contract State has a Key called `OWNER`, which Stores the address of the Contract's Owner.
+
+```rust
+pub fn is_white_listed_modifier(
+    deps: Deps,
+    chain_id: &str,
+    contract: &str,
+) -> StdResult<()> {
+    // Check if the given contract on a specific chain is whitelisted
+    let is_white_listed_contract = is_white_listed_contract(deps, chain_id, contract);
+
+    // Log the chain_id and contract for debugging purposes
+    let info_str: String = format!("--chain_id: {:?}, contract: {:?}", chain_id, contract);
+    deps.api.debug(&info_str);
+
+    // If the contract is not whitelisted, return an error with details
+    if !is_white_listed_contract {
+        let info_str: String = format!(
+            "Auth: The Sender/Receiver contract is not whitelisted, chain_id: {:?}, contract: {:?}",
+            chain_id, contract
+        );
+        deps.api.debug(&info_str);
+        return StdResult::Err(StdError::GenericErr { msg: info_str });
+    }
+
+    // If the contract is whitelisted, return Ok (no error)
+    Ok(())
+}
+```
+
+- This function Checks if a Contract (from a specific chain) is Whitelisted, meaning it's allowed to interact with this Contract.
+- ***is_owner_modifier -*** Ensures Only the Owner can Execute Certain functions. This is essential for Administrative Actions.
+- ***is_white_listed_modifier -*** Ensures only approved (whitelisted) Contracts on other Chains can Interact with this Contract. This is Crucial for cross-chain Interactions to Maintain Security and prevent Unauthorized access.
+
+### `query.rs`
+
+
 
 ## EVM-side
 

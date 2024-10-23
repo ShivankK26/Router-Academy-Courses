@@ -3,6 +3,8 @@ title: Module 3 - What is Router Chain?
 description: Get Started with Router Academy.
 ---
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/hO7jXb2W8ng" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### About Router Chain
 
 The Router Chain is a Layer 1 Blockchain that leverages **Tendermint’s Byzantine Fault Tolerant (BFT)** Consensus Engine. As a Proof of Stake (PoS) Blockchain, the Router Chain is primarily run by a Network of Validators with economic Incentives to act honestly. The Router Chain is built using the Cosmos SDK and encapsulates all the features of Cosmos, including fast Block Times, Robust Security Mechanisms, and, most importantly, CosmWasm - a Security-first Smart Contract Platform. In addition to CosmWasm, the Router Chain also Ships with Ethermint [10] - a Cosmos Library with support for EVM Smart Contracts. By Leveraging the CosmWasm and Ethermint Toolkit, Developers can start Building Secure Blockchain applications on the Router Chain from Scratch or port their existing applications to the Router Chain with minimal Overhead.

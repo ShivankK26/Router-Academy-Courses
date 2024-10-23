@@ -3,6 +3,8 @@ title: Module 2 - Why Existing Solutions are the Not Best Ones?
 description: Get Started with Router Academy.
 ---
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/u-huO_s8cwo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Different Deployed cross-chain Technologies
 
 The Problem of Blockchain Interoperability has become impossible to ignore as more Siloed Ecosystems emerge across the DeFi Space. To solve this issue, multiple Bridging Technologies have come to the fore in recent times. Based on the level of Trust required, these Solutions can be

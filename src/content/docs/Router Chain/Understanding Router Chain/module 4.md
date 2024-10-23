@@ -3,6 +3,8 @@ title: Module 4 - Workflow
 description: Get Started with Router Academy.
 ---
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/DPTkZQ2RaIY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Understanding cross-chain Requests & Acknowledgment
 
 Now that we Understand the Primary Characteristics of the Router Chain as an Interoperability Solution, let’s examine the Overall Lifecycle of passing a cross-chain request via the Router Chain and receiving an acknowledgment back on the Source Chain.

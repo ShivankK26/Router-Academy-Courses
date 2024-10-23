@@ -3,6 +3,8 @@ title: Module 8 - Fee Management
 description: Get Started with Router Academy.
 ---
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Jw2zNScu_Qs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### Fee Payer Considerations
 
 The Fee associated with any cross-chain Request initiated by a dApp is Paid by the dApp’s corresponding Fee Payer account on the Router Chain. This Fee Payer account is set by the dApp for all the Integrated Chains and can be changed anytime. Any Fee refunds are also credited to this account.

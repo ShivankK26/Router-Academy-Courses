@@ -3,6 +3,8 @@ title: Module 7 - What is CrossTalk Library?
 description: Get Started with Router Academy.
 ---
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qfB7NHvElhE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ### What is CrossTalk Library?
 
 Router’s CrossTalk Library is an extensible cross-chain Framework that enables Seamless State Transitions across Multiple Chains. In simple terms, this Library leverages Router’s Infrastructure to allow Contracts on one Chain to pass Instructions to Contracts Deployed on another Chain without needing to Deploy any Contracts on the Router Chain. The Library is Structured in a way that it can be Integrated Seamlessly into your Development environment to allow for cross-chain Message passing without Disturbing other parts of your Product.
